@@ -26,7 +26,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
-     * Set language according to database entry
+     * Set language for current execution
      * 
      * @return Closure
      */

@@ -174,6 +174,8 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
+        \App::setLocale($ws->lang);
+
         $img = BgImagesModel::queryRandomImage($ws->id);
         $captchadata = CaptchaModel::createSum(session()->getId());
 
@@ -274,6 +276,8 @@ class TicketController extends Controller
         if ($ws === null) {
             return back()->with('error', __('app.workspace_not_found'));
         }
+
+        \App::setLocale($ws->lang);
 
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->withInput()->with('error', __('app.ticket_invalid_captcha'));
@@ -722,12 +726,14 @@ class TicketController extends Controller
      * @param int $id The ticket ID
      * @return Illuminate\Http\RedirectResponse
      */
-    public function addCommentGuest($workspace, $id)
+    public function addCommentCustomer($workspace, $id)
     {
         $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
         if ($ws === null) {
             return back()->with('error', __('app.workspace_not_found'));
         }
+
+        \App::setLocale($ws->lang);
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if (!$ticket) {
@@ -832,6 +838,8 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
+        \App::setLocale($ws->lang);
+
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if (!$ticket) {
             return back()->with('error', __('app.ticket_not_found'));
@@ -916,6 +924,7 @@ class TicketController extends Controller
         }
 
         if (Auth::guest()) {
+            \App::setLocale($ws->lang);
             $attr = request()->validate(['file' => 'file|required', 'captcha' => 'required|numeric']);
         } else {
             $attr = request()->validate(['file' => 'file|required']);

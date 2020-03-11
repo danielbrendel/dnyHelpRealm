@@ -56,7 +56,7 @@ Route::patch('/{workspace}/ticket/{id}/status/{status}', 'TicketController@setSt
 Route::patch('/{workspace}/ticket/{id}/type/{type}', 'TicketController@setType');
 Route::patch('/{workspace}/ticket/{id}/prio/{prio}', 'TicketController@setPriority');
 Route::post('/{workspace}/ticket/{id}/comment/add', 'TicketController@addCommentAgent');
-Route::post('/{workspace}/ticket/{id}/comment/add/guest', 'TicketController@addCommentGuest');
+Route::post('/{workspace}/ticket/{id}/comment/add/guest', 'TicketController@addCommentCustomer');
 Route::patch('/{workspace}/ticket/{id}/comment/{cmt}/edit', 'TicketController@editComment');
 Route::patch('/{workspace}/ticket/{id}/comment/{cmt}/edit/customer', 'TicketController@editCommentCustomer');
 Route::delete('/{workspace}/ticket/{id}/comment/{cmt}/delete', 'TicketController@deleteComment');

@@ -316,5 +316,6 @@
         'ticket_id' => 'Ticket #:id',
         'system_info_message' => 'Die Info-Nachricht im Ticketformular. Folgende HTML Tags werden unterstützt:',
         'email_not_found' => 'Die angegebene E-Mail Adresse existiert nicht in unserer Datenbank.',
-        'email_already_in_use' => 'Die angegebene E-Mail Adresse wird bereits für einen Workspace verwendet.' 
+        'email_already_in_use' => 'Die angegebene E-Mail Adresse wird bereits für einen Workspace verwendet.',
+        'ticket_invalid_captcha' => 'Das Captcha ist ungültig'
     ];

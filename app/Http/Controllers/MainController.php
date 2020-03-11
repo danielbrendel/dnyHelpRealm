@@ -47,6 +47,8 @@ class MainController extends Controller
         }
 
         if (Auth::guest()) {
+            \App::setLocale($ws->lang);
+
             $img = BgImagesModel::queryRandomImage($ws->id);
             
             $captchadata = CaptchaModel::createSum(session()->getId());
@@ -69,23 +71,23 @@ class MainController extends Controller
                 array_push($groups, $item);
             }
 
-            $typeServiceRequest = TicketModel::where('type', '=', 1)->count();
-            $typeIncident = TicketModel::where('type', '=', 2)->count();
-            $typeChange = TicketModel::where('type', '=', 3)->count();
+            $typeServiceRequest = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 1)->count();
+            $typeIncident = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 2)->count();
+            $typeChange = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 3)->count();
 
             return view('dashboard_agent', [
                 'workspace' => $ws->name,
                 'location' => __('app.dashboard'),
                 'user' => User::get(auth()->id()),
                 'agent' => User::getAgent(auth()->id()),
-                'serving' => TicketModel::count(),
-                'yours' => TicketModel::where('assignee', '=', User::getAgent(auth()->id())->id)->count(),
+                'serving' => TicketModel::where('workspace', '=', $ws->id)->count(),
+                'yours' => TicketModel::where('workspace', '=', $ws->id)->where('assignee', '=', User::getAgent(auth()->id())->id)->count(),
                 'serviceRequests' => $typeServiceRequest,
                 'incidents' => $typeIncident,
                 'changes' => $typeChange,
-                'groups' => GroupsModel::count(),
+                'groups' => GroupsModel::where('workspace', '=', $ws->id)->count(),
                 'superadmin' => User::getAgent(auth()->id())->superadmin,
-                'agents' => AgentModel::count(),
+                'agents' => AgentModel::where('workspace', '=', $ws->id)->count(),
                 'tickets' => $tickets,
                 'groupnames' => $groups
             ]);
