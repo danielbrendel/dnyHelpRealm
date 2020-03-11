@@ -11545,3 +11545,61 @@ pre {
   color: #6f0e0b;
 }
 
+.is-bold {
+  font-weight: bold;
+}
+
+.cookie-consent-outer {
+  width: 100%;
+  position: relative;
+  text-align: center;
+}
+
+.cookie-consent-inner {
+  position: fixed;
+  display: none;
+  bottom: 0;
+  width: 80%;
+  float: left;
+  transform: translateX(-50%) translateY(0%);
+  height: auto;
+  margin-bottom: 15px;
+  background-color: #c8c8c8;
+  opacity: 0.6;
+  border-radius: 10px;
+}
+
+@media screen and (max-width: 765px) {
+  .cookie-consent-inner {
+    z-index: 1;
+    opacity: 1;
+  }
+}
+
+.cookie-consent-text {
+  position: relative;
+  margin-left: 25px;
+  margin-right: 25px;
+  margin-top: 15px;
+  color: #1e1e1e;
+  font-size: 1.2em;
+}
+
+.cookie-consent-button {
+  position: relative;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.cookie-consent-button button {
+  width: 160px;
+  height: 30px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  color: #1e1e1e;
+  background-color: white;
+  -webkit-appearance: none;
+  font-weight: bold;
+}
+

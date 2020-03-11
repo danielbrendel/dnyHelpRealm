@@ -20,6 +20,13 @@ use \App\User;
 use \App\AgentModel;
 use \App\BgImagesModel;
 use \App\WorkSpaceModel;
+use \App\CaptchaModel;
+use \App\GroupsModel;
+use \App\TicketModel;
+use \App\FaqModel;
+use \App\TicketsHaveFiles;
+use \App\AgentsHaveGroups;
+use \App\TicketThreadModel;
 
 /**
  * Class SettingsController
@@ -267,7 +274,8 @@ class SettingsController extends Controller
             'bgcolorcode' => $ws->bgcolorcode,
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
-            'infomessage' => $ws->welcomemsg
+            'infomessage' => $ws->welcomemsg,
+            'captchadata' => CaptchaModel::createSum(session()->getId())
         ]);
     }
 
@@ -400,5 +408,70 @@ class SettingsController extends Controller
         $item->delete();
 
         return back()->with('success', __('app.file_deleted'));
+    }
+
+    /**
+     * Cancel workspace
+     * 
+     * @param string $workspace
+     * @return mixed
+     */
+    public function cancelWorkspace($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate(['captcha' => 'required|numeric']);
+
+        if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
+            return back()->with('error', __('app.captcha_invalid'));
+        }
+
+        $agents = AgentModel::where('workspace', '=', $ws->id);
+        $groups = GroupsModel::where('workspace', '=', $ws->id);
+        $faqs = FaqModel::where('workspace', '=', $ws->id);
+        $tickets = TicketModel::where('workspace', '=', $ws->id);
+        $users = User::where('workspace', '=', $ws->id);
+
+        foreach ($tickets->get() as $ticket) {
+            $files = TicketsHaveFiles::where('ticket_hash', '=', $ticket->hash)->get();
+            foreach ($files as $file) {
+                unlink(public_path() . '/uploads/' . $file->file);
+                $file->delete();
+            }
+
+            $threads = TicketThreadModel::where('ticket_id', '=', $ticket->id);
+            $threads->delete();
+        }
+
+        $faqs->delete();
+
+        foreach ($groups->get() as $group) {
+            foreach ($agents as $agent) {
+                $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $group->id);
+                $ingroup->delete();
+            }
+        }
+
+        $groups->delete();
+        $agents->delete();
+        $users->delete();
+
+        $ws->delete();
+
+        Auth::logout();
+        request()->session()->invalidate();
+
+        return redirect('/')->with('success', __('app.workspace_deleted'));
     }
 }

@@ -930,7 +930,7 @@ class TicketController extends Controller
             return back()->with('error', __('app.ticket_not_found'));
         }
 
-        if ($ticket->confirmation !== '_confirmed') {
+        if ((Auth::guest()) && ($ticket->confirmation !== '_confirmed')) {
             return back()->with('error', __('app.ticket_not_confirmed'));
         }
 

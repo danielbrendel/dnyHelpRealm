@@ -13,6 +13,11 @@
 
 Route::get('/', 'MainController@index');
 Route::get('/home', 'MainController@index');
+Route::get('/about', 'MainController@about');
+Route::get('/faq', 'MainController@faq');
+Route::get('/imprint', 'MainController@imprint');
+Route::get('/privacy', 'MainController@privacy');
+Route::get('/eula', 'MainController@eula');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 Route::post('/login', 'MainController@login');
 Route::any('/logout', 'MainController@logout');
@@ -85,6 +90,7 @@ Route::get('/{workspace}/settings/system', 'SettingsController@viewSystemSetting
 Route::patch('/{workspace}/settings/system', 'SettingsController@saveSystemSettings');
 Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@addBackgroundImage');
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
+Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');
 
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');

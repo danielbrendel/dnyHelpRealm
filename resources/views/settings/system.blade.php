@@ -107,6 +107,25 @@
                             </div>
                         </div>
 
+                        <hr/>
+
+                        <form id="frmcancel" method="POST" action="{{ url('/' . $workspace . '/settings/system/cancel') }}">
+                            @csrf
+
+                            <label class="label">{{ __('app.workspace_cancel') }}</label>
+
+                            <div class="field">
+                                <div class="control">
+                                <label class="label">Captcha: {{ $captchadata[0] }} + {{ $captchadata[1] }} = ?</label>
+                                    <input type="text" name="captcha" placeholder="{{ $captchadata[0] }} + {{ $captchadata[1] }} = ?" required>
+                                </div>
+                            </div>
+
+                            <div>
+                                <button type="button" class="button is-danger" onclick="if (confirm('{{ __('app.workspace_cancel_confirm') }}')) { document.getElementById('frmcancel').submit(); }">{{ __('app.workspace_cancel_btn') }}</button>
+                            </div>
+                        </form>
+
                         <br/>
                     </div>
                 </div>

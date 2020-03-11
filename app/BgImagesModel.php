@@ -63,6 +63,10 @@ class BgImagesModel extends Model
     {
         $images = static::getAllBackgrounds($workspace);
 
+        if (count($images) === 0) {
+            return '';
+        }
+
         $randomImage = random_int(1, count($images)) - 1;
 
         return $images[$randomImage];

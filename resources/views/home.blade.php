@@ -1,3 +1,18 @@
+<!--
+    HelpRealm (dnyHelpRealm) developed by Daniel Brendel
+
+    (C) 2019 - 2020 by Daniel Brendel
+
+    Version: 0.1
+    Contact: dbrendel1988<at>gmail<dot>com
+    GitHub: https://github.com/danielbrendel/
+
+    Released under the MIT license
+-->
+
+@extends('layouts.layout_home')
+
+@section('content')
 @if ($errors->any())
         <div id="error-message-1">
             <article class="message is-danger">
@@ -44,3 +59,4 @@
         </div>
         <br/>
     @endif
+@endsection

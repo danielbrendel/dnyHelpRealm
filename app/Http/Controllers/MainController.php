@@ -103,7 +103,94 @@ class MainController extends Controller
             return redirect('/' . $ws->name . '/index');
         }
 
-        return view('home');
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('home', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View about page
+     * 
+     * @return mixed
+     */
+    public function about()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('about', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View faq page
+     * 
+     * @return mixed
+     */
+    public function faq()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('faq', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View imprint page
+     * 
+     * @return mixed
+     */
+    public function imprint()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('imprint', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View privacy page
+     * 
+     * @return mixed
+     */
+    public function privacy()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('privacy', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View eula page
+     * 
+     * @return mixed
+     */
+    public function eula()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('eula', ['captchadata' => $captchadata]);
     }
 
     /**
@@ -233,21 +320,6 @@ class MainController extends Controller
         $user->save();
 
         return redirect('/')->with('success', __('app.password_reset_ok'));
-    }
-
-    /**
-     * Show registration view
-     * 
-     * @return Illuminate\View\View
-     */
-    public function viewRegister()
-    {  
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
-        return view('register', [
-            'bgimage' => '',
-            'captchadata' => $captchadata
-        ]);
     }
 
     /**
