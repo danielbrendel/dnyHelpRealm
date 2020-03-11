@@ -99,7 +99,7 @@ class MainController extends Controller
     public function index()
     {
         if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id())->workspace)->first();
             return redirect('/' . $ws->name . '/index');
         }
 
@@ -160,11 +160,11 @@ class MainController extends Controller
     }
 
     /**
-     * View privacy page
+     * View tac page
      * 
      * @return mixed
      */
-    public function privacy()
+    public function tac()
     {
         if (!Auth::guest()) {
             $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
@@ -173,24 +173,7 @@ class MainController extends Controller
 
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        return view('privacy', ['captchadata' => $captchadata]);
-    }
-
-    /**
-     * View eula page
-     * 
-     * @return mixed
-     */
-    public function eula()
-    {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
-        return view('eula', ['captchadata' => $captchadata]);
+        return view('tac', ['captchadata' => $captchadata]);
     }
 
     /**
@@ -205,6 +188,13 @@ class MainController extends Controller
                 'email' => 'required|email',
                 'password' => 'required'
             ]);
+
+            $user = User::where('email', '=', $attr['email'])->first();
+            if ($user !== null) {
+                if ($user->account_confirm !== '_confirmed') {
+                    return back()->with('error', __('app.account_not_yet_confirmed'));
+                }
+            }
             
             if (Auth::attempt([
                 'email' => $attr['email'],
@@ -247,9 +237,9 @@ class MainController extends Controller
             Auth::logout();
             request()->session()->invalidate();
 
-            return  redirect('/' . $ws->name . '/index')->with('success', __('app.logout_success'));
+            return  redirect('/')->with('success', __('app.logout_success'));
         } else {
-            return  redirect('/' . $ws->name . '/index')->with('error', __('app.not_logged_in'));
+            return  redirect('/')->with('error', __('app.not_logged_in'));
         }
     }
 
@@ -373,6 +363,7 @@ class MainController extends Controller
         $user->name = 'admin';
         $user->email = $attr['email'];
         $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
+        $user->account_confirm = md5($user->email . date('Y-m-d H:i:s') . random_bytes(55));
         $user->avatar = 'default.png';
         $user->user_id = 0;
         $user->language = 'en';
@@ -410,8 +401,27 @@ class MainController extends Controller
         $groupMember->group_id = $group->id;
         $groupMember->save();
 
-        Auth::attempt(['email' => $attr['email'], 'password' => $attr['password']]);
+        $htmlCode = view('mail.workspace_created', ['name' => $attr['fullname'], 'hash' => $user->account_confirm])->render();
+        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70));
 
-        return redirect('/' . $workspace->name . '/index');
+        return redirect('/')->with('success', __('app.signup_welcomemsg'));
+    }
+
+    /**
+     * Confirm account
+     */
+    public function confirm()
+    {
+        $hash = request('hash');
+
+        $user = User::where('account_confirm', '=', $hash)->first();
+        if ($user === null) {
+            return back()->with('error', __('app.account_confirm_token_not_found'));
+        }
+
+        $user->account_confirm = '_confirmed';
+        $user->save();
+
+        return redirect('/')->with('success', __('app.account_confirmed_ok'));
     }
 }

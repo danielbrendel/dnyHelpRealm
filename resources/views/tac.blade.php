@@ -15,11 +15,7 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <h4>{{ __('app.imprint_headline') }}</h4>
-            <br/><br/>
-            {{ __('app.author') }}: {{ env('APP_AUTHOR') }}<br/>
-            {{ __('app.contact') }}: <a href="mailto:{{ env('APP_CONTACT') }}">{{ env('APP_CONTACT') }}</a><br/>
-            {{ __('app.development') }}: <a href="https://github.com/danielbrendel/" target="_blank">GitHub</a>
+            <?php echo file_get_contents(public_path() . '/data/tac.txt'); ?>
         </div>
     </div>
 @endsection

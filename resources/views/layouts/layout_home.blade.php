@@ -40,7 +40,7 @@
         <script src="{{ asset('js/app.js') }}"></script>
     </head>
 
-    <body style="background-image: url('{{ asset('/gfx/home_bg.jpg') }}');'">
+    <body style="background-image: url('{{ asset('/gfx/home_bg.jpg') }}'); overflow-y: auto;">
         <div id="home">
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
@@ -69,7 +69,7 @@
                         {{ __('app.home_faq') }}
                     </a>
             
-                    <a class="navbar-item" href="{{ asset('/doc/documentation.pdf') }}">
+                    <a class="navbar-item" href="{{ asset('/data/documentation.pdf') }}">
                         {{ __('app.home_doc') }}
                     </a>
             
@@ -77,12 +77,8 @@
                         {{ __('app.home_imprint') }}
                     </a>
 
-                    <a class="navbar-item" href="{{ url('/privacy') }}">
-                        {{ __('app.home_privacy') }}
-                    </a>
-
-                    <a class="navbar-item" href="{{ url('/eula') }}">
-                        {{ __('app.home_eula') }}
+                    <a class="navbar-item" href="{{ url('/tac') }}">
+                        {{ __('app.home_tac') }}
                     </a>
                 </div>
             
@@ -103,6 +99,53 @@
 
             <div class="home-content">
                 <div class="container">
+                    @if ($errors->any())
+                        <div id="error-message-1">
+                            <article class="message is-danger">
+                            <div class="message-header">
+                                <p>{{ __('error') }}</p>
+                                <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-1').style.display = 'none';"></button>
+                            </div>
+                            <div class="message-body">
+                                @foreach ($errors->all() as $error)
+                                    {{ $error }}<br/>
+                                @endforeach
+                            </div>
+                        </article>
+                        </div>
+                        <br/>
+                    @endif
+
+                    @if (Session::has('error'))
+                        <div id="error-message-2">
+                            <article class="message is-danger">
+                            <div class="message-header">
+                                <p>{{ __('error') }}</p>
+                                <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-2').style.display = 'none';"></button>
+                            </div>
+                            <div class="message-body">
+                                {{ Session::get('error') }}
+                            </div>
+                        </article>
+                        </div>
+                        <br/>
+                    @endif
+
+                    @if (Session::has('success'))
+                        <div id="success-message">
+                            <article class="message is-success">
+                            <div class="message-header">
+                                <p>{{ __('success') }}</p>
+                                <button class="delete" aria-label="delete" onclick="document.getElementById('success-message').style.display = 'none';"></button>
+                            </div>
+                            <div class="message-body">
+                                {{ Session::get('success') }}
+                            </div>
+                        </article>
+                        </div>
+                        <br/>
+                    @endif
+
                     @yield('content')
 
                     <div class="cookie-consent-outer">

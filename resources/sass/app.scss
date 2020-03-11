@@ -828,3 +828,23 @@ pre {
     -webkit-appearance: none;
 	font-weight: bold;
 }
+
+//Homepage
+.home-headline {
+    position: relative;
+    color: rgb(83, 87, 91);
+}
+.home-infotext {
+    position: relative;
+    color: rgb(83, 87, 91);
+}
+.home-signup {
+    position: relative;
+    margin-top: 25px;
+    margin-bottom: 25px;
+}
+.home-screenshot {
+    position: relative;
+    margin-bottom: 15px;
+    bottom: 0;
+}

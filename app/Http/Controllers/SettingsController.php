@@ -62,6 +62,11 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         $langs = array();
         $dirs = scandir(base_path() . '/resources/lang');
         foreach ($dirs as $dir) {

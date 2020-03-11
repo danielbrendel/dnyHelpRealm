@@ -16,8 +16,7 @@ Route::get('/home', 'MainController@index');
 Route::get('/about', 'MainController@about');
 Route::get('/faq', 'MainController@faq');
 Route::get('/imprint', 'MainController@imprint');
-Route::get('/privacy', 'MainController@privacy');
-Route::get('/eula', 'MainController@eula');
+Route::get('/tac', 'MainController@tac');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 Route::post('/login', 'MainController@login');
 Route::any('/logout', 'MainController@logout');
@@ -26,6 +25,7 @@ Route::get('/reset', 'MainController@viewReset');
 Route::post('/reset', 'MainController@reset');
 Route::get('/register', 'MainController@viewRegister');
 Route::post('/register', 'MainController@register');
+Route::get('/confirm', 'MainController@confirm');
 
 //Auth::routes();
 

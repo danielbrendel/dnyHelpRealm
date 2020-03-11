@@ -40,6 +40,7 @@ The support system is especially suitable for freelancers and small teams. This 
 + Friendly installer
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
 + SaaS solution
++ Documentation
 
 ## Changelog:
 + Version 0.1:

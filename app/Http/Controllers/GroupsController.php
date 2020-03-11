@@ -68,6 +68,11 @@ class GroupsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         return view('groups.create', [
             'workspace' => $ws->name,
             'location' => __('app.group_create'),

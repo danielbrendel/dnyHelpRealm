@@ -63,7 +63,7 @@
     </div>
 
     <div class="ticket-guest-uniquelink">
-        {{ __('app.ticket_unique_link') }} <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/show/' . $ticket->hash) }}">{{ url('/ticket/show/' . $ticket->hash) }}</a>
+        {{ __('app.ticket_unique_link') }} <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/show/' . $ticket->hash) }}">{{ url('/' . $workspace . '/ticket/show/' . $ticket->hash) }}</a>
     </div>
 
     <div class="ticket-guest-show-status">
@@ -182,7 +182,7 @@
                         <div class="thread-footer">
                             @if ($entry->user_id === 0)
                                 <div class="thread-footer-edit">
-                                    <a href="javascript:void(0)" onclick="document.getElementById('edCmtText').value = document.getElementById('edit-text-{{ $entry->id }}').value; document.getElementById('edCmtForm').action = '/ticket/{{ $ticket->id }}/comment/{{ $entry->id }}/edit/customer'; vue.bShowCmtEdit = true;">{{ __('app.edit_thread_entry') }}</a>
+                                    <a href="javascript:void(0)" onclick="document.getElementById('edCmtText').value = document.getElementById('edit-text-{{ $entry->id }}').value; document.getElementById('edCmtForm').action = '/{{ $workspace }}/ticket/{{ $ticket->id }}/comment/{{ $entry->id }}/edit/customer'; vue.bShowCmtEdit = true;">{{ __('app.edit_thread_entry') }}</a>
                                 </div>
                             @endif
                         </div>

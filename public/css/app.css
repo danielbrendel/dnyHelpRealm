@@ -11603,3 +11603,25 @@ pre {
   font-weight: bold;
 }
 
+.home-headline {
+  position: relative;
+  color: #53575b;
+}
+
+.home-infotext {
+  position: relative;
+  color: #53575b;
+}
+
+.home-signup {
+  position: relative;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.home-screenshot {
+  position: relative;
+  margin-bottom: 15px;
+  bottom: 0;
+}
+

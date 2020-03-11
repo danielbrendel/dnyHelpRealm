@@ -13,50 +13,23 @@
 @extends('layouts.layout_home')
 
 @section('content')
-@if ($errors->any())
-        <div id="error-message-1">
-            <article class="message is-danger">
-            <div class="message-header">
-                <p>{{ __('error') }}</p>
-                <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-1').style.display = 'none';"></button>
+    <div class="columns is-centered is-vcentered">
+        <div class="column is-three-fifths">
+            <div class="home-headline">
+                <center><h1>{{ env('APP_DESCRIPTION') }}</h1></center>
             </div>
-            <div class="message-body">
-                @foreach ($errors->all() as $error)
-                    {{ $error }}<br/>
-                @endforeach
-            </div>
-        </article>
-        </div>
-        <br/>
-    @endif
 
-    @if (Session::has('error'))
-        <div id="error-message-2">
-            <article class="message is-danger">
-            <div class="message-header">
-                <p>{{ __('error') }}</p>
-                <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-2').style.display = 'none';"></button>
+            <div class="home-infotext">
+                <h3><center>{{ __('app.home_welcomemsg') }}</center></h3>
             </div>
-            <div class="message-body">
-                {{ Session::get('error') }}
-            </div>
-        </article>
-        </div>
-        <br/>
-    @endif
 
-    @if (Session::has('success'))
-        <div id="success-message">
-            <article class="message is-success">
-            <div class="message-header">
-                <p>{{ __('success') }}</p>
-                <button class="delete" aria-label="delete" onclick="document.getElementById('success-message').style.display = 'none';"></button>
+            <div class="home-signup">
+                <center><button type="button" class="button is-outlined is-medium" onclick="vue.bShowRegister = true;">{{ __('app.register') }}</button></center>
             </div>
-            <div class="message-body">
-                {{ Session::get('success') }}
+
+            <div class="home-screenshot">
+                <center><img src="{{ asset('/gfx/preview.png') }}" alt="preview_screenshot"/></center>
             </div>
-        </article>
         </div>
-        <br/>
-    @endif
+    </div>
 @endsection
