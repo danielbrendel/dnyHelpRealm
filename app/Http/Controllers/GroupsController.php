@@ -186,21 +186,20 @@ class GroupsController extends Controller
         }
 
         $attr = request()->validate([
-            'name' => 'min:5',
+            'name' => 'nullable|min:5',
             'description' => 'nullable',
-            'default' => 'numeric'
+            'def' => 'numeric'
         ]);
-
-        $check = GroupModel::where('name', '=', $attr['name'])->where('workspace', '=', $ws->id)->first();
-        if ($check) {
-            return back()->with('error', __('app.group_already_exists'));
+        
+        if (!isset($attr['def'])) {
+            $attr['def'] = false;
         }
 
-        $group = GroupModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
+        $group = GroupsModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if ($group) {
             if (isset($attr['name'])) $group->name = $attr['name'];
-            if (isset($attr['description'])) $group->name = $attr['description'];
-            if (isset($attr['default'])) $group->name = $attr['default'];
+            if (isset($attr['description'])) $group->description = $attr['description'];
+            $group->def = (bool)$attr['def'];
             $group->save();
 
             return back()->with('success', __('app.group_data_stored'));

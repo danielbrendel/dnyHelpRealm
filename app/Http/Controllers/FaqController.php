@@ -65,6 +65,11 @@ class FaqController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
             return back()->with('error', __('app.superadmin_permission_required'));
         }
@@ -210,7 +215,7 @@ class FaqController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
-        $faq = FaqModel::where('id', '=', $id)->where('worksapce', '=', $ws->id)->first();
+        $faq = FaqModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if ($faq === null) {
             return back()->with('error', __('app.faq_not_found'));
         }

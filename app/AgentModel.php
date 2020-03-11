@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class AgentModel extends Model
 {
-    protected $fillable = ['surname', 'lastname', 'email', 'position', 'superadmin', 'user_id'];
+    protected $fillable = ['workspace', 'surname', 'lastname', 'email', 'position', 'superadmin', 'user_id'];
 
     /**
      * An agent can be assigned to multiple groups

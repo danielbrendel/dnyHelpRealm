@@ -67,39 +67,39 @@
             <div class="app-userarea">
                 <div id="sidebar" class="app-sidebar">
                     <div name="sidebaritem" class="app-sidebar-logo">
-                        <div class="app-logo" style="background-image: url({{ asset('/gfx/logo.png') }});" title="{{ env('APP_NAME') . ' | ' . env('APP_DESCRIPTION') }}" onclick="location.href='{{ url('/') }}';"></div>
+                        <div class="app-logo" style="background-image: url({{ asset('/gfx/logo.png') }});" title="{{ env('APP_NAME') . ' | ' . env('APP_DESCRIPTION') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';"></div>
                     </div>
                 
-                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.dashboard') }}" onclick="location.href='{{ url('/') }}';">
+                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.dashboard') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-tachometer-alt fa-lg"></i></div>
                     </div>
                 
-                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_list') }}" onclick="location.href='{{ url('/ticket/list') }}';">
+                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_list') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/list') }}';">
                         <div class="app-sidebar-item-content"><i class="far fa-list-alt fa-lg"></i></div>
                     </div>
 
-                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_create') }}" onclick="location.href='{{ url('/ticket/create') }}';">
+                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_create') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/create') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-plus fa-lg"></i></div>
                     </div>
                 
-                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_search') }}" onclick="location.href='{{ url('/ticket/search') }}';">
+                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_search') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/search') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-search fa-lg"></i></div>
                     </div>
                 
                     @if ($superadmin)
-                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.groups') }}" onclick="location.href='{{ url('/group/list') }}';">
+                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.groups') }}" onclick="location.href='{{ url('/' . $workspace . '/group/list') }}';">
                             <div class="app-sidebar-item-content"><i class="fas fa-layer-group fa-lg"></i></div>
                         </div>
                 
-                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.agent_list') }}" onclick="location.href='{{ url('/agent/list') }}';">
+                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.agent_list') }}" onclick="location.href='{{ url('/' . $workspace . '/agent/list') }}';">
                             <div class="app-sidebar-item-content"><i class="fas fa-user-tie fa-lg"></i></div>
                         </div>
 
-                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.faq_list') }}" onclick="location.href='{{ url('/faq/list') }}';">
+                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.faq_list') }}" onclick="location.href='{{ url('/' . $workspace . '/faq/list') }}';">
                             <div class="app-sidebar-item-content"><i class="far fa-question-circle fa-lg"></i></div>
                         </div>
 
-                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.system_settings') }}" onclick="location.href='{{ url('/settings/system') }}';">
+                        <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.system_settings') }}" onclick="location.href='{{ url('/' . $workspace . '/settings/system') }}';">
                             <div class="app-sidebar-item-content"><i class="fas fa-cog fa-lg"></i></div>
                         </div>
                     @endif
@@ -116,7 +116,7 @@
                         <div class="app-location" id="location" <?php if (isset($fulllocation)) echo 'title="' . $fulllocation . '"'; ?>><?php if (isset($location)) echo $location; ?></div>
 
                         <div class="app-logout"><a href="{{ url('/logout') }}"><i class="fas fa-sign-out-alt fa-lg" title="{{ __('app.logout') }}"></i></a></div>
-                        <div class="app-account" style="background-image: url({{ asset('gfx/avatars/' . $user->avatar) }});" title="{{ __('app.viewsettings') }}" onclick="location.href='{{ url('/settings') }}';"></div>
+                        <div class="app-account" style="background-image: url({{ asset('gfx/avatars/' . $user->avatar) }});" title="{{ __('app.viewsettings') }}" onclick="location.href='{{ url('/' . $workspace . '/settings') }}';"></div>
                         <div class="app-info"><a href="javascript:void(0)" onclick="vue.bShowAbout = true;"><i class="fas fa-info-circle fa-lg" title="{{ __('app.about') }}"></i></a></div>
                     </div>
                     

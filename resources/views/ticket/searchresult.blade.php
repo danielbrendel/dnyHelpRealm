@@ -32,7 +32,7 @@
                         data-pagination-next-title="{{ __('app.table_pagination_next') }}"><!--bordered hovered-->
                     <thead>
                         <tr>
-                            <th class="text-left">{{ __('app.ticket_id') }}</th>
+                            <th class="text-left">{{ __('app.ticket_id', ['id' => '']) }}</th>
                             <th class="text-left">{{ __('app.ticket_subject') }}</th>
                             <th class="text-left">{{ __('app.ticket_date') }}</th>
                             <th class="text-left">{{ __('app.ticket_group') }}</th>

@@ -69,7 +69,7 @@
                 <br/>
 
                     <center><a class="button" href="javascript:void(0)" onclick="location.reload();">{{ __('app.refresh') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="button is-success" href="{{ url('/faq/create') }}">{{ __('app.create') }}</a></center><br/>
+                    <a class="button is-success" href="{{ url('/'. $workspace . '/faq/create') }}">{{ __('app.create') }}</a></center><br/>
                 </div>
             </div>
             </div>

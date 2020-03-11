@@ -27,7 +27,7 @@
                     <table class="table striped table-border mt-4" data-role="table" data-pagination="true"><!--bordered hovered-->
                     <thead>
                         <tr>
-                            <th class="text-left">{{ __('app.ticket_id') }}</th>
+                            <th class="text-left">{{ __('app.ticket_id', ['id' => '']) }}</th>
                             <th class="text-left">{{ __('app.ticket_subject') }}</th>
                             <th class="text-left">{{ __('app.ticket_date') }}</th>
                             <th class="text-left">{{ __('app.ticket_group') }}</th>
@@ -44,7 +44,7 @@
                                 </td>
                                 
                                 <td class="right">
-                                    <a href="{{ url('/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
+                                    <a href="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
                                 </td>
 
                                 <td>
@@ -110,7 +110,7 @@
                         data-pagination-next-title="{{ __('app.table_pagination_next') }}"><!--bordered hovered-->
                     <thead>
                         <tr>
-                            <th class="text-left">{{ __('app.ticket_id') }}</th>
+                            <th class="text-left">{{ __('app.ticket_id', ['id' => '']) }}</th>
                             <th class="text-left">{{ __('app.ticket_subject') }}</th>
                             <th class="text-left">{{ __('app.ticket_date') }}</th>
                             <th class="text-left">{{ __('app.ticket_group') }}</th>
@@ -128,7 +128,7 @@
                                     </td>
                                     
                                     <td class="right">
-                                        <a href="{{ url('/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
+                                        <a href="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
                                     </td>
 
                                     <td>

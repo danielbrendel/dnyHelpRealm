@@ -163,7 +163,7 @@
                         </div>
                     </section>
                     <footer class="modal-card-foot is-stretched">
-                    <button id="btnOpenTicket" class="button is-success" onclick="window.open('{{ url('/ticket/show/') }}/' + document.getElementById('ticketid').value); vue.bShowOpenTicket = false;">{{ __('app.open_ticket') }}</button>
+                    <button id="btnOpenTicket" class="button is-success" onclick="window.open('{{ url('/' . $workspace . '/ticket/show/') }}/' + document.getElementById('ticketid').value); vue.bShowOpenTicket = false;">{{ __('app.open_ticket') }}</button>
                     <button class="button" onclick="vue.bShowOpenTicket = false;">{{ __('app.cancel') }}</button>
                     </footer>
                 </div>

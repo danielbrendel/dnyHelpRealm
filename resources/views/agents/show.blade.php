@@ -72,7 +72,7 @@
 
                             <div class="field">
                                 <center><input type="submit" class="button" value="{{ __('app.save') }}"/>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="button" class="button is-danger" value="{{ __('app.delete') }}" onclick="if (window.confirm('{{ __('app.delete_confirm') }}')) location.href='{{ url('/agent/' . $agent->id . '/delete') }}';"/></center>
+                                <input type="button" class="button is-danger" value="{{ __('app.delete') }}" onclick="if (window.confirm('{{ __('app.delete_confirm') }}')) location.href='{{ url('/' . $workspace . '/agent/' . $agent->id . '/delete') }}';"/></center>
                             </div>
 
                             <br/>
@@ -113,7 +113,7 @@
                                     </td>
 
                                     <td class="right">
-                                        <a href="{{ url('/agent/' . $agent->id . '/group/' . $group['data']->id . '/remove') }}">{{ __('app.agent_removegroup') }}</a>
+                                        <a href="{{ url('/' . $workspace . '/agent/' . $agent->id . '/group/' . $group['data']->id . '/remove') }}">{{ __('app.agent_removegroup') }}</a>
                                     </td>
                                 </tr>
                             @endforeach
@@ -154,7 +154,7 @@
                 </form>
             </section>
             <footer class="modal-card-foot is-stretched">
-            <button class="button is-success" onclick="var frm = document.getElementById('edAddAgentGroup'); frm.action = '{{ url('/agent/' . $agent->id) }}/group/' + selGroup.value + '/add'; frm.submit();">{{ __('app.save') }}</button>
+            <button class="button is-success" onclick="var frm = document.getElementById('edAddAgentGroup'); frm.action = '{{ url('/' . $workspace . '/agent/' . $agent->id) }}/group/' + selGroup.value + '/add'; frm.submit();">{{ __('app.save') }}</button>
             <button class="button" onclick="vue.bAddAgentGroup = false;">{{ __('app.close') }}</button>
             </footer>
         </div>

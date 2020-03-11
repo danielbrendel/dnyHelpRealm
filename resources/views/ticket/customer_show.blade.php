@@ -63,7 +63,7 @@
     </div>
 
     <div class="ticket-guest-uniquelink">
-        {{ __('app.ticket_unique_link') }} <a class="is-breakall" href="{{ url('/ticket/show/' . $ticket->hash) }}">{{ url('/ticket/show/' . $ticket->hash) }}</a>
+        {{ __('app.ticket_unique_link') }} <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/show/' . $ticket->hash) }}">{{ url('/ticket/show/' . $ticket->hash) }}</a>
     </div>
 
     <div class="ticket-guest-show-status">
@@ -90,7 +90,7 @@
             </div>
 
             <div class="attachments-link">
-                <a class="is-breakall" href="{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
+                <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
             </div>
 
             <div class="attachments-info">
@@ -98,13 +98,13 @@
             </div>
 
             <div class="attachments-delete">
-                <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
+                <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
             </div>
         </div>
     @endforeach
 
     <div class="attachments-add">
-        <form method="POST" action="{{ url('/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
+        <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
             @csrf
 
             <div class="attachments-add-file">
@@ -122,7 +122,7 @@
 
     <div class="form-wrapper">
             <div class="threadinput">
-                <form method="POST" action="{{ url('/ticket/' . $ticket->id . '/comment/add/guest') }}">
+                <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/comment/add/guest') }}">
                     @csrf
 
                     <div class="threadinput-text">

@@ -1,4 +1,4 @@
-@extends('layouts.layout_customer', ['bgimage' => $bgimage])
+@extends('layouts.layout_home')
 
 @section('content')
     <h1>{{ __('app.register') }}</h1>

@@ -47,6 +47,7 @@ class AgentController extends Controller
         }
 
         return view('agents.list', [
+            'workspace' => $ws->name,
             'user' => User::get(auth()->id()),
             'agents' => AgentModel::where('workspace', '=', $ws->id)->get(),
             'superadmin' => User::getAgent(auth()->id())->superadmin,
@@ -107,6 +108,11 @@ class AgentController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         return view('agents.create', [
             'workspace' => $ws->name,
             'location' => __('app.agent_create'),
@@ -151,6 +157,7 @@ class AgentController extends Controller
         }
 
         $attr['user_id'] = 0;
+        $attr['workspace'] = $ws->id;
 
         $pw = $attr['password'];
         unset($attr['password']);
@@ -167,7 +174,6 @@ class AgentController extends Controller
         $userdata->avatar = 'default.png';
         $userdata->save();
 
-        $data->workspace = $ws->id;
         $data->user_id = $userdata->id;
         $data->active = true;
         $data->save();
@@ -188,6 +194,11 @@ class AgentController extends Controller
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
             return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {

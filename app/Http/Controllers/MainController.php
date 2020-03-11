@@ -23,7 +23,7 @@ use App\AgentModel;
 use App\ClientModel;
 use App\CaptchaModel;
 use App\FaqModel;
-use App\BgImageModel;
+use App\BgImagesModel;
 use App\WorkSpaceModel;
 
 /**
@@ -47,7 +47,7 @@ class MainController extends Controller
         }
 
         if (Auth::guest()) {
-            $img = BgImageModel::queryRandomImage();
+            $img = BgImagesModel::queryRandomImage($ws->id);
             
             $captchadata = CaptchaModel::createSum(session()->getId());
 
@@ -98,6 +98,11 @@ class MainController extends Controller
      */
     public function index()
     {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
         return view('home');
     }
 
@@ -128,7 +133,12 @@ class MainController extends Controller
                     }
                 }
 
-                return redirect('/');
+                $ws = WorkSpaceModel::where('id', '=', $entity->workspace)->first();
+                if ($ws === null) {
+                    return back()->with('error', __('app.workspace_not_found'));
+                }
+
+                return redirect('/' . $ws->name . '/index');
             } else {
                 return redirect('/')->with('error', __('app.invalid_credentials'));
             }
@@ -231,13 +241,11 @@ class MainController extends Controller
      * @return Illuminate\View\View
      */
     public function viewRegister()
-    {
-        $img = BgImageModel::queryRandomImage();
-            
+    {  
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('register', [
-            'bgimage' => $img,
+            'bgimage' => '',
             'captchadata' => $captchadata
         ]);
     }

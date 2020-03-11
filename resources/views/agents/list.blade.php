@@ -47,7 +47,7 @@
                                 </td>
                                 
                                 <td class="right">
-                                    <a href="{{ url('/agent/' . $agent->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $agent->surname . ' ' . $agent->lastname }}</a>
+                                    <a href="{{ url('/' . $workspace . '/agent/' . $agent->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $agent->surname . ' ' . $agent->lastname }}</a>
                                 </td>
                                 
                                 <td>
@@ -65,7 +65,7 @@
                 <br/>
 
                     <center><a class="button" href="javascript:void(0)" onclick="location.reload();">{{ __('app.refresh') }}</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                    <a class="button is-success" href="{{ url('/agent/create') }}">{{ __('app.create') }}</a></center><br/>
+                    <a class="button is-success" href="{{ url('/' . $workspace . '/agent/create') }}">{{ __('app.create') }}</a></center><br/>
                 </div>
             </div>
             </div>

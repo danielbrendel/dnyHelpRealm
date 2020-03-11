@@ -24,7 +24,7 @@
 
                 <div class="window-item-content">
                     <div class="window-item-content-body">
-                        <form method="POST" action="{{ url('/ticket/create/agent') }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ url('/' . $workspace . '/ticket/create/agent') }}" enctype="multipart/form-data">
                             @csrf 
 
                             <br/>

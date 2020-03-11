@@ -45,7 +45,7 @@
 
                             <div class="field">
                                 <center><input type="submit" class="button" value="{{ __('app.save') }}"/>&nbsp;&nbsp;&nbsp;&nbsp;
-                                <input type="button" class="button is-danger" value="{{ __('app.delete') }}" onclick="if (window.confirm('{{ __('app.delete_confirm') }}')) location.href='{{ url('/faq/' . $faq->id . '/delete') }}';"/></center>
+                                <input type="button" class="button is-danger" value="{{ __('app.delete') }}" onclick="if (window.confirm('{{ __('app.delete_confirm') }}')) location.href='{{ url('/'. $workspace . '/faq/' . $faq->id . '/delete') }}';"/></center>
                             </div>
 
                             <br/>

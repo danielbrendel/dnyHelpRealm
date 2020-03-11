@@ -24,7 +24,7 @@
 
                 <div class="window-item-content">
                     <div class="window-item-content-body">
-                        <form method="POST" action="{{ url('/ticket/search') }}">
+                        <form method="POST" action="{{ url('/' . $workspace . '/ticket/search') }}">
                             @csrf 
 
                             <div class="field">

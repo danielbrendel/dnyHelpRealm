@@ -18,7 +18,8 @@ use Illuminate\Http\Request;
 use Auth;
 use \App\User;
 use \App\AgentModel;
-use \App\BgImageModel;
+use \App\BgImagesModel;
+use \App\WorkSpaceModel;
 
 /**
  * Class SettingsController
@@ -260,14 +261,13 @@ class SettingsController extends Controller
             'user' => User::get(auth()->id()),
             'agent' => User::getAgent(auth()->id()),
             'superadmin' => User::getAgent(auth()->id())->superadmin,
-            'company' => env('APP_COMPANY'),
-            'lang' => env('APP_LANG'),
-            'debug' => env('APP_DEBUG'),
-            'usebgcolor' => env('APP_USEBGCOLOR'),
-            'bgcolorcode' => env('APP_BGCOLORCODE'),
+            'company' => $ws->company,
+            'lang' => $ws->lang,
+            'usebgcolor' => $ws->usebgcolor,
+            'bgcolorcode' => $ws->bgcolorcode,
             'langs' => $langs,
-            'bgs' => BgImageModel::getAllBackgrounds(),
-            'infomessage' => $infomessage
+            'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
+            'infomessage' => $ws->welcomemsg
         ]);
     }
 
@@ -310,9 +310,9 @@ class SettingsController extends Controller
 
         $ws->company = $attr['company'];
         $ws->lang = $attr['lang'];
-        $ws->usebgcolor = $attr['usebgcolor'];
+        $ws->usebgcolor = (bool)$attr['usebgcolor'];
         $ws->bgcolorcode = $attr['bgcolorcode'];
-        $ws->infomessage = $attr['infomessage'];
+        $ws->welcomemsg = $attr['infomessage'];
         $ws->save();
         
         return back()->with('success', __('app.settings_saved'));
@@ -330,6 +330,11 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
             return back()->with('error', __('app.superadmin_permission_required'));
         }
@@ -338,13 +343,18 @@ class SettingsController extends Controller
 
         $att = request()->file('image');
         if ($att != null) {
-            $fname = $att->getClientOriginalName() . '_' . uniqid('', true);
+            $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5($att->getClientOriginalName());
             $fext = $att->getClientOriginalExtension();
             $att->move(public_path() . '/gfx/backgrounds/', $fname . '.' . $fext);
-            if (!BgImageModel::isValidImage(public_path() . '/gfx/backgrounds/' . $fname . '.' . $fext)) {
+            if (!BgImagesModel::isValidImage(public_path() . '/gfx/backgrounds/' . $fname . '.' . $fext)) {
                 unlink(public_path() . '/gfx/backgrounds/', $fname . '.' . $fext);
                 return back()->with('error', __('app.invalid_image'));
             }
+
+            $dbentry = new BgImagesModel();
+            $dbentry->workspace = $ws->id;
+            $dbentry->file = $fname . '.' . $fext;
+            $dbentry->save();
         }
 
         return back()->with('success', __('app.file_uploaded'));
@@ -359,6 +369,15 @@ class SettingsController extends Controller
      */
     public function deleteBackgroundImage($workspace, $filename)
     {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         if (file_exists(public_path() . '/gfx/backgrounds/' . $filename) === false) {
             return back()->with('error', __('app.file_not_found'));
         }
@@ -367,11 +386,18 @@ class SettingsController extends Controller
             return back()->with('error', __('app.invalid_file'));
         }
 
-        if (BgImageModel::isValidImage(public_path() . '/gfx/backgrounds/' . $filename) === false) {
+        if (BgImagesModel::isValidImage(public_path() . '/gfx/backgrounds/' . $filename) === false) {
             return back()->with('error', __('app.invalid_image'));
         }
 
-        unlink(public_path() . '/gfx/backgrounds/' . $filename);
+        $item = BgImagesModel::where('workspace', '=', $ws->id)->where('file', '=', $filename)->first();
+        if ($item === null) {
+            return back()->with('error', __('app.file_not_found'));
+        }
+
+        unlink(public_path() . '/gfx/backgrounds/' . $item->file);
+
+        $item->delete();
 
         return back()->with('success', __('app.file_deleted'));
     }

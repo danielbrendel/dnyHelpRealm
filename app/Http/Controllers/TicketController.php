@@ -48,6 +48,11 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
 
         $groups = array();
@@ -124,7 +129,7 @@ class TicketController extends Controller
             'fulllocation' => __('app.ticket_id', ['id' => $id]),
             'user' => User::get(auth()->id()),
             'ticket' => $ticket,
-            'thread' => TicketThreadModel::where('ticket_id', '=', $id)->where('workspace', '=', $ws->id)->orderBy('id', 'desc')->get(),
+            'thread' => TicketThreadModel::where('ticket_id', '=', $id)->orderBy('id', 'desc')->get(),
             'group' => GroupsModel::get($ticket->group)->name,
             'agent' => $assignee,
             'agents' => AgentModel::where('active', '=', true)->where('workspace', '=', $ws->id)->get(),
@@ -909,9 +914,13 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
-        $attr = request()->validate(['file' => 'file|required', 'captcha' => 'required|numeric']);
+        if (Auth::guest()) {
+            $attr = request()->validate(['file' => 'file|required', 'captcha' => 'required|numeric']);
+        } else {
+            $attr = request()->validate(['file' => 'file|required']);
+        }
 
-        if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
+        if ((Auth::guest()) && ($attr['captcha'] !== CaptchaModel::querySum(session()->getId()))) {
             return back()->with('error', __('app.ticket_invalid_captcha'));
         }
 
@@ -962,6 +971,11 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         return view('ticket.search', [
             'workspace' => $ws->name,
             'location' => __('app.ticket_search'),
@@ -983,19 +997,24 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
         $attr = request()->validate([
             'query' => 'required',
             'type' => 'required|numeric'
         ]);
 
         if ($attr['type'] == 1) {
-            $tickets = TicketModel::where('id', 'like', '%' . $attr['query'] . '%')->get();
+            $tickets = TicketModel::where('id', 'like', '%' . $attr['query'] . '%')->where('workspace', '=', $ws->id)->get();
         } else if ($attr['type'] == 2) {
-            $tickets = TicketModel::where('hash', 'like', '%' . $attr['query'] . '%')->get();
+            $tickets = TicketModel::where('hash', 'like', '%' . $attr['query'] . '%')->where('workspace', '=', $ws->id)->get();
         } else if ($attr['type'] == 3) {
-            $tickets = TicketModel::where('subject', 'like', '%' . $attr['query'] . '%')->get();
+            $tickets = TicketModel::where('subject', 'like', '%' . $attr['query'] . '%')->where('workspace', '=', $ws->id)->get();
         } else if ($attr['type'] == 4) {
-            $tickets = TicketModel::where('text', 'like', '%' . $attr['query'] . '%')->get();
+            $tickets = TicketModel::where('text', 'like', '%' . $attr['query'] . '%')->where('workspace', '=', $ws->id)->get();
         } else {
             return back()->with('error', __('app.search_invalid_type'));
         }

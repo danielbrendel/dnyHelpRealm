@@ -55,13 +55,7 @@
 
                             <div class="field">
                                 <div class="control">
-                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_debug') }}" name="debug" value="1" <?php if ($debug === true) { echo 'checked'; } ?>/>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <div class="control">
-                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_usebgcolor') }}" name="usebgcolor" value="1" <?php if ($usebgcolor === true) { echo 'checked'; } ?>/>
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_usebgcolor') }}" name="usebgcolor" value="1" <?php if ((bool)$usebgcolor === true) { echo 'checked'; } ?>/>
                                 </div>
                             </div>
 
@@ -89,10 +83,10 @@
                                 @foreach ($bgs as $bg)
                                     <span class="settings-image-item">
                                         <div class="settings-image">
-                                            <img src="{{ asset('/gfx/backgrounds/' . $bg)}}" width="200" height="150" alt="{{ $bg }}" title="{{ $bg }}">
+                                            <img src="{{ asset('/gfx/backgrounds/' . $bg->file)}}" width="200" height="150" alt="{{ $bg->file }}" title="{{ $bg->file }}">
                                         </div>
                                         <div class="settings-image-info">
-                                            {{ substr($bg, 0, 15) . ((strlen($bg) > 15) ? '...' : '') }}&nbsp;<i class="fas fa-trash-alt" title="{{ __('app.delete') }}" onclick="if (confirm('{{ __('app.confirm_delete') }}')) { location.href = '{{ url('/settings/system/backgrounds/delete/' . $bg) }}' };"></i>
+                                            {{ substr($bg->file, 0, 15) . ((strlen($bg->file) > 15) ? '...' : '') }}&nbsp;<i class="fas fa-trash-alt" title="{{ __('app.delete') }}" onclick="if (confirm('{{ __('app.confirm_delete') }}')) { location.href = '{{ url('/' . $workspace . '/settings/system/backgrounds/delete/' . $bg->file) }}' };"></i>
                                         </div>
                                     </span>
                                 @endforeach

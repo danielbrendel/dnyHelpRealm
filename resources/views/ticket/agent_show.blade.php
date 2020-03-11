@@ -105,7 +105,7 @@
                                         </div>
 
                                         <div class="attachments-link">
-                                            <a class="is-breakall" href="{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
+                                            <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
                                         </div>
 
                                         <div class="attachments-info">
@@ -113,13 +113,13 @@
                                         </div>
 
                                         <div class="attachments-delete">
-                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
+                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
                                         </div>
                                     </div>
                                 @endforeach
 
                                 <div class="attachments-add">
-                                    <form method="POST" action="{{ url('/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
+                                    <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
                                         @csrf
 
                                         <div class="attachments-add-file">
@@ -140,7 +140,7 @@
                             <div class="window-field-inner">
                                 <div class="window-field-headline">{{ __('app.notes') }}</div>
                                 
-                                <form method="POST" action="{{ url('/ticket/' . $ticket->id . '/notes/save') }}">
+                                <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/notes/save') }}">
                                     @csrf
                                     @method('PATCH')
         
@@ -174,7 +174,7 @@
                 <div class="window-item-content">
                     <div class="window-item-content-body">
                         <div class="threadinput">
-                            <form method="POST" action="{{ url('/ticket/' . $ticket->id . '/comment/add') }}">
+                            <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/comment/add') }}">
                                 @csrf
 
                                 <div class="threadinput-text">
@@ -224,7 +224,7 @@
                                     <div class="thread-footer">
                                         @if ($entry->user_id == $user->id)
                                             <div class="thread-footer-edit">
-                                                <a href="javascript:void(0)" onclick="document.getElementById('edCmtText').value = document.getElementById('edit-text-{{ $entry->id }}').value; document.getElementById('edCmtForm').action = '/ticket/{{ $ticket->id }}/comment/{{ $entry->id }}/edit'; vue.bShowCmtEdit = true;">{{ __('app.edit_thread_entry') }}</a>
+                                                <a href="javascript:void(0)" onclick="document.getElementById('edCmtText').value = document.getElementById('edit-text-{{ $entry->id }}').value; document.getElementById('edCmtForm').action = '/{{ $workspace }}/ticket/{{ $ticket->id }}/comment/{{ $entry->id }}/edit'; vue.bShowCmtEdit = true;">{{ __('app.edit_thread_entry') }}</a>
                                             </div>
                                         @endif
                                     </div>
@@ -287,7 +287,7 @@
             </form>
         </section>
         <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edAssignAgentForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/assign/agent/') }}/' + selAgent.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button is-success" onclick="var frm = document.getElementById('edAssignAgentForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/agent/') }}/' + selAgent.value; frm.submit();">{{ __('app.save') }}</button>
         <button class="button" onclick="vue.bShowAssignAgent = false;">{{ __('app.close') }}</button>
         </footer>
     </div>
@@ -317,7 +317,7 @@
             </form>
         </section>
         <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edAssignGroupForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/assign/group/') }}/' + selGroup.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button is-success" onclick="var frm = document.getElementById('edAssignGroupForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/group/') }}/' + selGroup.value; frm.submit();">{{ __('app.save') }}</button>
         <button class="button" onclick="vue.bShowAssignGroup = false;">{{ __('app.close') }}</button>
         </footer>
     </div>
@@ -347,7 +347,7 @@
             </form>
         </section>
         <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangeStatusForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/status/') }}/' + selStatus.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangeStatusForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/status/') }}/' + selStatus.value; frm.submit();">{{ __('app.save') }}</button>
         <button class="button" onclick="vue.bShowChangeStatus = false;">{{ __('app.close') }}</button>
         </footer>
     </div>
@@ -377,7 +377,7 @@
             </form>
         </section>
         <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangePrioForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/prio/') }}/' + selPrio.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangePrioForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/prio/') }}/' + selPrio.value; frm.submit();">{{ __('app.save') }}</button>
         <button class="button" onclick="vue.bShowChangePrio = false;">{{ __('app.close') }}</button>
         </footer>
     </div>
@@ -407,7 +407,7 @@
             </form>
         </section>
         <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangeTypeForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/type/') }}/' + selType.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangeTypeForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/type/') }}/' + selType.value; frm.submit();">{{ __('app.save') }}</button>
         <button class="button" onclick="vue.bShowChangeType = false;">{{ __('app.close') }}</button>
         </footer>
     </div>
