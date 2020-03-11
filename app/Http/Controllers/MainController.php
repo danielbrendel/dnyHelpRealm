@@ -51,12 +51,13 @@ class MainController extends Controller
             
             $captchadata = CaptchaModel::createSum(session()->getId());
 
-            $infomessage = __('app.ticket_creation_welcomemsg');
-            if (file_exists(public_path() . '/data/welcomemsg.txt')) {
-                $infomessage = file_get_contents(public_path() . '/data/welcomemsg.txt');
+            $infomessage = $ws->welcomemsg;
+            if ($infomessage === '') {
+                $infomessage = __('app.ticket_creation_welcomemsg');
             }
+            $infomessage = strip_tags($infomessage, env('APP_ALLOWEDHTMLTAGS'));
 
-            return view('dashboard_customer', ['workspace' => $ws->name, 'bgimage' => $img, 'captchadata' => $captchadata, 'faqs' => FaqModel::all(), 'infomessage' => $infomessage]);
+            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'faqs' => FaqModel::all(), 'infomessage' => $infomessage]);
         } else {
             $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
             $groups = array();
@@ -282,7 +283,7 @@ class MainController extends Controller
         $user->save();
 
         $htmlCode = view('mail.pwreset', ['name' => $entity->firstname . ' ' . $entity->lastname, 'hash' => $user->password_reset])->render();
-        @mail($user->email, '[' . env('APP_COMPANY') . '] ' . __('app.mail_password_reset_subject'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+        @mail($user->email, '[' . env('APP_NAME') . '] ' . __('app.mail_password_reset_subject'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
         return back()->with('success', __('app.pw_recovery_ok'));
     }
@@ -298,7 +299,8 @@ class MainController extends Controller
 
         return view('resetpw', [
             'bgimage' => $img,
-            'hash' => request('hash')
+            'hash' => request('hash'),
+            'workspace' => ''
         ]);
     }
 

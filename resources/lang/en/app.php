@@ -343,5 +343,7 @@
         'confirm_delete' => 'Are you sure that you want to delete this file?',
         'invalid_file' => 'Invalid file specified',
         'ticket_id' => 'Ticket #:id',
-        'system_info_message' => 'The info message displayed on the ticket creation form. HTML code allowed'
+        'system_info_message' => 'The info message displayed on the ticket creation form. The following HTML tags are allowed:',
+        'email_not_found' => 'The specified e-mail address does not exist in our database',
+        'email_already_in_use' => 'The specified e-mail address is already associated with one of our workspaces.' 
     ];

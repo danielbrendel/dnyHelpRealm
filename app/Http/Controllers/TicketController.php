@@ -214,6 +214,7 @@ class TicketController extends Controller
 
         $attr = [
             'workspace' => $ws->name,
+            'wsobject' => $ws,
             'location' => __('app.ticket_list'),
             'user' => User::get(auth()->id()),
             'ticket' => $ticket,

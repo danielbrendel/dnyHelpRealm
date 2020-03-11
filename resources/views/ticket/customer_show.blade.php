@@ -10,7 +10,7 @@
     Released under the MIT license
 -->
 
-@extends('layouts.layout_customer', ['bgimage' => $bgimage, 'captchadata' => $captchadata])
+@extends('layouts.layout_customer', ['wsobject' => $wsobject, 'bgimage' => $bgimage, 'captchadata' => $captchadata])
 
 @section('content')
             @if ($errors->any())

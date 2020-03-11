@@ -51,7 +51,9 @@
 
                             <div class="field">
                                 <div class="control">
+                                    <br/>
                                     <label class="label">{{ __('app.system_info_message') }}</label>
+                                    <small>{{ env('APP_ALLOWEDHTMLTAGS') }}</small>
                                     <textarea class="textarea" name="infomessage">{{ $infomessage }}</textarea>
                                 </div>
                             </div>

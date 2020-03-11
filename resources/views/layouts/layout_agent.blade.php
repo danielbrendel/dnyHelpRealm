@@ -136,11 +136,9 @@
                                 <br/>
                                 <h2>Info</h2>
                                 <b>Developer:</b> {{ env('APP_AUTHOR') }}<br/>
+                                <b>Contact:</b> {{ env('APP_CONTACT') }}<br/>
                                 <b>Codename:</b> {{ env('APP_CODENAME') }}<br/>
                                 <b>Version:</b> {{ env('APP_VERSION') }}<br/>
-                                <br/>
-                                <h2>License</h2>
-                                <pre>{{ file_get_contents(base_path() . '/LICENSE.txt') }}</pre>
                             </section>
                             <footer class="modal-card-foot is-stretched">
                             <button class="button" onclick="vue.bShowAbout = false;">{{ __('app.close') }}</button>
