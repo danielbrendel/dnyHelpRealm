@@ -11625,3 +11625,29 @@ pre {
   bottom: 0;
 }
 
+.home-copyright {
+  position: relative;
+  margin-top: 50px;
+  color: #7f8a9d;
+}
+
+.imprint {
+  position: relative;
+}
+
+.imprint-image {
+  position: relative;
+  margin-right: 35px;
+  display: inline-block;
+}
+
+.imprint-image img {
+  border-radius: 4px;
+}
+
+.imprint-info {
+  position: relative;
+  display: inline-block;
+  top: 20px;
+}
+

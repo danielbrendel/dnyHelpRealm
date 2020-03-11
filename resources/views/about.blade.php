@@ -28,6 +28,7 @@
             <p>
                 Read our <a href="{{ url('/tac') }}">Terms and Conditions</a> for legal information about this service<br/>
                 Visit the <a href="{{ url('/faq') }}">FAQ</a> in order to get the most frequent questions answered<br/>
+                Read the <a href="{{ url('/data/documentation.pdf') }}">documentation</a> in order to get to know how to use the service<br/>
             </p>
         </div>
     </div>

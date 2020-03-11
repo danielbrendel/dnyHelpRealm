@@ -17,6 +17,7 @@ Route::get('/about', 'MainController@about');
 Route::get('/faq', 'MainController@faq');
 Route::get('/imprint', 'MainController@imprint');
 Route::get('/tac', 'MainController@tac');
+Route::get('/news', 'MainController@news');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 Route::post('/login', 'MainController@login');
 Route::any('/logout', 'MainController@logout');

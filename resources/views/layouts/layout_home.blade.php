@@ -13,6 +13,17 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
     <head>
+        @if (env('APP_ENV') === 'production')
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160248599-1"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
+                gtag('config', 'UA-160248599-1');
+            </script>
+        @endif
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -61,6 +72,10 @@
             
                 <div id="navMainMenu" class="navbar-menu">
                 <div class="navbar-start">
+                    <a class="navbar-item" href="{{ url('/news') }}">
+                        {{ __('app.home_news') }}
+                    </a>
+
                     <a class="navbar-item" href="{{ url('/about') }}">
                         {{ __('app.home_about') }}
                     </a>
@@ -161,6 +176,8 @@
                     </div>
                 </div>
             </div>
+
+            
 
             <div class="modal" :class="{'is-active': bShowRegister}">
                 <div class="modal-background"></div>
@@ -303,6 +320,8 @@
                 </div>
             </div>
         </div>
+
+        <div class="home-copyright"><center>Copyright &copy; 2019 - {{ date('Y') }} by Daniel Brendel</center></div>
     </body>
 
     <script>

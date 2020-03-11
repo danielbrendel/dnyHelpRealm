@@ -109,6 +109,23 @@ class MainController extends Controller
     }
 
     /**
+     * View news page
+     * 
+     * @return mixed
+     */
+    public function news()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('news', ['captchadata' => $captchadata]);
+    }
+
+    /**
      * View about page
      * 
      * @return mixed
@@ -373,7 +390,8 @@ class MainController extends Controller
             $surname = substr($attr['fullname'], 0, strpos($attr['fullname'], ' '));
             $lastname = substr($attr['fullname'], strpos($attr['fullname'], ' ') + 1);
         } else {
-            $surname = $lastname = $attr['fullname'];
+            $surname = '';
+            $lastname = $attr['fullname'];
         }
 
         $agent = new \App\AgentModel;
