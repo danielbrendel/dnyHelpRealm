@@ -15,7 +15,9 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <?php echo file_get_contents(public_path() . '/data/tac.txt'); ?>
+            <div class="home-padding">
+                <?php echo file_get_contents(public_path() . '/data/tac.txt'); ?>
+            </div>
         </div>
     </div>
 @endsection

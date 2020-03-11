@@ -15,10 +15,12 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <h1>{{ __('app.home_news') }}</h1>
-            <br/><br/>
+            <div class="home-padding">
+                <h1>{{ __('app.home_news') }}</h1>
+                <br/><br/>
 
-            <a class="twitter-timeline" href="https://twitter.com/helprealmio?ref_src=twsrc%5Etfw">Tweets by helprealmio</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+                <a class="twitter-timeline" href="https://twitter.com/helprealmio?ref_src=twsrc%5Etfw">Tweets by helprealmio</a> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+            </div>
         </div>
     </div>
 @endsection

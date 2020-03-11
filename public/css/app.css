@@ -11632,6 +11632,12 @@ pre {
   color: #7f8a9d;
 }
 
+.home-padding {
+  position: relative;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
 .imprint {
   position: relative;
 }
