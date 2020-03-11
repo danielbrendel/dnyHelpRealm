@@ -259,7 +259,7 @@
         'install_lang' => 'Language',
         'install_submit' => 'Go!',
         'install_product_already_installed' => 'The product seems to be already installed',
-        'install_success' => 'The product has successfully been installed. You can login now with password "password" and your specified e-mail. Be sure to change it after logging in!',
+        'install_success' => 'The product has successfully been installed.',
         'install_env_creation_failure' => 'Failed to create .env file',
         'search' => 'Search ticket',
         'search_query' => 'Search query',

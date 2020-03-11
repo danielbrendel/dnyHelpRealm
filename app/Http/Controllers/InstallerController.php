@@ -46,7 +46,7 @@ class InstallerController extends Controller
             }
         }
 
-        return view('install', ['bgimage' => $img, 'langs' => $langs]);
+        return view('install', ['bgimage' => $img, 'langs' => $langs, 'workspace' => '']);
     }
 
     /**

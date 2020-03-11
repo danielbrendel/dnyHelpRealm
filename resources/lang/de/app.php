@@ -226,7 +226,7 @@
         'install_lang' => 'Sprache',
         'install_submit' => 'Los!',
         'install_product_already_installed' => 'Das Produkt scheint bereits installiert zu sein',
-        'install_success' => 'Das Produkt wurde erfolgreich installiert. Sie können sich jetzt mit dem Passwort "password" anmelden. Bitte ändern Sie es nach dem Einloggen!',
+        'install_success' => 'Das Produkt wurde erfolgreich installiert.',
         'install_env_creation_failure' => 'Konnte .env Datei nicht erstellen',
         'search' => 'Tickets durchsuchen',
         'search_query' => 'Suchtext',

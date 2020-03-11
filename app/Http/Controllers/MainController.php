@@ -420,7 +420,7 @@ class MainController extends Controller
         $groupMember->save();
 
         $htmlCode = view('mail.workspace_created', ['name' => $attr['fullname'], 'hash' => $user->account_confirm])->render();
-        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70));
+        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
         return redirect('/')->with('success', __('app.signup_welcomemsg'));
     }
