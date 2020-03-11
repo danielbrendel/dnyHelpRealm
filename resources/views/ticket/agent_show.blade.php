@@ -1,0 +1,457 @@
+<!--
+    HelpRealm (dnyHelpRealm) developed by Daniel Brendel
+
+    (C) 2019 - 2020 by Daniel Brendel
+
+    Version: 0.1
+    Contact: dbrendel1988<at>gmail<dot>com
+    GitHub: https://github.com/danielbrendel/
+
+    Released under the MIT license
+-->
+
+@extends('layouts.layout_agent', ['user' => $user, 'superadmin' => $superadmin])
+
+@section('content')
+    <div class="columns">
+        <div class="column">
+            <div class="window-item">
+                <div class="window-item-header">
+                    <div class="window-item-header-body">
+                        <center>#{{ $ticket->id }}: {{ $ticket->subject }}</center>
+                    </div>
+                </div>
+
+                <div class="window-item-content">
+                    <div class="window-item-content-body">
+                        <div class="ticket-agent-menu">
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0)" onclick="vue.bShowAssignAgent = true;"><i class="fas fa-bolt" title="{{ __('app.ticket_assign_agent') }}"></i></a>
+                            </div>
+
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0)" onclick="vue.bShowAssignGroup = true;"><i class="fas fa-user-friends" title="{{ __('app.ticket_assign_group') }}"></i></a>
+                            </div>
+
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0)" onclick="vue.bShowChangeStatus = true;"><i class="fab fa-affiliatetheme" title="{{ __('app.ticket_change_status') }}"></i></a>
+                            </div>
+
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0)" onclick="vue.bShowChangePrio = true;"><i class="fas fa-database" title="{{ __('app.ticket_change_prio') }}"></i></a>
+                            </div>
+
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0)" onclick="vue.bShowChangeType = true;"><i class="fas fa-i-cursor" title="{{ __('app.ticket_change_type') }}"></i></a>
+                            </div>
+
+                            <div class="ticket-agent-menu-item is-right" style="color: rgb(150, 150, 150);" title="{{ $ticket->created_at }}">
+                                {{ __('app.created_at') }} {{ $ticket->created_at->diffForHumans() }}
+                            </div>
+                        </div>
+                        
+                        <p><center><pre>{{ $ticket->text }}</pre></center></p>
+
+                        <div class="dashboard-card">
+                            <div class="left">
+                                <p>@if ($ticket->status == 0)
+                                    <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
+                                    @elseif ($ticket->status == 1)
+                                            <div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>
+                                        @elseif ($ticket->status == 2)
+                                            <div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>
+                                        @elseif ($ticket->status == 3)
+                                            <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
+                                        @endif</p>
+                                <p>
+                                    <a href="javascript:void(0);" onclick="alert('{{ $ticket->hash }}');">{{ __('app.ticket_hash') }}</a>
+                                </p>
+                                <p>@if ($ticket->type == 1)
+                                        {{ __('app.service_request') }}
+                                    @elseif ($ticket->type == 2)
+                                        {{ __('app.incident') }}
+                                    @elseif ($ticket->type == 3)
+                                        {{ __('app.change') }}
+                                    @endif</p>
+                                <p>
+                                    <a href="mailto:{{ $ticket->email }}">{{ __('app.ticket_created_for', ['clientname' => $ticket->name]) }}</a>
+                                </p>
+                            </div>
+
+                            <div class="right2">
+                                <p>&nbsp;</p>
+                                <p>@if ($ticket->prio == 1)
+                                        {{ __('app.prio_low') }}
+                                    @elseif ($ticket->prio == 2)
+                                        {{ __('app.prio_med') }}
+                                    @elseif ($ticket->prio == 3)
+                                        <b>{{ __('app.prio_high') }}</b>
+                                    @endif</p>
+                                <p>{{ $group }}</p>
+                                <p>Assignee: <?php echo (($agent != null) ? $agent->surname . ' ' . $agent->lastname : ' - ');  ?></p>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="window-field">
+                            <div class="window-field-inner">
+                                <div class="window-field-headline">{{ __('app.attachments') }}</div>
+
+                                @foreach ($files as $file)
+                                    <div class="attachments-entry">
+                                        <div class="attachments-icon">
+                                            <i class="fas fa-paperclip"></i>
+                                        </div>
+
+                                        <div class="attachments-link">
+                                            <a class="is-breakall" href="{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
+                                        </div>
+
+                                        <div class="attachments-info">
+                                            {{ $file['size'] / 1000}}kb &#9679; {{ $file['ext'] }}
+                                        </div>
+
+                                        <div class="attachments-delete">
+                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+                                <div class="attachments-add">
+                                    <form method="POST" action="{{ url('/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
+                                        @csrf
+
+                                        <div class="attachments-add-file">
+                                            <input type="file" name="file" data-role="file" data-button-title="{{ __('app.choose_file') }}">
+                                        </div>
+
+                                        <div class="attachments-add-button">
+                                            <input type="submit" class="button" value="{{ __('app.upload_file') }}">
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <br/>
+                        </div>
+
+                        <div class="window-field">
+                            <div class="window-field-inner">
+                                <div class="window-field-headline">{{ __('app.notes') }}</div>
+                                
+                                <form method="POST" action="{{ url('/ticket/' . $ticket->id . '/notes/save') }}">
+                                    @csrf
+                                    @method('PATCH')
+        
+                                    <div class="field">
+                                        <center><textarea name="notes" class="textarea" style="width: 90%;">{{ $ticket->notes }}</textarea></center>
+                                    </div>
+        
+                                    <div class="field">
+                                        <center><input type="submit" class="button" value="{{ __('app.save') }}"/></center>
+                                    </div>
+        
+                                    <br/>
+                                </form>
+                            </div>
+                        </div>
+
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <div class="window-item">
+                <div class="window-item-header">
+                    <div class="window-item-header-body">
+                        <center>{{ __('app.ticket_thread') }}</center>
+                    </div>
+                </div>
+
+                <div class="window-item-content">
+                    <div class="window-item-content-body">
+                        <div class="threadinput">
+                            <form method="POST" action="{{ url('/ticket/' . $ticket->id . '/comment/add') }}">
+                                @csrf
+
+                                <div class="threadinput-text">
+                                    <textarea class="textarea" name="text" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;"></textarea>
+                                </div>
+
+                                <div class="threadinput-button">
+                                    <input type="submit" class="button is-stretched" value="{{ __('app.post_thread') }}">
+                                </div>
+
+                                <div class="threadinput-remainingchars" id="rc">
+                                    4096
+                                </div>
+
+                                <br/>
+                            </form>
+                        </div>
+
+                        @if (count($thread) > 0)
+                            @foreach ($thread as $entry)
+                                <div class="thread">
+                                    <div class="thread-header">
+                                        @foreach ($threaddata as $td)
+                                            @if ($td['thread_id'] == $entry->id)
+                                                <div class="thread-header-avatar" style="background-image: url({{$td['avatar']}});"></div>
+
+                                                <div class="thread-header-wrapper">
+                                                    <div class="thread-header-poster">
+                                                        {{ $td['name'] }}
+                                                    </div>
+                                                    <div class="thread-header-date" title="{{ $entry->created_at }}">
+                                                        {{ $entry->created_at->diffForHumans() }}
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+
+                                    <div class="thread-body">
+                                        <div class="thread-body-text" id="thread-body-text-{{ $entry->id }}">
+                                            <pre>{{ $entry->text }}</pre>
+                                        </div>
+
+                                        <textarea id="edit-text-{{ $entry->id }}" class="is-hidden">{{ $entry->text }}</textarea>
+                                    </div>
+
+                                    <div class="thread-footer">
+                                        @if ($entry->user_id == $user->id)
+                                            <div class="thread-footer-edit">
+                                                <a href="javascript:void(0)" onclick="document.getElementById('edCmtText').value = document.getElementById('edit-text-{{ $entry->id }}').value; document.getElementById('edCmtForm').action = '/ticket/{{ $ticket->id }}/comment/{{ $entry->id }}/edit'; vue.bShowCmtEdit = true;">{{ __('app.edit_thread_entry') }}</a>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="no-comments-yet">{{ __('app.no_comments_yet') }}</div>
+                        @endif
+
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowCmtEdit}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.edit_comment') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowCmtEdit = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edCmtForm">
+                @csrf
+                @method('PATCH')
+
+                <textarea name="text" id="edCmtText"></textarea>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="document.getElementById('edCmtForm').submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowCmtEdit = false;">{{ __('app.cancel') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowAssignAgent}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_assign_agent') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowAssignAgent = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edAssignAgentForm">
+                @csrf
+                @method('PATCH')
+
+                <div class="field">
+                    <div class="control">
+                        <select name="agent" id="selAgent">
+                            @foreach ($agents as $agent)
+                                <option value="{{ $agent->id }}" <?php if ($agent->user_id == $user->id) echo 'selected'; ?>>{{ $agent->surname . ' ' . $agent->lastname }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edAssignAgentForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/assign/agent/') }}/' + selAgent.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowAssignAgent = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+    
+    <div class="modal" :class="{'is-active': bShowAssignGroup}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_assign_group') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowAssignGroup = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edAssignGroupForm">
+                @csrf
+                @method('PATCH')
+
+                <div class="field">
+                    <div class="control">
+                        <select name="agent" id="selGroup">
+                            @foreach ($groups as $grp)
+                                <option value="{{ $grp->id }}">{{ $grp->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edAssignGroupForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/assign/group/') }}/' + selGroup.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowAssignGroup = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowChangeStatus}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_change_status') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowChangeStatus = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edchangeStatusForm">
+                @csrf
+                @method('PATCH')
+
+                <div class="field">
+                    <div class="control">
+                        <select name="agent" id="selStatus">
+                            <option value="1">{{ __('app.ticket_status_open') }}</option>
+                            <option value="2">{{ __('app.ticket_status_waiting') }}</option>
+                            <option value="3">{{ __('app.ticket_status_closed') }}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangeStatusForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/status/') }}/' + selStatus.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowChangeStatus = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowChangePrio}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_change_prio') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowChangePrio = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edchangePrioForm">
+                @csrf
+                @method('PATCH')
+
+                <div class="field">
+                    <div class="control">
+                        <select name="agent" id="selPrio">
+                            <option value="1">{{ __('app.prio_low') }}</option>
+                            <option value="2">{{ __('app.prio_med') }}</option>
+                            <option value="3">{{ __('app.prio_high') }}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangePrioForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/prio/') }}/' + selPrio.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowChangePrio = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowChangeType}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_change_type') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowChangeType = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edchangeTypeForm">
+                @csrf
+                @method('PATCH')
+
+                <div class="field">
+                    <div class="control">
+                        <select name="agent" id="selType">
+                            <option value="1">{{ __('app.service_request') }}</option>
+                            <option value="2">{{ __('app.incident') }}</option>
+                            <option value="3">{{ __('app.change') }}</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edchangeTypeForm'); frm.action = '{{ url('/ticket/' . $ticket->id . '/type/') }}/' + selType.value; frm.submit();">{{ __('app.save') }}</button>
+        <button class="button" onclick="vue.bShowChangeType = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    <div class="modal" :class="{'is-active': bShowFileDelete}">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head is-stretched">
+        <p class="modal-card-title">{{ __('app.ticket_delete_file') }}</p>
+        <button class="delete" aria-label="close" onclick="vue.bShowFileDelete = false;"></button>
+        </header>
+        <section class="modal-card-body is-stretched">
+            <form method="POST" id="edDeleteFile">
+                @csrf
+                @method('DELETE')
+
+                <div class="field">
+                    <div class="control">
+                        <label class="label">{{ __('app.ticket_confirm_delete') }}</label>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer class="modal-card-foot is-stretched">
+        <button class="button is-success" onclick="var frm = document.getElementById('edDeleteFile'); frm.action = vue.currentDeleteFile; frm.submit();">{{ __('app.confirm') }}</button>
+        <button class="button" onclick="vue.bShowFileDelete = false;">{{ __('app.close') }}</button>
+        </footer>
+    </div>
+    </div>
+
+    </div>
+@endsection
+
+@section('javascript')
+    @foreach ($notifications as $notification)
+        Push.create("{{ $notification->title }}", {
+            body: "{{ $notification->message }}",
+            icon: "{{ asset('/gfx/favicon.png') }}",
+            timeout: 5000,
+            onClick: function () {
+                window.focus();
+                this.close();
+            }
+        });
+    @endforeach
+@endsection
