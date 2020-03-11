@@ -55,20 +55,20 @@
         <div id="home">
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div class="navbar-brand">
-                <a class="navbar-item" href="{{ url('/') }}">
-                    <?php
-                        $first = substr(env('APP_NAME'), 0, 4);
-                        $second = substr(env('APP_NAME'), 4);
-                    ?>
-                    {{ $first }}<strong>{{ $second }}</strong>
-                </a>
-            
+                    <a class="navbar-item" href="{{ url('/') }}">
+                        <?php
+                            $first = substr(env('APP_NAME'), 0, 4);
+                            $second = substr(env('APP_NAME'), 4);
+                        ?>
+                        {{ $first }}<strong>{{ $second }}</strong>
+                    </a>
+                </div>
+                
                 <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navMainMenu">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
-                </div>
             
                 <div id="navMainMenu" class="navbar-menu">
                 <div class="navbar-start">
