@@ -39,7 +39,11 @@
         <script src="{{ asset('js/push.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
     </head>
-    <body @if ((bool)$wsobject->usebgcolor === false) style="background-image: url('{{ asset('gfx/backgrounds/' . $bgimage->file) }}');" @else style="background-color: {{ $wsobject->bgcolorcode }}" @endif>
+    @if (isset($wsobject))
+        <body @if ((bool)$wsobject->usebgcolor === false) style="background-image: url('{{ asset('gfx/backgrounds/' . $bgimage->file) }}');" @else style="background-color: {{ $wsobject->bgcolorcode }}" @endif>
+    @else
+        <body>
+    @endif
         <div class="guest-bg" id="ga">
             @if (isset($faqs))
                 <div class="faq-bg">
