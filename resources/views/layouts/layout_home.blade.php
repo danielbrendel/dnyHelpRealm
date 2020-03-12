@@ -45,7 +45,7 @@
         @elseif (env('APP_ENV') == 'production')
         <script src="{{ asset('js/vue.min.js') }}"></script>
         @endif
-        <script src="https://kit.fontawesome.com/1ba6a6ae62.js"></script>
+        <script src="{{ asset('js/fontawesome.js') }}"></script>
         <script src="{{ asset('js/metro.min.js') }}"></script>
         <script src="{{ asset('js/push.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
