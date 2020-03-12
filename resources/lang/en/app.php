@@ -43,7 +43,7 @@
         'account_confirmed_ok' => 'Your account has successfully be confirmed. You may now log in.',
         'workspace_link' => 'Your workspace link: ',
         'ok' => 'Ok',
-        'cookie_consent' => 'This service uses cookies in order to work properly. Also it uses Google Analytics to log website traffic. By using this service you agree automatically to that usage.',
+        'cookie_consent' => 'This service stores and reads cookies. Also it uses Google Analytics to log website traffic. By using this service you agree automatically to that usage.',
         'workspace_cancel' => 'Cancel Workspace',
         'workspace_cancel_btn' => 'Cancel and delete my data',
         'workspace_cancel_confirm' => 'Are you sure you want to proceed? This cannot be undone! All your data will be erased.',
