@@ -1,14 +1,15 @@
 <?php
 
 /*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
+    HelpRealm (dnyHelpRealm) developed by Daniel Brendel
+
+    (C) 2019 - 2020 by Daniel Brendel
+
+    Version: 0.1
+    Contact: dbrendel1988<at>gmail<dot>com
+    GitHub: https://github.com/danielbrendel/
+
+    Released under the MIT license
 */
 
 Route::get('/', 'MainController@index');
