@@ -47,7 +47,7 @@ class MainController extends Controller
             return redirect('/')->with('error', __('app.workspace_not_found'));
         }
 
-        if (Auth::guest()) {
+        if ((Auth::guest()) || (request('v') === 'c')) {
             \App::setLocale($ws->lang);
 
             $img = BgImagesModel::queryRandomImage($ws->id);
