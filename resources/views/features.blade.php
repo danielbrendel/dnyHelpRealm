@@ -21,7 +21,8 @@
                 </div>
 
                 <p>{{ env('APP_NAME') }} supports the most important features a support ticket system should provide.
-                Visit our <a href="{{ url('/data/documentation.pdf') }}">documentation</a> in order to get detailed information</p>
+                Visit our <a href="{{ url('/data/documentation.pdf') }}">documentation</a> in order to get detailed information.
+				The overall features are as follows:</p>
 
                 <ul>
                     <li>Personal support contact form</li>
