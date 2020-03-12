@@ -28,8 +28,6 @@ Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 
-//Auth::routes();
-
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');
 Route::get('/{workspace}/agent/{id}/show', 'AgentController@viewShow');
 Route::get('/{workspace}/agent/create', 'AgentController@viewCreate');
