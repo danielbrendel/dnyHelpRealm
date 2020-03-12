@@ -265,7 +265,7 @@
         'open_ticket' => 'Ticket öffnen',
         'login_as_agent' => 'Als Agent anmelden',
         'mail_salutation' => 'Dear :name,',
-        'mail_footer' => 'Kind regards - ' . env('APP_COMPANY'),
+        'mail_footer' => 'Kind regards - ' . env('APP_NAME'),
         'mail_password_reset_subject' => 'Passwort Wiederherstellung',
         'mail_password_reset' => 'Wiederherstellen',
         'mail_password_reset_title' => 'Passwort Wiederherstellen',

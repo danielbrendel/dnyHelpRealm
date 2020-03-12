@@ -296,7 +296,7 @@
         'system_usebgcolor' => 'Use a plain background color instead of background images',
         'system_colorcode' => 'The color code if above option is activated',
         'mail_salutation' => 'Dear :name,',
-        'mail_footer' => 'Kind regards - ' . env('APP_COMPANY'),
+        'mail_footer' => 'Kind regards - ' . env('APP_NAME'),
         'mail_password_reset_subject' => 'Password reset',
         'mail_password_reset' => 'Reset password',
         'mail_password_reset_title' => 'Password reset',
