@@ -82,6 +82,9 @@ class InstallerController extends Controller
         $envcontent .= 'APP_URL=' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . PHP_EOL;
         $envcontent .= 'APP_DESCRIPTION="The lightweight support ticket system"' . PHP_EOL;
         $envcontent .= 'APP_LANG=' . $attr['lang'] . PHP_EOL;
+        $envcontent .= 'APP_DESCRIPTION="The free SaaS support ticket system"' . PHP_EOL;
+        $envcontent .= 'APP_ALLOWEDHTMLTAGS="<b><i><u><strong><small><ol><ul><li><style><div><span><a><p><br>"' . PHP_EOL;
+        $envcontent .= 'APP_SUPPORT=null' . PHP_EOL;
         $envcontent .= 'LOG_CHANNEL=stack' . PHP_EOL;
         $envcontent .= 'DB_CONNECTION=mysql' . PHP_EOL;
         $envcontent .= 'DB_HOST=' . $attr['dbhost'] . PHP_EOL;
