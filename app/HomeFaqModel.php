@@ -17,11 +17,17 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class FaqModel
+ * Class HomeFaqModel
  * 
- * Represents the personal workspace FAQ
+ * Represents the FAQ of the home
  */
-class FaqModel extends Model
+class HomeFaqModel extends Model
 {
-    protected $fillable = ['workspace', 'question', 'answer'];
+    /**
+     * Get all FAQ items
+     */
+    public static function getAll()
+    {
+        return HomeFaqModel::all();
+    }
 }

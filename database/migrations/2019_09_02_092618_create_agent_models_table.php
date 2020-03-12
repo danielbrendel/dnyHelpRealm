@@ -35,6 +35,7 @@ class CreateAgentModelsTable extends Migration
             $table->string('position');
             $table->integer('user_id')->unsigned()->references('id')->on('users');
             $table->boolean('superadmin')->default(false);
+            $table->boolean('mailonticketingroup')->default(false);
             $table->timestamps();
         });
     }

@@ -16,6 +16,11 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class BgImagesModel
+ * 
+ * Represents the interface to background images
+ */
 class BgImagesModel extends Model
 {
     /** 

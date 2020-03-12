@@ -310,6 +310,15 @@ class TicketController extends Controller
 
             @mail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
+            $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
+            foreach ($agentsInGroup as $entry) {
+                $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
+                if ($agentOfGroup !== null) {
+                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id])->render();
+                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                }
+            }
+
             return back()->with('success', __('app.ticket_created_customer'));
         } else {
             return back()->withInput()->with('error', __('app.ticket_creation_failed'));
@@ -544,10 +553,25 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
+        $groupData = GroupsModel::where('id', '=', $group)->where('workspace', '=', $ws->id)->first();
+        if ($groupData === null) {
+            return back()->with('error', __('app.group_not_found'));
+        }
+
         $record = TicketModel::where('id', '=', $ticket)->where('workspace', '=', $ws->id)->first();
         if ($record) {
             $record->group = $group;
             $record->save();
+
+            $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $group)->get();
+            foreach ($agentsInGroup as $entry) {
+                $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
+                if ($agentOfGroup !== null) {
+                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id])->render();
+                    
+                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                }
+            }
             
             return back()->with('success', __('app.ticket_group_assigned'));
         } else {

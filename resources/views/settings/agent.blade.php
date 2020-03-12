@@ -50,6 +50,12 @@
                             </div>
 
                             <div class="field">
+                                <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.settings_mailonticketingroup') }}" name="mailonticketingroup" value="1" <?php if ((bool)$agent->mailonticketingroup === true) echo 'checked'; ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
                                 <label class="label">{{ __('app.settings_password') }}</label>
                                 <div class="control">
                                     <input type="password" name="password"/>

@@ -17,6 +17,11 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use App\User;
 
+/**
+ * Class PushModel
+ * 
+ * Represents the push interface
+ */
 class PushModel extends Model
 {
     /**

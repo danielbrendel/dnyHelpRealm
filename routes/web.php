@@ -13,6 +13,7 @@
 
 Route::get('/', 'MainController@index');
 Route::get('/home', 'MainController@index');
+Route::get('/features', 'MainController@features');
 Route::get('/about', 'MainController@about');
 Route::get('/faq', 'MainController@faq');
 Route::get('/imprint', 'MainController@imprint');

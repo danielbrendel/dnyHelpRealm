@@ -188,6 +188,7 @@ class AgentController extends Controller
      * Edit agent data
      * 
      * @param string $workspace
+     * @param $id
      * @return Illuminate\Http\RedirectResponse
      */
     public function editAgent($workspace, $id)
@@ -325,6 +326,16 @@ class AgentController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        $groupData = GroupsModel::where('workspace', '=', $ws->id)->where('id', '=', $group)->first();
+        if ($groupData === null) {
+            return back()->with('error', __('app.group_not_found'));
+        }
+
         if (AgentsHaveGroups::putAgentInGroup($agent, $group)) {
             return back()->with('success', __('app.agentgroup_added_successfully'));
         } else {
@@ -348,6 +359,16 @@ class AgentController extends Controller
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
             return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        $groupData = GroupsModel::where('workspace', '=', $ws->id)->where('id', '=', $group)->first();
+        if ($groupData === null) {
+            return back()->with('error', __('app.group_not_found'));
         }
 
         if (AgentsHaveGroups::removeAgentFromGroup($agent, $group)) {

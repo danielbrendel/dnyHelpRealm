@@ -25,6 +25,7 @@ use App\CaptchaModel;
 use App\FaqModel;
 use App\BgImagesModel;
 use App\WorkSpaceModel;
+use App\HomeFaqModel;
 
 /**
  * Class MainController
@@ -129,6 +130,23 @@ class MainController extends Controller
     }
 
     /**
+     * View features page
+     * 
+     * @return mixed
+     */
+    public function features()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('features', ['captchadata' => $captchadata]);
+    }
+
+    /**
      * View about page
      * 
      * @return mixed
@@ -159,7 +177,7 @@ class MainController extends Controller
 
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        return view('faq', ['captchadata' => $captchadata]);
+        return view('faq', ['captchadata' => $captchadata, 'faqs' => HomeFaqModel::getAll()]);
     }
 
     /**

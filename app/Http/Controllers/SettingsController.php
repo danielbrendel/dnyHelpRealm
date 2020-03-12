@@ -74,15 +74,17 @@ class SettingsController extends Controller
                 array_push($langs, $dir);
             }
         }
+
+        $agent = User::getAgent(auth()->id());
         
         return view('settings.agent', [
             'workspace' => $ws->name,
             'location' => __('app.settings'),
             'user' => User::get(auth()->id()),
-            'agent' => User::getAgent(auth()->id()),
+            'agent' => $agent,
             'lang' => \App::getLocale(),
             'langs' => $langs,
-            'superadmin' => User::getAgent(auth()->id())->superadmin
+            'superadmin' => $agent->superadmin
         ]);
     }
 
@@ -103,7 +105,8 @@ class SettingsController extends Controller
             'lastname' => 'min:2',
             'email' => 'email',
             'password' => 'nullable',
-            'password_confirm' => 'nullable'
+            'password_confirm' => 'nullable',
+            'mailonticketingroup' => 'nullable|numeric'
         ]);
         
         $user = User::get(auth()->id());
@@ -119,6 +122,7 @@ class SettingsController extends Controller
 
             $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         }
+        if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
 
         $user->save();
         $agent->save();

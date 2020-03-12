@@ -21,7 +21,14 @@
                 </div>
 
                 <div data-role="accordion" data-one-frame="true" data-show-active="true">
-                    <?php echo file_get_contents(public_path() . '/data/faq.txt'); ?>
+                    @foreach ($faqs as $faq)
+                        <div class="frame">
+                            <div class="heading">{{ $faq->question }}</div>
+                            <div class="content">
+                                <div class="p-2">{{ $faq->answer }}</div>
+                            </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -76,6 +76,10 @@
                         {{ __('app.home_news') }}
                     </a>
 
+                    <a class="navbar-item" href="{{ url('/features') }}">
+                        {{ __('app.home_features') }}
+                    </a>
+
                     <a class="navbar-item" href="{{ url('/about') }}">
                         {{ __('app.home_about') }}
                     </a>
