@@ -24,7 +24,7 @@
 
                 <div class="window-item-content">
                     <div class="window-item-content-body">
-                        <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $workspace . '/index') }}" target="_blank">{{ url('/' . $workspace . '/index') }}</a>
+                        <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $workspace . '/index?v=c') }}" target="_blank">{{ url('/' . $workspace . '/index') }}</a>
                         <br/><br/>
 
                         <form method="POST" action="{{ url('/' . $workspace . '/settings/system') }}">

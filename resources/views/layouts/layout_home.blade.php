@@ -99,6 +99,12 @@
                     <a class="navbar-item" href="{{ url('/tac') }}">
                         {{ __('app.home_tac') }}
                     </a>
+
+                    @if (env('APP_SUPPORT', null) !== null)
+                        <a class="navbar-item" href="{{ url('/' . env('APP_SUPPORT') . '/index') }}" target="_blank">
+                            {{ __('app.home_support') }}
+                        </a>
+                    @endif
                 </div>
             
                 <div class="navbar-end">

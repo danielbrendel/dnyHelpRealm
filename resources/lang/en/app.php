@@ -23,6 +23,7 @@
         'home_imprint' => 'Imprint',
         'home_privacy' => 'Privacy',
         'home_tac' => 'Terms and Conditions',
+        'home_support' => 'Support',
         'home_news' => 'News',
         'home_welcomemsg' => 'No costs, no ads, most important features - sign up now!',
         'imprint_headline' => 'This service is brought to you by:',
