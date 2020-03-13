@@ -383,7 +383,7 @@ var vue = new Vue({
 						var cookies = document.cookie.split(';');
 						var foundCookie = false;
 						for (i = 0; i < cookies.length; i++) {
-							if (cookies[i].indexOf('cookieconsent') === 1) {
+							if (cookies[i].indexOf('cookieconsent') !== -1) {
                                 foundCookie = true;
 								break;
 							}
@@ -398,7 +398,7 @@ var vue = new Vue({
 						//Client clicked on Ok-button so set cookie to not show consent anymore
 
 						var curDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
-						document.cookie = 'cookieconsent=' + ((this.bShowDocLinks) ? '1' : '0') + '; expires=' + curDate.toUTCString() + ';';
+						document.cookie = 'cookieconsent=1; expires=' + curDate.toUTCString() + ';';
 
 						document.getElementById('cookie-consent').style.display = 'none';
 					}
