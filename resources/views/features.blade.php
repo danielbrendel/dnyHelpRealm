@@ -41,6 +41,7 @@
                     <li>Personal FAQ for customers</li>
                     <li>Gravatar support</li>
                     <li>Security (protection against XSS, CSRF, SQL injection, spam)</li>
+					<li>Responsive layout</li>
                 </ul>
             </div>
         </div>

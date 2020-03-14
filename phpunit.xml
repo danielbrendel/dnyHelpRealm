@@ -29,18 +29,5 @@
         <server name="MAIL_DRIVER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
-        <server name="DATA_USERID" value="1"/>
-        <server name="DATA_WORKSPACE" value="2"/>
-        <server name="DATA_WORKSPACENAME" value="aa14bb29b2c7af38176fc4896e9e471b"/>
-        <server name="DATA_GROUPID" value="2"/>
-        <server name="DATA_GROUPNAME" value="1st level group"/>
-        <server name="DATA_TICKETID" value="2"/>
-        <server name="DATA_TICKETHASH" value="4d713719c0e6a0344ee6d05c585432e4"/>
-        <server name="DATA_TICKETSUBJECT" value="Test Ticket"/>
-        <server name="DATA_TICKETTEXT" value="This is just a test"/>
-        <server name="DATA_TICKETFILE" value="2"/>
-        <server name="DATA_USEREMAIL" value="jon.doe@test.de"/>
-        <server name="DATA_USERPW" value="password"/>
-        <server name="DATA_FAQID" value="2"/>
     </php>
 </phpunit>

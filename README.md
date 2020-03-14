@@ -40,8 +40,23 @@ The system is specifically suited for freelancers and small teams.
 + E-Mail notifications
 + Friendly installer
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
++ Responsive layout
 + SaaS solution
 + Documentation
+
+## Documentation
+The documentation is located in the /doc directory. A generated PDF needs to be put to /public/data/documentation.pdf
+
+## System requirements
+The product is beeing developed with the following engine versions:
++ PHP 7.4.1 
++ MySQL 10.4.11-MariaDB
++ Default PHP extensions
+
+## Testing
+Before running tests the .env.testing must be adjusted to match the test data of the database.
+Therefore the DATA_* environment variables must be adjusted. Then open the command prompt, go 
+to the project root and run PHPUnit.
 
 ## Changelog:
 + Version 0.1:
