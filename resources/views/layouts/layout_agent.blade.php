@@ -220,6 +220,62 @@
                                 elems[i].style.display = 'block';
                             }
                         }
+                    },
+
+                    addTicketType: function(workspace) {
+                        //Add ticket type
+
+                        var name = prompt("{{ __('app.ticket_type_input_name') }}");
+                        if (name == null) {
+                            return;
+                        }
+
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = "{{ url('/') }}/" + workspace + "/tickettype/add";
+
+                        const hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = '_token';
+                        hiddenField.value = "{{ csrf_token() }}";
+                        form.appendChild(hiddenField);
+
+                        const nameField = document.createElement('input');
+                        nameField.type = 'text';
+                        nameField.name = 'name';
+                        nameField.value = name;
+                        form.appendChild(nameField);
+
+                        document.body.appendChild(form);
+                        form.submit();
+                    },
+
+                    editTicketType: function(workspace, id) {
+                        //Edit ticket type
+
+                        var name = prompt("{{ __('app.ticket_type_input_name') }}");
+                        if (name == null) {
+                            return;
+                        }
+
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = "{{ url('/') }}/" + workspace + "/tickettype/" + id + "/edit";
+
+                        const hiddenField = document.createElement('input');
+                        hiddenField.type = 'hidden';
+                        hiddenField.name = '_token';
+                        hiddenField.value = "{{ csrf_token() }}";
+                        form.appendChild(hiddenField);
+
+                        const nameField = document.createElement('input');
+                        nameField.type = 'text';
+                        nameField.name = 'name';
+                        nameField.value = name;
+                        form.appendChild(nameField);
+
+                        document.body.appendChild(form);
+                        form.submit();
                     }
                 }
             });

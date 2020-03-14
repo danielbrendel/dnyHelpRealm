@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHomeFaqModelsTable extends Migration
+class CreateTicketsHaveTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -25,10 +25,10 @@ class CreateHomeFaqModelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('home_faq_models', function (Blueprint $table) {
+        Schema::create('tickets_have_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('question');
-            $table->string('answer', 4096);
+            $table->integer('workspace');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -40,6 +40,6 @@ class CreateHomeFaqModelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('home_faq_models');
+        Schema::dropIfExists('tickets_have_types');
     }
 }

@@ -82,6 +82,50 @@
 
                         <hr/>
 
+                        <strong>{{ __('app.ticket_types') }}</strong><br/><br/>
+
+                        <table class="table striped table-border mt-4" data-role="table" data-pagination="true"><!--bordered hovered-->
+                            <thead>
+                                <tr>
+                                    <th class="text-left">{{ __('app.ticket_type_id') }}</th>
+                                    <th class="text-left">{{ __('app.ticket_type_name') }}</th>
+                                    <th class="text-left">{{ __('app.ticket_type_created') }}</th>
+                                    <th class="text-left">{{ __('app.ticket_type_edit') }}</th>
+                                    <th class="text-left">{{ __('app.ticket_type_remove') }}</th>
+                                </tr>
+                            </thead>
+        
+                            <tbody>
+                                @foreach ($ticketTypes as $ticketType)
+                                    <tr>
+                                        <td>
+                                            #{{ $ticketType->id }}
+                                        </td>
+                                        
+                                        <td class="right">
+                                            {{ $ticketType->name }}
+                                        </td>
+        
+                                        <td>
+                                            <div title="{{ $ticketType->created_at }}">{{ $ticketType->created_at->diffForHumans() }}</div>
+                                        </td>
+
+                                        <td class="right">
+                                            <a href="javascript:void(0);" onclick="vue.editTicketType('{{ $workspace }}', {{ $ticketType->id }});">{{ __('app.ticket_type_edit') }}</a>
+                                        </td>
+                                        
+                                        <td class="right">
+                                            <a href="{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}">{{ __('app.ticket_type_remove') }}</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+
+                        <a href="javascript:void(0);" onclick="vue.addTicketType('{{ $workspace }}');">{{ __('app.ticket_type_create') }}</a>
+
+                        <hr/>
+
                         <div class="field">
                             <div class="control">
                                 <label class="label">{{ __('app.system_backgrounds') }}</label>

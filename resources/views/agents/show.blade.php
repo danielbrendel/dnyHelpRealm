@@ -71,6 +71,20 @@
                             </div>
 
                             <div class="field">
+                                <label class="label">{{ __('app.password') }}</label>
+                                <div class="control">
+                                    <input class="input" type="password" name="password">
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.password_confirmation') }}</label>
+                                <div class="control">
+                                    <input class="input" type="password" name="password_confirm">
+                                </div>
+                            </div>
+
+                            <div class="field">
                                 <center><input type="submit" class="button" value="{{ __('app.save') }}"/>&nbsp;&nbsp;&nbsp;&nbsp;
                                 <input type="button" class="button is-danger" value="{{ __('app.delete') }}" onclick="if (window.confirm('{{ __('app.delete_confirm') }}')) location.href='{{ url('/' . $workspace . '/agent/' . $agent->id . '/delete') }}';"/></center>
                             </div>

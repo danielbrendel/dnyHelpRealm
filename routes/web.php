@@ -43,14 +43,12 @@ Route::any('/{workspace}/agent/{agent}/group/{group}/remove', 'AgentController@r
 Route::get('/{workspace}/ticket/create', 'TicketController@viewCreateTicket');
 Route::post('/{workspace}/ticket/create', 'TicketController@createTicket');
 Route::post('/{workspace}/ticket/create/agent', 'TicketController@createTicketAgent');
-Route::post('/{workspace}/ticket/create/login', 'TicketController@createTicketLogin');
 Route::get('/{workspace}/ticket/list', 'TicketController@viewTicketList');
 Route::get('/{workspace}/ticket/{id}/show', 'TicketController@viewShowTicketAgent');
 Route::get('/{workspace}/ticket/show/{hash}', 'TicketController@viewShowTicketClient');
 Route::patch('/{workspace}/ticket/{id}/edit', 'TicketController@editTicket');
 Route::delete('/{workspace}/ticket/{id}/delete', 'TicketController@deleteTicket');
 Route::patch('/{workspace}/ticket/{ticket}/assign/agent/{agent}', 'TicketController@assignToAgent');
-Route::patch('/{workspace}/ticket/{ticket}/assign/client/{client}', 'TicketController@assignToClient');
 Route::patch('/{workspace}/ticket/{ticket}/assign/group/{group}', 'TicketController@assignToGroup');
 Route::patch('/{workspace}/ticket/{id}/status/{status}', 'TicketController@setStatus');
 Route::patch('/{workspace}/ticket/{id}/type/{type}', 'TicketController@setType');
@@ -66,6 +64,9 @@ Route::post('/{workspace}/ticket/search', 'TicketController@search');
 Route::patch('/{workspace}/ticket/{id}/notes/save', 'TicketController@saveNotes');
 Route::get('/{workspace}/ticket/{ticketHash}/file/{id}/get', 'TicketController@getAttachment');
 Route::delete('/{workspace}/ticket/{ticketHash}/file/{id}/delete', 'TicketController@deleteAttachment');
+Route::post('/{workspace}/tickettype/add', 'SettingsController@addTicketType');
+Route::any('/{workspace}/tickettype/{id}/edit', 'SettingsController@editTicketType');
+Route::any('/{workspace}/tickettype/{id}/delete', 'SettingsController@deleteTicketType');
 
 Route::get('/{workspace}/group/list', 'GroupsController@listGroups');
 Route::get('/{workspace}/group/create', 'GroupsController@viewCreateGroup');
@@ -83,7 +84,6 @@ Route::any('/{workspace}/faq/{id}/delete', 'FaqController@delete');
 
 Route::get('/{workspace}/settings', 'SettingsController@show');
 Route::get('/{workspace}/settings/agent', 'SettingsController@showAgent');
-Route::get('/{workspace}/settings/client', 'SettingsController@showClient');
 Route::patch('/{workspace}/settings/save', 'SettingsController@save');
 Route::patch('/{workspace}/settings/locale', 'SettingsController@saveLocale');
 Route::patch('/{workspace}/settings/avatar', 'SettingsController@saveAvatar');

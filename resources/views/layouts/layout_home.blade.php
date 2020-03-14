@@ -31,7 +31,7 @@
         <title>{{ env('APP_NAME') }} - {{ env('APP_DESCRIPTION') }}</title>
 
         <meta name="author" content="{{ env('APP_AUTHOR') }}">
-        <meta name="description" content="{{ env('APP_DESCRIPTION') }}">
+        <meta name="description" content="{{ env('APP_METADESC') }}">
         <meta name="tags" content="dnyHelpRealm, HelpRealm, ticket, ticket system, support ticket system, support, system, agent, client, helpdesk">
 
         <link rel="shortcut icon" href="{{ asset('gfx/logo.png') }}">

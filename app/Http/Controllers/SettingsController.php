@@ -27,6 +27,7 @@ use \App\FaqModel;
 use \App\TicketsHaveFiles;
 use \App\AgentsHaveGroups;
 use \App\TicketThreadModel;
+use \App\TicketsHaveTypes;
 
 /**
  * Class SettingsController
@@ -284,6 +285,7 @@ class SettingsController extends Controller
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
             'infomessage' => $ws->welcomemsg,
+            'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId())
         ]);
     }
@@ -325,11 +327,11 @@ class SettingsController extends Controller
             $attr['bgcolorcode'] = '#F5F5F6';
         }
 
-        $ws->company = $attr['company'];
-        $ws->lang = $attr['lang'];
-        $ws->usebgcolor = (bool)$attr['usebgcolor'];
-        $ws->bgcolorcode = $attr['bgcolorcode'];
-        $ws->welcomemsg = $attr['infomessage'];
+        if (isset($attr['company'])) $ws->company = $attr['company'];
+        if (isset($attr['lang'])) $ws->lang = $attr['lang'];
+        if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
+        if (isset($attr['bgcolorcode'])) $ws->bgcolorcode = $attr['bgcolorcode'];
+        if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
         $ws->save();
         
         return back()->with('success', __('app.settings_saved'));
@@ -395,6 +397,10 @@ class SettingsController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
         if (file_exists(public_path() . '/gfx/backgrounds/' . $filename) === false) {
             return back()->with('error', __('app.file_not_found'));
         }
@@ -417,6 +423,115 @@ class SettingsController extends Controller
         $item->delete();
 
         return back()->with('success', __('app.file_deleted'));
+    }
+
+    /**
+     * Add ticket type
+     * 
+     * @param string $workspace
+     * @return mixed
+     */
+    public function addTicketType($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+            'name' => 'required'
+        ]);
+
+        $attr['workspace'] = $ws->id;
+
+        $data = TicketsHaveTypes::create($attr);
+        if ($data === null) {
+            return back()->with('error', __('app.ticket_type_add_failed'));
+        }
+
+        return back()->with('success', __('app.ticket_type_added'));
+    }
+
+    /**
+     * Edit ticket type
+     * 
+     * @param string $workspace
+     * @param int $id
+     * @return mixed
+     */
+    public function editTicketType($workspace, $id)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+            'name' => 'required'
+        ]);
+
+        $ticketType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $id)->first();
+        if ($ticketType === null) {
+            return back()->with('error', __('app.ticket_type_not_found'));
+        }
+
+        $ticketType->name = $attr['name'];
+        $ticketType->save();
+
+        return back()->with('success', __('app.ticket_type_edited'));
+    }
+
+    /**
+     * Remove ticket type
+     * 
+     * @param string $workspace
+     * @param int $id
+     * @return mixed
+     */
+    public function deleteTicketType($workspace, $id)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $ttCount = TicketsHaveTypes::where('workspace', '=', $ws->id)->count();
+        if ($ttCount === 1) {
+            return back()->with('error', __('app.ticket_type_min_one_type'));
+        }
+
+        $ticketType = TicketsHaveTypes::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
+        if ($ticketType === null) {
+            return back()->with('error', __('app.ticket_type_not_found'));
+        }
+
+        $ticketType->delete();
+
+        return back()->with('success', __('app.ticket_type_deleted'));
     }
 
     /**

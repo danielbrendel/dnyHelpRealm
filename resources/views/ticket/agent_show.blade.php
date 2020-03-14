@@ -45,7 +45,7 @@
                                 <a href="javascript:void(0)" onclick="vue.bShowChangeType = true;"><i class="fas fa-i-cursor" title="{{ __('app.ticket_change_type') }}"></i></a>
                             </div>
 
-                            <div class="ticket-agent-menu-item is-right" style="color: rgb(150, 150, 150);" title="{{ $ticket->created_at }}">
+                            <div class="ticket-agent-menu-item is-right2" style="color: rgb(150, 150, 150);" title="{{ $ticket->created_at }}">
                                 {{ __('app.created_at') }} {{ $ticket->created_at->diffForHumans() }}
                             </div>
                         </div>
@@ -66,13 +66,8 @@
                                 <p>
                                     <a href="javascript:void(0);" onclick="alert('{{ $ticket->hash }}');">{{ __('app.ticket_hash') }}</a>
                                 </p>
-                                <p>@if ($ticket->type == 1)
-                                        {{ __('app.service_request') }}
-                                    @elseif ($ticket->type == 2)
-                                        {{ __('app.incident') }}
-                                    @elseif ($ticket->type == 3)
-                                        {{ __('app.change') }}
-                                    @endif</p>
+                                <p>
+                                    {{ $ticketType->name }}
                                 <p>
                                     <a href="mailto:{{ $ticket->email }}">{{ __('app.ticket_created_for', ['clientname' => $ticket->name]) }}</a>
                                 </p>

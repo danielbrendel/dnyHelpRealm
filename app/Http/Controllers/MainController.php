@@ -26,6 +26,7 @@ use App\FaqModel;
 use App\BgImagesModel;
 use App\WorkSpaceModel;
 use App\HomeFaqModel;
+use App\TicketsHaveTypes;
 
 /**
  * Class MainController
@@ -60,7 +61,7 @@ class MainController extends Controller
             }
             $infomessage = strip_tags($infomessage, env('APP_ALLOWEDHTMLTAGS'));
 
-            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'faqs' => FaqModel::all(), 'infomessage' => $infomessage]);
+            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::all(), 'infomessage' => $infomessage]);
         } else {
             $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
             $groups = array();
@@ -72,9 +73,14 @@ class MainController extends Controller
                 array_push($groups, $item);
             }
 
-            $typeServiceRequest = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 1)->count();
-            $typeIncident = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 2)->count();
-            $typeChange = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', 3)->count();
+            $typeCounts = array();
+            $ticketTypes = TicketsHaveTypes::where('workspace', '=', $ws->id)->get();
+            foreach ($ticketTypes as $ticketType) {
+                $item = array();
+                $item['name'] = $ticketType->name;
+                $item['count'] = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', $ticketType->id)->count();
+                $typeCounts[] = $item;
+            }
 
             return view('dashboard_agent', [
                 'workspace' => $ws->name,
@@ -83,9 +89,7 @@ class MainController extends Controller
                 'agent' => User::getAgent(auth()->id()),
                 'serving' => TicketModel::where('workspace', '=', $ws->id)->count(),
                 'yours' => TicketModel::where('workspace', '=', $ws->id)->where('assignee', '=', User::getAgent(auth()->id())->id)->count(),
-                'serviceRequests' => $typeServiceRequest,
-                'incidents' => $typeIncident,
-                'changes' => $typeChange,
+                'typeCounts' => $typeCounts,
                 'groups' => GroupsModel::where('workspace', '=', $ws->id)->count(),
                 'superadmin' => User::getAgent(auth()->id())->superadmin,
                 'agents' => AgentModel::where('workspace', '=', $ws->id)->count(),
@@ -346,6 +350,7 @@ class MainController extends Controller
         }
 
         $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
+        $user->password_reset = '';
         $user->save();
 
         return redirect('/')->with('success', __('app.password_reset_ok'));
@@ -366,14 +371,14 @@ class MainController extends Controller
             'password_confirmation' => 'required',
             'captcha' => 'required|numeric'
         ]);
-
+        
         $attr['lang'] = 'en';
         $attr['usebgcolor'] = false;
         $attr['bgcolorcode'] = 'F5F5F6';
         $attr['welcomemsg'] = __('app.system_welcomemsg');
 
         $attr['name'] = md5($attr['fullname'] . $attr['email'] . random_bytes(55));
-
+        
         $workspace = WorkSpaceModel::get($attr['name']);
         if ($workspace !== null) {
             return back()->with('error', __('app.workspace_already_exists'));
@@ -383,11 +388,11 @@ class MainController extends Controller
         if ($emailuser !== null) {
             return back()->with('error', __('app.email_already_in_use'));
         }
-
+        
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->with('error', __('app.captcha_invalid'));
         }
-
+        
         if ($attr['password'] !== $attr['password_confirmation']) {
             return back()->with('error', __('app.password_mismatch'));
         }
@@ -440,6 +445,21 @@ class MainController extends Controller
         $groupMember->agent_id = $agent->id;
         $groupMember->group_id = $group->id;
         $groupMember->save();
+
+        $ttServiceRequest = new \App\TicketsHaveTypes;
+        $ttServiceRequest->workspace = $workspace->id;
+        $ttServiceRequest->name = 'Service Request';
+        $ttServiceRequest->save();
+
+        $ttIncident = new \App\TicketsHaveTypes;
+        $ttIncident->workspace = $workspace->id;
+        $ttIncident->name = 'Incident';
+        $ttIncident->save();
+
+        $ttChange = new \App\TicketsHaveTypes;
+        $ttChange->workspace = $workspace->id;
+        $ttChange->name = 'Change';
+        $ttChange->save();
 
         $htmlCode = view('mail.workspace_created', ['name' => $attr['fullname'], 'hash' => $user->account_confirm])->render();
         @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");

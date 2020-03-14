@@ -205,7 +205,7 @@ class AgentController extends Controller
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
             return back()->with('error', __('app.superadmin_permission_required'));
         }
-
+        
         $attr = request()->validate([
             'surname' => 'nullable',
             'lastname' => 'nullable',
@@ -213,9 +213,16 @@ class AgentController extends Controller
             'position' => 'nullable',
             'superadmin' => 'nullable|numeric',
             'active' => 'nullable|numeric',
-            'password' => 'nullable'
+            'password' => 'nullable',
+            'password_confirm' => 'nullable'
         ]);
-
+        
+        if (isset($attr['password']) && $attr['password'] != null) {
+            if (!isset($attr['password_confirm']) || $attr['password'] !== $attr['password_confirm']) {
+                return back()->with('error', __('app.password_mismatch'));
+            }
+        }
+        
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if ($agent) {
             if ($attr['surname'] != null) $agent->surname = $attr['surname'];
@@ -228,7 +235,7 @@ class AgentController extends Controller
 
             $user = User::where('user_id', '=', $id)->first();
             if (isset($attr['email']) && $attr['email'] != null) $user->email = $attr['email'];
-            if (isset($attr['password']) && attr['password'] != null) $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
+            if (isset($attr['password']) && $attr['password'] != null) $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
             $user->save();
 
             return back()->with('success', __('app.agent_data_saved'));
@@ -263,7 +270,7 @@ class AgentController extends Controller
         }
         
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id);
-        $user = User::where('user_id', '=', 'a' . $id)->where('workspace', '=', $ws->id);
+        $user = User::where('user_id', '=', $id)->where('workspace', '=', $ws->id);
 
         if (($agent) && ($user)) {
             $groups = AgentsHaveGroups::where('agent_id', '=', $agent->first()->id);

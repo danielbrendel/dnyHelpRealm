@@ -46,7 +46,7 @@ class GroupsModel extends Model
     public static function get($id)
     {
         $group = GroupsModel::where('id', '=', $id)->first();
-
+        
         return $group;
     }
 }

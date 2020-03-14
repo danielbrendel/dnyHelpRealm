@@ -93,9 +93,9 @@
                                 <label class="label">{{ __('app.type') }}</label>
                                 <div class="is-stretched">
                                     <select class="is-stretched" name="type">
-                                        <option value="1">{{ __('app.ticket_type_service_request') }}</option>
-                                        <option value="2">{{ __('app.ticket_type_incident') }}</option>
-                                        <option value="3">{{ __('app.ticket_type_change') }}</option>
+                                        @foreach ($ticketTypes as $ticketType)
+                                            <option value="{{ $ticketType->id }}">{{ $ticketType->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

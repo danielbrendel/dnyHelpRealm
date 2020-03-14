@@ -115,6 +115,7 @@ pre {
     display: inline-block;
     float: right;
     top: 6px;
+    right: 11px;
 }
 .app-logout i {
     color: rgb(127, 138, 157);
@@ -294,6 +295,10 @@ pre {
 .is-right {
     float: right;
     margin-left: 10px;
+}
+.is-right2 {
+    float: right;
+    right: -28px;
 }
 .dashboard-card {
     position: relative;
@@ -879,4 +884,9 @@ pre {
     position: relative;
     display: inline-block;
     top: 20px;
+}
+
+//Navbar
+a.navbar-item:hover {
+    text-decoration: none !important;
 }

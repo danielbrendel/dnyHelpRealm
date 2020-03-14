@@ -151,31 +151,25 @@
 @endsection
 
 @section('javascript')
-    @if (!(($serviceRequests === 0) && ($incidents === 0) && ($changes === 0)))
+    @if (count($typeCounts) > 0)
         var ctx = document.getElementById('ticketChart');
 
         var pieChart = new Chart(ctx, {
             type: 'pie',
             data: {
                     datasets: [{
-                    data: [{{ $serviceRequests }}, {{ $incidents }}, {{ $changes }}],
+                    data: [@foreach ($typeCounts as $typeCount) {{ $typeCount['count'] . ',' }} @endforeach],
                     backgroundColor: [
-                    'rgba(200, 200, 200, 0.2)',
-                    'rgba(255, 99, 132, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
+                        @foreach ($typeCounts as $typeCount) {!! "'rgba(" . random_int(0, 255) . ", " . random_int(0, 255) . ", " . random_int(0, 255) . ", 0.2)'," !!} @endforeach
                 ],
                 borderColor: [
-                    'rgba(200, 200, 200, 1)',
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(255, 206, 86, 1)'
+                    @foreach ($typeCounts as $typeCount) {!! "'rgba(200, 200, 200, 1)'," !!} @endforeach
                 ],
                 borderWidth: 1
                 }],
             
                 labels: [
-                    '{{ __('app.ticket_type_service_request') }}',
-                    '{{ __('app.ticket_type_incident') }}',
-                    '{{ __('app.ticket_type_change') }}'
+                    @foreach ($typeCounts as $typeCount) {!! "'" . $typeCount['name'] . "'," !!} @endforeach
                 ]}
         });
     @else

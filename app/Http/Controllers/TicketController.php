@@ -28,6 +28,7 @@ use \App\PushModel;
 use \App\CaptchaModel;
 use \App\BgImagesModel;
 use \App\WorkSpaceModel;
+use \App\TicketsHaveTypes;
 
 /**
  * Class TicketController
@@ -61,6 +62,7 @@ class TicketController extends Controller
             $item = array();
             $item['ticket_id'] = $ticket->id;
             $item['group_name'] = GroupsModel::get($ticket->group)->name;
+            $item['ticket_type'] = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $ticket->type)->first();
             array_push($groups, $item);
         }
 
@@ -129,6 +131,7 @@ class TicketController extends Controller
             'fulllocation' => __('app.ticket_id', ['id' => $id]),
             'user' => User::get(auth()->id()),
             'ticket' => $ticket,
+            'ticketType' => TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $ticket->type)->first(),
             'thread' => TicketThreadModel::where('ticket_id', '=', $id)->orderBy('id', 'desc')->get(),
             'group' => GroupsModel::get($ticket->group)->name,
             'agent' => $assignee,
@@ -184,6 +187,7 @@ class TicketController extends Controller
             return back()->with('error', __('app.ticket_not_found'));
         }
 
+        $showConfirmSuccessMsg = false;
         $token = request('confirmation');
         if (($token !== null) && ($ticket->confirmation !== '_confirmed')) {
             if ($token !== $ticket->confirmation) {
@@ -192,6 +196,8 @@ class TicketController extends Controller
                 $ticket->confirmation = '_confirmed';
                 $ticket->status = 1;
                 $ticket->save();
+
+                $showConfirmSuccessMsg = true;
             }
         }
 
@@ -220,6 +226,7 @@ class TicketController extends Controller
             'location' => __('app.ticket_list'),
             'user' => User::get(auth()->id()),
             'ticket' => $ticket,
+            'ticketType' => TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $ticket->type)->first(),
             'thread' => TicketThreadModel::where('ticket_id', '=', $ticket->id)->orderBy('id', 'desc')->get(),
             'group' => GroupsModel::get($ticket->group)->name,
             'agent' => $assignee,
@@ -251,7 +258,11 @@ class TicketController extends Controller
         $attr['bgimage'] = $img;
         $attr['captchadata'] = $captchadata;
 
-        return view('ticket.customer_show', $attr);
+        if ($showConfirmSuccessMsg === true) {
+            return view('ticket.customer_show', $attr)->with('success', __('app.ticket_customer_confirm_success'));
+        } else {
+            return view('ticket.customer_show', $attr);
+        }
     }
 
     /**
@@ -267,7 +278,7 @@ class TicketController extends Controller
             'text' => 'required|max:4096',
             'name' => 'required',
             'email' => 'required|email',
-            'type' => 'required|numeric|min:1|max:3',
+            'type' => 'required|numeric|min:1',
             'prio' => 'required|numeric|min:1|max:3',
             'captcha' => 'required|numeric'
         ]);
@@ -281,6 +292,11 @@ class TicketController extends Controller
 
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->withInput()->with('error', __('app.ticket_invalid_captcha'));
+        }
+
+        $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $attr['type'])->first();
+        if ($hasType === null) {
+            return back()->with('error', __('app.ticket_type_not_found'));
         }
 
         $attr['workspace'] = $ws->id;
@@ -341,24 +357,29 @@ class TicketController extends Controller
         if ($ws === null) {
             return back()->with('error', __('app.workspace_not_found'));
         }
-
+        
         $attr = request()->validate([
             'subject' => 'required|min:5',
             'text' => 'required|max:4096',
             'name' => 'required',
             'email' => 'required|email',
-            'type' => 'required|numeric|min:1|max:3',
+            'type' => 'required|numeric|min:1',
             'prio' => 'required|numeric|min:1|max:3',
             'group' => 'required',
             'assignee' => 'required'
         ]);
+
+        $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $attr['type'])->first();
+        if ($hasType === null) {
+            return back()->with('error', __('app.ticket_type_not_found'));
+        }
 
         $attr['workspace'] = $ws->id;
         $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(10));
         $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
         $attr['status'] = 0;
         $attr['address'] = $_SERVER['REMOTE_ADDR'];
-
+        
         $data = TicketModel::create($attr);
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
@@ -394,7 +415,8 @@ class TicketController extends Controller
             'user' => User::get(auth()->id()),
             'superadmin' => User::getAgent(auth()->id())->superadmin,
             'groups' => GroupsModel::where('workspace', '=', $ws->id)->get(),
-            'agents' => AgentModel::where('active', '=', true)->where('workspace', '=', $ws->id)->get()
+            'agents' => AgentModel::where('active', '=', true)->where('workspace', '=', $ws->id)->get(),
+            'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get()
         ];
 
         return view('ticket.create', $attr);
@@ -460,6 +482,11 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
+        $agent = AgentModel::getAgent(User::get(auth()->id())->user_id);
+        if (!$agent) {
+            return back()->with('error', __('app.agent_not_found'));
+        }
+        
         if (!$agent->superadmin) {
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
@@ -637,8 +664,10 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found'));
         }
 
-        if ($type < 1) $type = 1;
-        if ($type > 3) $type = 3;
+        $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $type)->first();
+        if ($hasType === null) {
+            return back()->with('error', __('app.ticket_type_not_found'));
+        }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if ($ticket) {
@@ -776,11 +805,11 @@ class TicketController extends Controller
             'text' => 'required|max:4096',
             'captcha' => 'required|numeric'
         ]);
-
+        
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->with('error', __('app.ticket_invalid_captcha'));
         }
-
+        
         $attr['ticket_id'] = $id;
         $attr['user_id'] = 0;
 
@@ -1058,7 +1087,8 @@ class TicketController extends Controller
         {
             $item = array();
             $item['ticket_id'] = $ticket->id;
-            $item['group_name'] = GroupsModel::get($ticket->group)->name;
+            $group = GroupsModel::get($ticket->group);
+            $item['group_name'] = ($group !== null) ? $group->name : '';
             array_push($groups, $item);
         }
 

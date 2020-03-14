@@ -91,9 +91,9 @@
             <div class="ticketform-element-half">
                 <div class="is-stretched">
                     <select class="select is-stretched" name="type">
-                        <option value="1">{{ __('app.type') }} - {{ __('app.ticket_type_service_request') }}</option>
-                        <option value="2">{{ __('app.type') }} - {{ __('app.ticket_type_incident') }}</option>
-                        <option value="3">{{ __('app.type') }} - {{ __('app.ticket_type_change') }}</option>
+                        @foreach ($ticketTypes as $ticketType)
+                            <option value="{{ $ticketType->id }}">{{ __('app.type') }} - {{ $ticketType->name }}</option>
+                        @endforeach
                     </select>
                 </div>
             </div>

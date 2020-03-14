@@ -35,6 +35,6 @@ class TicketsHaveFiles extends Model
         if (!$file)
             return -1;
 
-        return filesize(base_dir() . '/public/uploads/' . $file->file);
+        return filesize(base_path() . '/public/uploads/' . $file->file);
     }
 }

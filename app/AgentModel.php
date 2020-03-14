@@ -55,6 +55,9 @@ class AgentModel extends Model
     public static function isSuperAdmin($id)
     {
         $agent = AgentModel::where('id', '=', $id)->first();
+        if ($agent === null) {
+            return false;
+        }
 
         return $agent->superadmin;
     }

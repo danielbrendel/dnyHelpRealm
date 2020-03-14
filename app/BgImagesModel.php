@@ -38,6 +38,10 @@ class BgImagesModel extends Model
             IMAGETYPE_GIF
         );
 
+        if (!file_exists($imgFile)) {
+            return false;
+        }
+
         foreach ($imagetypes as $type) {
             if (exif_imagetype($imgFile) === $type) {
                 return true;
