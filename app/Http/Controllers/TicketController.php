@@ -260,10 +260,10 @@ class TicketController extends Controller
         $attr['captchadata'] = $captchadata;
 
         if ($showConfirmSuccessMsg === true) {
-            return view('ticket.customer_show', $attr)->with('success', __('app.ticket_customer_confirm_success'));
-        } else {
-            return view('ticket.customer_show', $attr);
-        }
+            session()->flash('success', __('app.ticket_customer_confirm_success'));
+		}
+
+        return view('ticket.customer_show', $attr);
     }
 
     /**
