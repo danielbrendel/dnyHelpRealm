@@ -132,6 +132,7 @@ class TicketController extends Controller
             'user' => User::get(auth()->id()),
             'ticket' => $ticket,
             'ticketType' => TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $ticket->type)->first(),
+            'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'thread' => TicketThreadModel::where('ticket_id', '=', $id)->orderBy('id', 'desc')->get(),
             'group' => GroupsModel::get($ticket->group)->name,
             'agent' => $assignee,

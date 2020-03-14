@@ -393,9 +393,9 @@
                 <div class="field">
                     <div class="control">
                         <select name="agent" id="selType">
-                            <option value="1">{{ __('app.service_request') }}</option>
-                            <option value="2">{{ __('app.incident') }}</option>
-                            <option value="3">{{ __('app.change') }}</option>
+                            @foreach ($ticketTypes as $ticketType)
+                                <option value="{{ $ticketType->id }}">{{ $ticketType->name }}</option>
+                            @endforeach
                         </select>
                     </div>
                 </div>
