@@ -56,7 +56,20 @@ The product is beeing developed with the following engine versions:
 ## Testing
 Before running tests the .env.testing must be adjusted to match the test data of the database.
 Therefore the DATA_* environment variables must be adjusted. Then open the command prompt, go 
-to the project root and run PHPUnit.
+to the project root and run PHPUnit. The following variables must be adjusted:
++ DATA_USERID: ID of a test user
++ DATA_WORKSPACE: ID of a test workspace
++ DATA_WORKSPACENAME: Namehash of that workspace
++ DATA_GROUPID: ID of a test group
++ DATA_GROUPNAME: Name of the test group
++ DATA_TICKETID: Ticket ID of a test ticket
++ DATA_TICKETHASH: Ticket hash of that test ticket
++ DATA_TICKETSUBJECT: Ticket subject of that test ticket
++ DATA_TICKETTEXT: Ticket text of that test ticket
++ DATA_TICKETFILE: ID of a ticket file
++ DATA_USEREMAIL: E-Mail address of a test user
++ DATA_USERPW: Password of that test user
++ DATA_FAQID: ID of a workspace FAQ item
 
 ## Changelog:
 + Version 0.1:
