@@ -79,6 +79,10 @@ In order for this to work the environment variables MAILSERV_* must be set. Also
 must be activated on the server system which calls /mailservice/{password} (any request type).
 The password must match the one specified in the MAILSERV_CRONPW variable.
 
+## Twitter news
+By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 
+Twitter timeline.
+
 ## Changelog:
 + Version 0.1:
 	- (Initial release)
