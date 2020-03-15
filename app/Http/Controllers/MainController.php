@@ -27,6 +27,7 @@ use App\BgImagesModel;
 use App\WorkSpaceModel;
 use App\HomeFaqModel;
 use App\TicketsHaveTypes;
+use App\MailserviceModel;
 
 /**
  * Class MainController
@@ -483,5 +484,19 @@ class MainController extends Controller
         $user->save();
 
         return redirect('/')->with('success', __('app.account_confirmed_ok'));
+    }
+
+    /**
+     * Perform mailservice operations
+     * 
+     * @param string $password
+     * @return void
+     */
+    public function mailservice($password)
+    {
+        if ($password === env('MAILSERV_CRONPW')) {
+            $ms = new MailserviceModel;
+            $ms->processInbox();
+        }
     }
 }

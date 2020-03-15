@@ -291,7 +291,7 @@ class TicketController extends Controller
 
         \App::setLocale($ws->lang);
 
-        if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
+        if ($attr['captcha'] != CaptchaModel::querySum(session()->getId())) {
             return back()->withInput()->with('error', __('app.ticket_invalid_captcha'));
         }
 
@@ -325,7 +325,7 @@ class TicketController extends Controller
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
 
-            @mail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
@@ -385,7 +385,7 @@ class TicketController extends Controller
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
 
-            @mail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
             return redirect('/' . $ws->name . '/ticket/' . $data->id . '/show/')->with('success', __('app.ticket_created'));
         } else {
@@ -763,9 +763,9 @@ class TicketController extends Controller
             $ticket->status = 2;
             $ticket->save();
 
-            $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash])->render();
+            $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $sender->surname . ' ' . $sender->lastname, 'message' => $attr['text']])->render();
 
-            @mail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
 
             return back()->with('success', __('app.ticket_comment_added'));
         } else {
@@ -824,9 +824,7 @@ class TicketController extends Controller
             if ($assignee != null) {
                 $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id])->render();
 
-                @mail($assignee->email, '[' . $ws->company . '] Ticket reply', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
-            
-                PushModel::addNotification('Ticket reply', $updTicket->name . ' has replied to your ticket #' . $ticket->id . ' ' . $ticket->subject, $assignee->user_id);
+                @mail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
             }
 
             return back();

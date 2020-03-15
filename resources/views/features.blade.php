@@ -36,6 +36,7 @@
                     <li>Different agent roles (superadmin and agent)</li>
                     <li>Customize ticket contact form</li>
                     <li>E-Mails on different events</li>
+                    <li>E-Mail replies</li>
                     <li>Ticket comments, attachments and notes</li>
                     <li>Multilanguage ready</li>
                     <li>Personal FAQ for customers</li>

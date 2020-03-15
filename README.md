@@ -13,8 +13,9 @@ HelpRealm is a lightweight SaaS service support system for customers of entities
 via a personal workspace contact form, specifying text content and attachments. For each support request there is 
 a ticket created which is then handled by a registered agent. Tickets can be routed into different groups where initial 
 tickets are routed to a defined index group. Superadmins can manage agents, groups, FAQ and system settings. Customers and
-agents get notified about ticket updates by e-mail. The support system is especially suitable for freelancers and small teams. 
-The system is specifically suited for freelancers and small teams.
+agents get notified about ticket updates by e-mail. It is also possible to reply to tickets by replying to a notification email. 
+The support system is especially suitable for freelancers and small teams. The system is specifically suited for freelancers
+and small teams.
 
 ## Feature overview:
 + Tickets
@@ -38,6 +39,7 @@ The system is specifically suited for freelancers and small teams.
 + Login management
 + Gravatar support
 + E-Mail notifications
++ E-Mail replies
 + Friendly installer
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
 + Responsive layout
@@ -70,6 +72,12 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 + DATA_USEREMAIL: E-Mail address of a test user
 + DATA_USERPW: Password of that test user
 + DATA_FAQID: ID of a workspace FAQ item
+
+## Mailservice
+Agents and customers can post to a ticket thread by replying to the notification emails.
+In order for this to work the environment variables MAILSERV_* must be set. Also a cronjob
+must be activated on the server system which calls /mailservice/{password} (any request type).
+The password must match the one specified in the MAILSERV_CRONPW variable.
 
 ## Changelog:
 + Version 0.1:

@@ -40,7 +40,7 @@
         <script src="{{ asset('js/app.js') }}"></script>
     </head>
     @if (isset($wsobject))
-        <body @if ((bool)$wsobject->usebgcolor === false) style="background-image: url('{{ asset('gfx/backgrounds/' . $bgimage->file) }}');" @else style="background-color: {{ $wsobject->bgcolorcode }}" @endif>
+        <body @if ((bool)$wsobject->usebgcolor === false) style="background-image: url('@if (isset($bgimage->file)) {{ asset('gfx/backgrounds/' . $bgimage->file) }}@endif');" @else style="background-color: {{ $wsobject->bgcolorcode }}" @endif>
     @else
         <body>
     @endif

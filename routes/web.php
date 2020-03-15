@@ -93,5 +93,7 @@ Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
 Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');
 
+Route::any('/mailservice/{password}', 'MainController@mailservice');
+
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');

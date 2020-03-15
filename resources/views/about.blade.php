@@ -23,8 +23,8 @@
                     via a personal workspace contact form, specifying text content and attachments. For each support request there is 
                     a ticket created which is then handled by a registered agent. Tickets can be routed into different groups where initial 
                     tickets are routed to a defined index group. Superadmins can manage agents, groups, FAQ and system settings. Customers and
-                    agents get notified about ticket updates by e-mail. The support system is especially suitable for freelancers and small teams. 
-                    The system is specifically suited for freelancers and small teams.
+                    agents get notified about ticket updates by e-mail. It is also possible to reply to tickets by replying to a notification email.
+                    The support system is especially suitable for freelancers and small teams. 
                 </p>
 
                 <p>
