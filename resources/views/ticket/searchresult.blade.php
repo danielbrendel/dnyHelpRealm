@@ -49,7 +49,7 @@
                                 </td>
                                 
                                 <td class="right">
-                                    <a href="{{ url('/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
+                                    <a href="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
                                 </td>
 
                                 <td>

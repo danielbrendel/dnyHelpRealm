@@ -267,5 +267,7 @@ class MainControllerTest extends TestCase
     {
         $response = $this->get('/mailservice/' . env('MAILSERV_CRONPW'));
         $response->assertStatus(200);
+        $content = $response->decodeResponseJson();
+        $this->assertEquals(200, $content['code']);
     }
 }

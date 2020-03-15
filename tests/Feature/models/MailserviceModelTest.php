@@ -37,4 +37,16 @@ class MailserviceModelTest extends TestCase
         $ms->processInbox();
         $this->addToAssertionCount(1);
     }
+
+    /**
+     * Test for iniFileSize
+     * 
+     * @return void
+     */
+    public function testIniFileSize()
+    {
+        $ms = new MailserviceModel;
+        $result = $ms->iniFileSize();
+        $this->assertEquals(env('DATA_INIFILESIZE'), $result);
+    }
 }

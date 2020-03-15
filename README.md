@@ -72,6 +72,7 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 + DATA_USEREMAIL: E-Mail address of a test user
 + DATA_USERPW: Password of that test user
 + DATA_FAQID: ID of a workspace FAQ item
++ DATA_INIFILESIZE: Byte size of upload_max_filesize in php.ini
 
 ## Mailservice
 Agents and customers can post to a ticket thread by replying to the notification emails.

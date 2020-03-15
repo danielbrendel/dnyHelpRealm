@@ -293,7 +293,7 @@
         'mail_ticket_closed' => 'Ticket geschlossen',
         'mail_ticket_reply_agent_title' => 'Sie haben eine neue Antwort',
         'mail_ticket_reply_agent_body' => 'Ein Mitarbeiter hat auf Ihr Ticket geantwortet:',
-        'mail_reply_info' => 'Hinweis: Sie können direkt antworten, indem Sie auf diese Mail antworten!',
+        'mail_reply_info' => 'Hinweis: Sie können direkt antworten, indem Sie auf diese Mail antworten ([ID:(hash)] nicht verändern)!',
         'mail_ticket_reply_agent_open' => 'Ticket öffnen',
         'mail_ticket_agent_replied' => 'Ticket Antwort',
         'mail_ticket_reply_customer_title' => 'Sie haben eine neue Antwort',

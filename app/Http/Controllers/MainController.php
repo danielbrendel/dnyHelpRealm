@@ -470,6 +470,8 @@ class MainController extends Controller
 
     /**
      * Confirm account
+     * 
+     * @return Illuminate\Http\RedirectResponse
      */
     public function confirm()
     {
@@ -497,6 +499,10 @@ class MainController extends Controller
         if ($password === env('MAILSERV_CRONPW')) {
             $ms = new MailserviceModel;
             $ms->processInbox();
+
+            return response()->json(['code' => 200]);
+        } else {
+            return response()->json(['code' => 403]);
         }
     }
 }

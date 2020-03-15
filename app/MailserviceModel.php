@@ -27,8 +27,6 @@ use Webklex\PHPIMAP\Client;
  */
 class MailserviceModel extends Model
 {
-    const INBOX_NAME = 'INBOX';
-
     private $clientMgr = null;
     private $client = null;
 
@@ -45,6 +43,31 @@ class MailserviceModel extends Model
     }
 
     /**
+     * Convert upload_max_filesize to byte value
+     */
+    public function iniFileSize()
+    {
+        $value = ini_get('upload_max_filesize');
+        
+        if (is_numeric($value)) {
+            return $value;
+        }
+
+        $lastChar = strtolower(substr($value, -1));
+        $actValue = intval(substr($value, 0, strlen($value)-1));
+        
+        if ($lastChar === 'k') {
+            return $actValue * 1024;
+        } else if ($lastChar === 'm') {
+            return $actValue * 1024 * 1024;
+        } else if ($lastChar === 'g') {
+            return $actValue * 1024 * 1024 * 1024;
+        }
+
+        return $actValue;
+    }
+
+    /**
      * Process inbox. Create thread from message and then delete the message
      * 
      * @return void
@@ -54,7 +77,7 @@ class MailserviceModel extends Model
         if ($this->client !== null) {
             $folders = $this->client->getFolders();
             foreach ($folders as $folder) {
-                if ($folder->name === self::INBOX_NAME) {
+                if ($folder->name == env('MAILSERV_INBOXNAME')) {
                     $mailmessages = $folder->messages()->all()->get();
 
                     foreach($mailmessages as $message){
@@ -95,6 +118,19 @@ class MailserviceModel extends Model
                                 $thread->text = $message->getTextBody();
                                 $thread->save();
 
+                                $attachments = $message->getAttachments();
+                                foreach ($attachments as $file) {
+                                    if ($file->getSize() <= $this->iniFileSize()) {
+                                        $newName = md5(random_bytes(55)) . '.' . $file->getExtension();
+                                        $file->save(public_path() . '/uploads', $newName);
+
+                                        $ticketFile = new TicketsHaveFiles();
+                                        $ticketFile->ticket_hash = $ticket->hash;
+                                        $ticketFile->file = $newName;
+                                        $ticketFile->save();
+                                    }
+                                }
+
                                 $message->delete();
 
                                 $ws = WorkSpaceModel::where('id', '=', $ticket->workspace)->first();
@@ -106,7 +142,7 @@ class MailserviceModel extends Model
                                     } else {
                                         $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
                                         if ($assignee !== null) {
-                                            $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->text, 'message' => $message->getTextBody()])->render();
+                                            $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
                                             @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] Ticket reply', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
                                         }
                                     }

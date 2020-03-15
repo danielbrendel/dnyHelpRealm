@@ -210,7 +210,7 @@
 
                                     <div class="thread-body">
                                         <div class="thread-body-text" id="thread-body-text-{{ $entry->id }}">
-                                            <pre>{{ $entry->text }}</pre>
+                                            <pre class="is-wordbreak">{{ $entry->text }}</pre>
                                         </div>
 
                                         <textarea id="edit-text-{{ $entry->id }}" class="is-hidden">{{ $entry->text }}</textarea>
