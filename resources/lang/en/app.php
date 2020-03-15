@@ -312,7 +312,7 @@
         'mail_password_reset_title' => 'Password reset',
         'mail_password_reset_body' => 'A password reset action has been triggered. Click the link below to reset your password. If you did not request this operation you can safely ignore this e-mail.',
         'mail_ticket_create_title' => 'Ticket successfully created',
-        'mail_ticket_create_body' => 'Your ticket has successfully been created. Click the link below to open the ticket and confirm your E-Mail address or just reply to this email to confirm your mail account (leave the [ID:(hash)] unaltered).',
+        'mail_ticket_create_body' => 'Your ticket has successfully been created. Click the link below to open the ticket and confirm your E-Mail address or just reply to this email with any text to confirm your mail account (leave the [ID:(hash)] unaltered).',
         'mail_ticket_create_open' => 'Open your ticket',
         'mail_ticket_creation' => 'Ticket creation',
         'mail_ticket_assign_title' => 'Ticket assigned to you',

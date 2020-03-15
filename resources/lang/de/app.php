@@ -280,7 +280,7 @@
         'mail_password_reset_title' => 'Passwort Wiederherstellen',
         'mail_password_reset_body' => 'Von Ihrem Konto wurde ein Zurücksetzen des Passworts angefordert. Klicken Sie den Link, um Ihr Passwort zurückzusetzen. Falls Sie die Aktion nicht angefordert haben, können Sie diese E-Mail ignorieren.',
         'mail_ticket_create_title' => 'Ticket erfolgreich erstellt',
-        'mail_ticket_create_body' => 'Ihr Ticket wurde erfolgreich erstellt. Klicken Sie den Link unten, um Ihr Ticket zu öffnen und Ihre E-Mail Adresse zu bestätigen oder bestätigen Sie Ihre E-Mail Adresse, indem Sie auf diese E-Mail antworten.',
+        'mail_ticket_create_body' => 'Ihr Ticket wurde erfolgreich erstellt. Klicken Sie den Link unten, um Ihr Ticket zu öffnen und Ihre E-Mail Adresse zu bestätigen oder bestätigen Sie Ihre E-Mail Adresse, indem Sie auf diese E-Mail mit einem beliebigen Text antworten.',
         'mail_ticket_create_open' => 'Ticket öffnen',
         'mail_ticket_creation' => 'Ticket Erstellung',
         'mail_ticket_assign_title' => 'Ticket zugewiesen',

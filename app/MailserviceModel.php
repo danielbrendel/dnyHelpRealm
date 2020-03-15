@@ -97,11 +97,18 @@ class MailserviceModel extends Model
                             if ($ticket !== null) {
                                 $sender = $message->getFrom()[0]->mail;
                                 $isAgent = AgentModel::where('email', '=', $sender)->first();
+                                $ws = WorkSpaceModel::where('id', '=', $ticket->workspace)->first();
 
                                 if (($isAgent === null) && ($ticket->confirmation !== '_confirmed')) {
                                     $ticket->confirmation = '_confirmed';
                                     $ticket->status = 1;
                                     $ticket->save();
+                                    $message->delete();
+                                    if ($ws !== null) {
+                                        $htmlCode = view('mail.ticket_confirmed_email')->render();
+                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                                    }
+                                    continue;
                                 }
 
                                 if ($isAgent !== null) {
@@ -121,7 +128,7 @@ class MailserviceModel extends Model
                                 $attachments = $message->getAttachments();
                                 foreach ($attachments as $file) {
                                     if ($file->getSize() <= $this->iniFileSize()) {
-                                        $newName = md5(random_bytes(55)) . '.' . $file->getExtension();
+                                        $newName = $file->getName() . md5(random_bytes(55)) . '.' . $file->getExtension();
                                         $file->save(public_path() . '/uploads', $newName);
 
                                         $ticketFile = new TicketsHaveFiles();
@@ -132,8 +139,6 @@ class MailserviceModel extends Model
                                 }
 
                                 $message->delete();
-
-                                $ws = WorkSpaceModel::where('id', '=', $ticket->workspace)->first();
                                 
                                 if ($ws !== null) {
                                     if ($isAgent !== null) {
