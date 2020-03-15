@@ -13,7 +13,7 @@ HelpRealm is a lightweight SaaS service support system for customers of entities
 via a personal workspace contact form, specifying text content and attachments. For each support request there is 
 a ticket created which is then handled by a registered agent. Tickets can be routed into different groups where initial 
 tickets are routed to a defined index group. Superadmins can manage agents, groups, FAQ and system settings. Customers and
-agents get notified about ticket updates by e-mail. It is also possible to reply to tickets by replying to a notification email. 
+agents get notified about ticket events by e-mail. Communication is possible via e-mail or a secret ticket thread form. 
 The support system is especially suitable for freelancers and small teams. The system is specifically suited for freelancers
 and small teams.
 

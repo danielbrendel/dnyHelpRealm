@@ -325,14 +325,14 @@ class TicketController extends Controller
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
 
-            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id])->render();
-                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                 }
             }
 
@@ -385,7 +385,7 @@ class TicketController extends Controller
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
 
-            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
             return redirect('/' . $ws->name . '/ticket/' . $data->id . '/show/')->with('success', __('app.ticket_created'));
         } else {
@@ -554,7 +554,7 @@ class TicketController extends Controller
             $record->save();
 
             $htmlCode = view('mail.ticket_assign', ['workspace' => $ws->name, 'name' => $ag->surname . ' ' . $ag->lastname, 'id' => $ticket])->render();
-            @mail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
             return back()->with('success', __('app.ticket_agent_assigned'));
         } else {
@@ -597,7 +597,7 @@ class TicketController extends Controller
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id])->render();
                     
-                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                 }
             }
             
@@ -637,7 +637,7 @@ class TicketController extends Controller
             if ($status == 3) {
                 $htmlCode = view('mail.ticket_closed', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash])->render();
 
-                @mail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_closed'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                @mail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_closed'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
             }
 
             return back()->with('success', __('app.ticket_status_changed'));
@@ -765,7 +765,7 @@ class TicketController extends Controller
 
             $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $sender->surname . ' ' . $sender->lastname, 'message' => $attr['text']])->render();
 
-            @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+            @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
             return back()->with('success', __('app.ticket_comment_added'));
         } else {
@@ -824,7 +824,7 @@ class TicketController extends Controller
             if ($assignee != null) {
                 $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id])->render();
 
-                @mail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                @mail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
             }
 
             return back();

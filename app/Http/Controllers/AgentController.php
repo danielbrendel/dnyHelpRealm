@@ -179,7 +179,7 @@ class AgentController extends Controller
         $data->save();
 
         $htmlCode = view('mail.account_created', ['workspace' => $ws->name, 'name' => $userdata->name, 'password' => $pw])->render();
-        @mail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+        @mail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
         return back()->with('success', __('app.agent_created'));
     }

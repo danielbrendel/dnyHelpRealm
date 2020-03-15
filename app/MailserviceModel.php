@@ -70,10 +70,11 @@ class MailserviceModel extends Model
     /**
      * Process inbox. Create thread from message and then delete the message
      * 
-     * @return void
+     * @return array The result of processed items
      */
     public function processInbox()
     {
+        $resultArray = array();
         if ($this->client !== null) {
             $folders = $this->client->getFolders();
             foreach ($folders as $folder) {
@@ -95,19 +96,28 @@ class MailserviceModel extends Model
 
                             $ticket = TicketModel::where('hash', '=', $ticketHash)->where('status', '<>', 3)->first();
                             if ($ticket !== null) {
+                                $resultArrItem = array();
+                                $resultArrItem['ticket'] = $ticket->id;
+
                                 $sender = $message->getFrom()[0]->mail;
                                 $isAgent = AgentModel::where('email', '=', $sender)->first();
                                 $ws = WorkSpaceModel::where('id', '=', $ticket->workspace)->first();
+
+                                $resultArrItem['workspace'] = $ws->id;
+                                $resultArrItem['sender'] = $sender;
+                                $resultArrItem['subject'] = $subject;
 
                                 if (($isAgent === null) && ($ticket->confirmation !== '_confirmed')) {
                                     $ticket->confirmation = '_confirmed';
                                     $ticket->status = 1;
                                     $ticket->save();
                                     $message->delete();
+                                    $resultArrItem['_confirm'] = true;
                                     if ($ws !== null) {
                                         $htmlCode = view('mail.ticket_confirmed_email')->render();
-                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                                     }
+                                    $resultArray[] = $resultArrItem;
                                     continue;
                                 }
 
@@ -125,6 +135,10 @@ class MailserviceModel extends Model
                                 $thread->text = $message->getTextBody();
                                 $thread->save();
 
+                                $resultArrItem['message'] = $thread->text;
+                                $resultArrItem['user_id'] = $thread->user_id;
+                                $resultArrItem['attachments'] = array();
+
                                 $attachments = $message->getAttachments();
                                 foreach ($attachments as $file) {
                                     if ($file->getSize() <= $this->iniFileSize()) {
@@ -135,20 +149,24 @@ class MailserviceModel extends Model
                                         $ticketFile->ticket_hash = $ticket->hash;
                                         $ticketFile->file = $newName;
                                         $ticketFile->save();
+
+                                        $resultArrItem['attachments'][] = $newName;
                                     }
                                 }
 
                                 $message->delete();
                                 
+                                $resultArray[] = $resultArrItem;
+                                
                                 if ($ws !== null) {
                                     if ($isAgent !== null) {
                                         $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
-                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') .  " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                                     } else {
                                         $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
                                         if ($assignee !== null) {
                                             $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
-                                            @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] Ticket reply', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\n");
+                                            @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] Ticket reply', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                                         }
                                     }
                                 }
@@ -158,5 +176,7 @@ class MailserviceModel extends Model
                 }
             }
         }
+
+        return $resultArray;
     }
 }
