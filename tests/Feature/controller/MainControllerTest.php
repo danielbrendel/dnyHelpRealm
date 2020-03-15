@@ -257,4 +257,15 @@ class MainControllerTest extends TestCase
         $ingroup = AgentsHaveGroups::where('group_id', '=', $group->id)->where('agent_id', '=', $agent->id)->first();
         $this->assertIsObject($ingroup);
     }
+
+    /**
+     * Test for e-mail cronjob
+     * 
+     * @return void
+     */
+    public function testMailservice()
+    {
+        $response = $this->get('/mailservice/' . env('MAILSERV_CRONPW'));
+        $response->assertStatus(200);
+    }
 }
