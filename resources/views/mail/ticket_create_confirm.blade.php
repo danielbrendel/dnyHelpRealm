@@ -7,7 +7,7 @@
 @section('body')
     {{ __('app.mail_salutation', ['name' => $name]) }}
     <br/><br/>
-    {{ __('app.mail_ticket_create_body') }}
+    {{ __('app.mail_ticket_create_body_confirm') }}
 @endsection
 
 @section('action')

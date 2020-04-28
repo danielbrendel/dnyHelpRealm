@@ -3,7 +3,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -60,6 +60,12 @@
 
                             <div class="field">
                                 <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_emailconfirm') }}" name="emailconfirm" value="1" <?php if ((bool)$emailconfirm === true) { echo 'checked'; } ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
                                     <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_usebgcolor') }}" name="usebgcolor" value="1" <?php if ((bool)$usebgcolor === true) { echo 'checked'; } ?>/>
                                 </div>
                             </div>
@@ -94,18 +100,18 @@
                                     <th class="text-left">{{ __('app.ticket_type_remove') }}</th>
                                 </tr>
                             </thead>
-        
+
                             <tbody>
                                 @foreach ($ticketTypes as $ticketType)
                                     <tr>
                                         <td>
                                             #{{ $ticketType->id }}
                                         </td>
-                                        
+
                                         <td class="right">
                                             {{ $ticketType->name }}
                                         </td>
-        
+
                                         <td>
                                             <div title="{{ $ticketType->created_at }}">{{ $ticketType->created_at->diffForHumans() }}</div>
                                         </td>
@@ -113,7 +119,7 @@
                                         <td class="right">
                                             <a href="javascript:void(0);" onclick="vue.editTicketType('{{ $workspace }}', {{ $ticketType->id }});">{{ __('app.ticket_type_edit') }}</a>
                                         </td>
-                                        
+
                                         <td class="right">
                                             <a href="{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}">{{ __('app.ticket_type_remove') }}</a>
                                         </td>
@@ -141,7 +147,7 @@
                                 @endforeach
 
                                 <br/>
-    
+
                                 <form method="POST" action="{{ url('/' . $workspace . '/settings/system/backgrounds/add') }}" enctype="multipart/form-data">
                                     @csrf
 

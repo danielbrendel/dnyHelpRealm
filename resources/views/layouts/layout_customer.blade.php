@@ -3,7 +3,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -21,10 +21,10 @@
 
         <meta name="author" content="{{ env('APP_AUTHOR') }}">
         <meta name="description" content="{{ env('APP_DESCRIPTION') }}">
-        <meta name="tags" content="dnyHelpRealm, HelpRealm, ticket, ticket system, support ticket system, support, system, agent, client, helpdesk">
+        <meta name="tags" content="{{ env('APP_METATAGS') }}">
 
         <link rel="shortcut icon" href="{{ asset('gfx/logo.png') }}">
-        
+
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
@@ -85,8 +85,8 @@
                         </header>
                         <section class="modal-card-body is-stretched">
                             <form id="loginform" method="POST" action="{{ url('/login') }}">
-                                @csrf 
-                    
+                                @csrf
+
                                 <div class="field">
                                     <label class="label">{{ __('app.email') }}</label>
                                     <p class="control has-icons-left has-icons-right">
@@ -96,7 +96,7 @@
                                         </span>
                                     </p>
                                 </div>
-                                    
+
                                 <div class="field">
                                     <label class="label">{{ __('app.password') }}</label>
                                     <p class="control has-icons-left">
@@ -106,8 +106,8 @@
                                         </span>
                                     </p>
                                 </div>
-                    
-                                
+
+
                             </form>
                         </section>
                         <footer class="modal-card-foot is-stretched">
@@ -194,7 +194,7 @@
                         if (this.bShowFaq) {
                             document.getElementsByClassName('faq-bg')[0].style.display = 'block';
                             document.getElementsByClassName('faq')[0].style.display = 'block';
-                            
+
                             var iconElems = document.getElementsByClassName('ticket-form-icons');
                             for (i = 0; i < iconElems.length; i++) {
                                 iconElems[i].style.visibility = 'hidden';
@@ -212,7 +212,7 @@
 
                     invalidLoginEmail: function() {
                         var el = document.getElementById("loginemail");
-                        
+
                         if ((el.value.length == 0) || (el.value.indexOf('@') == -1) || (el.value.indexOf('.') == -1)) {
                             el.classList.add('is-danger');
                         } else {
@@ -222,7 +222,7 @@
 
                     invalidRecoverEmail: function() {
                         var el = document.getElementById("recoveremail");
-                        
+
                         if ((el.value.length == 0) || (el.value.indexOf('@') == -1) || (el.value.indexOf('.') == -1)) {
                             el.classList.add('is-danger');
                         } else {
@@ -232,7 +232,7 @@
 
                     invalidLoginPassword: function() {
                         var el = document.getElementById("loginpw");
-                        
+
                         if (el.value.length == 0) {
                             el.classList.add('is-danger');
                         } else {
@@ -243,7 +243,7 @@
                     invalidTicketName: function() {
                         var elInput = document.getElementById("ticketname");
                         var elHint = document.getElementById("help-ticket-name");
-                        
+
                         if (elInput.value.length <= 3) {
                             elInput.classList.add('is-danger');
                             elHint.classList.remove('is-hidden');
@@ -256,7 +256,7 @@
                     invalidTicketEmail: function() {
                         var elInput = document.getElementById("ticketemail");
                         var elHint = document.getElementById("help-ticket-email");
-                        
+
                         if ((elInput.value.length == 0) || (elInput.value.indexOf('@') == -1) || (elInput.value.indexOf('.') == -1)) {
                             elInput.classList.add('is-danger');
                             elHint.classList.remove('is-hidden');
@@ -269,7 +269,7 @@
                     invalidTicketSubject: function() {
                         var elInput = document.getElementById("ticketsubject");
                         var elHint = document.getElementById("help-ticket-subject");
-                        
+
                         if (elInput.value.length <= 4) {
                             elInput.classList.add('is-danger');
                             elHint.classList.remove('is-hidden');
@@ -281,7 +281,7 @@
 
                     invalidTicketText: function() {
                         var el = document.getElementById("tickettext");
-                        
+
                         if (el.value.length == 0) {
                             el.classList.add('is-danger');
                         } else {
@@ -291,7 +291,7 @@
 
                     invalidTicketCaptcha: function() {
                         var el = document.getElementById("ticketcaptcha");
-                        
+
                         if (isNaN(el.value)) {
                             el.classList.add('is-danger');
                         } else {

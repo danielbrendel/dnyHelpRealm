@@ -3,7 +3,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -21,7 +21,7 @@
         <div id="error-message-1">
             <article class="message is-danger">
             <div class="message-header">
-                <p>{{ __('error') }}</p>
+                <p>{{ __('app.error') }}</p>
                 <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-1').style.display = 'none';"></button>
             </div>
             <div class="message-body">
@@ -38,7 +38,7 @@
         <div id="error-message-2">
             <article class="message is-danger">
             <div class="message-header">
-                <p>{{ __('error') }}</p>
+                <p>{{ __('app.error') }}</p>
                 <button class="delete" aria-label="delete" onclick="document.getElementById('error-message-2').style.display = 'none';"></button>
             </div>
             <div class="message-body">
@@ -53,7 +53,7 @@
         <div id="success-message">
             <article class="message is-success">
             <div class="message-header">
-                <p>{{ __('success') }}</p>
+                <p>{{ __('app.success') }}</p>
                 <button class="delete" aria-label="delete" onclick="document.getElementById('success-message').style.display = 'none';"></button>
             </div>
             <div class="message-body">
@@ -87,7 +87,7 @@
                     </span>
                 </div>
             </div>
-                
+
             <div class="ticketform-element-half">
                 <div class="is-stretched">
                     <select class="select is-stretched" name="type">
@@ -107,7 +107,7 @@
                     </select>
                 </div>
             </div>
-            
+
             <div class="ticketform-element-full">
                 <div class="control">
                     <input class="input" onkeyup="javascript:vue.invalidTicketSubject()" onchange="javascript:vue.invalidTicketSubject()" type="text" name="subject" id="ticketsubject" placeholder="{{ __('app.subject') }}" value="{{ old('subject') }}" required>
@@ -134,7 +134,7 @@
 
             <span>
                 <input type="submit" id="createticketsubmit" class="button" value="{{ __('app.create') }}">&nbsp;&nbsp;
-                
+
                 @if ((isset($faqs)) && (count($faqs) > 0))
                     <i class="far fa-question-circle faq-icon" title="{{ __('app.faq_customer') }}" onclick="vue.toggleFaq();"></i>
                 @endif

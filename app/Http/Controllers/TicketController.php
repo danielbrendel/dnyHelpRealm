@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -32,14 +32,14 @@ use \App\TicketsHaveTypes;
 
 /**
  * Class TicketController
- * 
+ *
  * Perform ticket related computations
  */
 class TicketController extends Controller
 {
     /**
      * Show ticket list
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -90,7 +90,7 @@ class TicketController extends Controller
 
     /**
      * Show ticket details
-     * 
+     *
      * @param string $workspace
      * @param $id
      * @return mixed
@@ -166,7 +166,7 @@ class TicketController extends Controller
 
     /**
      * Show ticket details
-     * 
+     *
      * @param string $workspace
      * @param $hash
      * @return mixed
@@ -189,6 +189,7 @@ class TicketController extends Controller
         }
 
         $showConfirmSuccessMsg = false;
+
         $token = request('confirmation');
         if (($token !== null) && ($ticket->confirmation !== '_confirmed')) {
             if ($token !== $ticket->confirmation) {
@@ -268,7 +269,7 @@ class TicketController extends Controller
 
     /**
      * Create new ticket
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -308,8 +309,13 @@ class TicketController extends Controller
         $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(55));
         $attr['address'] = $_SERVER['REMOTE_ADDR'];
 
-        $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
-        $attr['status'] = 0;
+        if ($ws->emailconfirm) {
+            $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
+            $attr['status'] = 0;
+        } else {
+            $attr['confirmation'] = '_confirmed';
+            $attr['status'] = 1;
+        }
 
         $ticketOfAddress = TicketModel::where('address', '=', $attr['address'])->orderBy('created_at', 'desc')->first();
         if ($ticketOfAddress !== null) {
@@ -323,7 +329,11 @@ class TicketController extends Controller
 
         $data = TicketModel::create($attr);
         if ($data) {
-            $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+            if ($ws->emailconfirm) {
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+            } else {
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash])->render();
+            }
 
             @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
@@ -336,7 +346,13 @@ class TicketController extends Controller
                 }
             }
 
-            return back()->with('success', __('app.ticket_created_customer'));
+            if ($ws->emailconfirm) {
+                $key = 'app.ticket_created_customer_confirm';
+            } else {
+                $key = 'app.ticket_created_customer_notconfirm';
+            }
+
+            return back()->with('success', __($key));
         } else {
             return back()->withInput()->with('error', __('app.ticket_creation_failed'));
         }
@@ -344,7 +360,7 @@ class TicketController extends Controller
 
     /**
      * Create new ticket
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -358,7 +374,7 @@ class TicketController extends Controller
         if ($ws === null) {
             return back()->with('error', __('app.workspace_not_found'));
         }
-        
+
         $attr = request()->validate([
             'subject' => 'required|min:5',
             'text' => 'required|max:4096',
@@ -377,10 +393,17 @@ class TicketController extends Controller
 
         $attr['workspace'] = $ws->id;
         $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(10));
-        $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
         $attr['status'] = 0;
         $attr['address'] = $_SERVER['REMOTE_ADDR'];
-        
+
+        if ($ws->emailconfirm) {
+            $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
+            $attr['status'] = 0;
+        } else {
+            $attr['confirmation'] = '_confirmed';
+            $attr['status'] = 1;
+        }
+
         $data = TicketModel::create($attr);
         if ($data) {
             $htmlCode = view('mail.ticket_create', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
@@ -395,7 +418,7 @@ class TicketController extends Controller
 
     /**
      * Show view for agents ticket creation
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -425,7 +448,7 @@ class TicketController extends Controller
 
     /**
      * Delete ticket
-     * 
+     *
      * @param string $workspace
      * @param int $id The ID of the ticket
      * @return Illuminate\Http\RedirectResponse
@@ -445,7 +468,7 @@ class TicketController extends Controller
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
                 return back()->with('error', __('app.ticket_not_group_member'));
-            }    
+            }
         }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -467,7 +490,7 @@ class TicketController extends Controller
 
     /**
      * Edit ticket data
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @return Illuminate\Http\RedirectResponse
@@ -487,12 +510,12 @@ class TicketController extends Controller
         if (!$agent) {
             return back()->with('error', __('app.agent_not_found'));
         }
-        
+
         if (!$agent->superadmin) {
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
                 return back()->with('error', __('app.ticket_not_group_member'));
-            }    
+            }
         }
 
         $attr = request()->validate([
@@ -526,7 +549,7 @@ class TicketController extends Controller
 
     /**
      * Assign ticket to group
-     * 
+     *
      * @param string $workspace
      * @param int $ticket The ticket ID
      * @param int $agent The agent ID
@@ -564,7 +587,7 @@ class TicketController extends Controller
 
     /**
      * Assign ticket to group
-     * 
+     *
      * @param string $workspace
      * @param int $ticket The ticket ID
      * @param int $group The group ID
@@ -596,11 +619,11 @@ class TicketController extends Controller
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id])->render();
-                    
+
                     @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                 }
             }
-            
+
             return back()->with('success', __('app.ticket_group_assigned'));
         } else {
             return back()->with('error', __('app.ticket_not_found'));
@@ -609,7 +632,7 @@ class TicketController extends Controller
 
     /**
      * Set ticket status
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $status The new ticket status
@@ -648,7 +671,7 @@ class TicketController extends Controller
 
     /**
      * Set ticket type
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $type The new ticket type
@@ -683,7 +706,7 @@ class TicketController extends Controller
 
     /**
      * Set ticket priority
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $prio The new priority
@@ -716,7 +739,7 @@ class TicketController extends Controller
 
     /**
      * Add comment to ticket
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @return Illuminate\Http\RedirectResponse
@@ -746,7 +769,7 @@ class TicketController extends Controller
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
                 return back()->with('error', __('app.ticket_not_group_member'));
-            }    
+            }
         }
 
         $attr = request()->validate([
@@ -775,7 +798,7 @@ class TicketController extends Controller
 
     /**
      * Add comment to ticket
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @return Illuminate\Http\RedirectResponse
@@ -806,11 +829,11 @@ class TicketController extends Controller
             'text' => 'required|max:4096',
             'captcha' => 'required|numeric'
         ]);
-        
+
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->with('error', __('app.ticket_invalid_captcha'));
         }
-        
+
         $attr['ticket_id'] = $id;
         $attr['user_id'] = 0;
 
@@ -835,7 +858,7 @@ class TicketController extends Controller
 
     /**
      * Edit comment
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $cmt The comment ID
@@ -877,7 +900,7 @@ class TicketController extends Controller
 
     /**
      * Edit comment
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $cmt The comment ID
@@ -917,7 +940,7 @@ class TicketController extends Controller
 
     /**
      * Delete comment
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $cmt The comment ID
@@ -948,7 +971,7 @@ class TicketController extends Controller
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
                 return back()->with('error', __('app.ticket_not_group_member'));
-            }    
+            }
         }
 
         $comment = TicketThreadModel::where('ticket_id', '=', $id)->where('id', '=', $cmt)->first();
@@ -963,7 +986,7 @@ class TicketController extends Controller
 
     /**
      * Add file to ticket
-     * 
+     *
      * @param string $workspace
      * @param string $id The ticket hash
      * @return Illuminate\Http\RedirectResponse
@@ -1023,7 +1046,7 @@ class TicketController extends Controller
 
     /**
      * Return ticket search view
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\View\View
      */
@@ -1049,7 +1072,7 @@ class TicketController extends Controller
 
     /**
      * Search for ticket
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\View\View
      */
@@ -1104,7 +1127,7 @@ class TicketController extends Controller
 
     /**
      * Save ticket notes
-     * 
+     *
      * @param string $workspace
      * @param int $id The ticket ID
      * @return Illuminate\Http\RedirectResponse
@@ -1137,7 +1160,7 @@ class TicketController extends Controller
 
     /**
      * Let user download attachment
-     * 
+     *
      * @param string $workspace
      * @param string $ticketId The ticket hash
      * @param int $id The attachment ID
@@ -1165,7 +1188,7 @@ class TicketController extends Controller
 
     /**
      * Delete attachment
-     * 
+     *
      * @param string $workspace
      * @param string $ticketId The ticket hash
      * @param int $id The attachment ID

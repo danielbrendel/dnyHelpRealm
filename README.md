@@ -2,7 +2,7 @@
 
 (C) 2019 - 2020 by Daniel Brendel
 
-**Version**: 0.1\
+**Version**: 1.0\
 **Contact**: dbrendel1988(at)gmail(dot)com\
 **GitHub**: https://github.com/danielbrendel
 
@@ -83,7 +83,3 @@ The password must match the one specified in the MAILSERV_CRONPW variable.
 ## Twitter news
 By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 
 Twitter timeline.
-
-## Changelog:
-+ Version 0.1:
-	- (Initial release)

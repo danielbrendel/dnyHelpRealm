@@ -4,7 +4,7 @@
 
         (C) 2019 - 2020 by Daniel Brendel
 
-        Version: 0.1
+        Version: 1.0
         Contact: dbrendel1988<at>gmail<dot>com
         GitHub: https://github.com/danielbrendel/
 
@@ -33,7 +33,7 @@
         'register_email' => 'Your E-Mail address',
         'register_password' => 'Password',
         'register_password_confirmation' => 'Confirm password',
-        'register_agreement' => 'By registering to our service you agree automatically with our terms and conditions.',
+        'register_agreement' => 'By registering to our service you agree automatically with our <a href=":tac" target="_blank">terms and conditions</a>.',
         'signup_welcomemsg' => 'Your account has successfully been created! Please confirm your E-Mail address in order to login',
         'mail_workspace_created_title' => 'Workspace created!',
         'mail_workspace_created_body' => 'Your workspace has successfully been created. Before you can use our service please confirm your e-mail address.',
@@ -67,7 +67,8 @@
         'group_data_stored' => 'Group data has been stored',
         'group_not_empty' => 'The group is not empty',
         'ticket_created' => 'Ticket has been created',
-        'ticket_created_customer' => 'Your ticket has been created. You need to verify your e-mail address before you can manage your ticket. Therefore follow the instructions we sent you to your inbox.',
+        'ticket_created_customer_confirm' => 'Your ticket has been created. You need to verify your e-mail address before you can manage your ticket. Therefore follow the instructions we sent you to your inbox.',
+        'ticket_created_customer_notconfirm' => 'Your ticket has been created. A confirmation message has been dispatched to your specified e-mail address.',
         'ticket_creation_failed' => 'Failed to create ticket',
         'ticket_deleted' => 'The ticket has been deleted',
         'ticket_not_found' => 'The specified ticket could not be found',
@@ -312,7 +313,8 @@
         'mail_password_reset_title' => 'Password reset',
         'mail_password_reset_body' => 'A password reset action has been triggered. Click the link below to reset your password. If you did not request this operation you can safely ignore this e-mail.',
         'mail_ticket_create_title' => 'Ticket successfully created',
-        'mail_ticket_create_body' => 'Your ticket has successfully been created. Click the link below to open the ticket and confirm your E-Mail address or just reply to this email with any text to confirm your mail account (leave the [ID:(hash)] unaltered).',
+        'mail_ticket_create_body_confirm' => 'Your ticket has successfully been created. Click the link below to open the ticket and confirm your E-Mail address or just reply to this email with any text to confirm your mail account (leave the [ID:(hash)] unaltered).',
+        'mail_ticket_create_body_notconfirm' => 'Your ticket has successfully been created. Please note that the time of a response is subject to the current workload. You can send further details by replying to this e-mail. (leave the [ID:(hash)] unaltered).',
         'mail_ticket_create_open' => 'Open your ticket',
         'mail_ticket_creation' => 'Ticket creation',
         'mail_ticket_assign_title' => 'Ticket assigned to you',
@@ -363,5 +365,8 @@
         'ticket_id' => 'Ticket #:id',
         'system_info_message' => 'The info message displayed on the ticket creation form. The following HTML tags are allowed:',
         'email_not_found' => 'The specified e-mail address does not exist in our database',
-        'email_already_in_use' => 'The specified e-mail address is already associated with one of our workspaces.' 
+        'email_already_in_use' => 'The specified e-mail address is already associated with one of our workspaces.',
+        'system_welcomemsg' => 'Welcome to our support contact form. Please describe your issue as detailed as possible. We will get back to you as soon as possible.',
+        'system_emailconfirm' => 'Activate this option if customers must confirm their e-mail addresses in the ticket creation process.',
+        'account_deactivated' => 'Your account has been dactivated'
     ];

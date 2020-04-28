@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -20,14 +20,14 @@ use PDO;
 
 /**
  * Class InstallerController
- * 
+ *
  * Perform installer specific computations
  */
 class InstallerController extends Controller
 {
     /**
      * Return installer view
-     * 
+     *
      * @return mixed
      */
     public function viewInstall()
@@ -51,7 +51,7 @@ class InstallerController extends Controller
 
     /**
      * Perform installation
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function install()
@@ -86,6 +86,7 @@ class InstallerController extends Controller
         $envcontent .= 'APP_DESCRIPTION="The free SaaS support ticket system"' . PHP_EOL;
         $envcontent .= 'APP_ALLOWEDHTMLTAGS="<b><i><u><strong><small><ol><ul><li><style><div><span><a><p><br>"' . PHP_EOL;
         $envcontent .= 'APP_SUPPORT=null' . PHP_EOL;
+        $envcontent .= 'APP_SHOWSTATISTICS=true' . PHP_EOL;
         $envcontent .= 'LOG_CHANNEL=stack' . PHP_EOL;
         $envcontent .= 'DB_CONNECTION=mysql' . PHP_EOL;
         $envcontent .= 'DB_HOST=' . $attr['dbhost'] . PHP_EOL;
@@ -132,8 +133,8 @@ class InstallerController extends Controller
             ]) : [],
         ]);
 
-        \DB::reconnect();   
-        
+        \DB::reconnect();
+
         \Artisan::call('migrate:install');
         \Artisan::call('migrate:refresh', array('--path' => 'database/migrations', '--force' => true));
 

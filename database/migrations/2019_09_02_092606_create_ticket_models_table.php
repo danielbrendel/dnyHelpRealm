@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -35,7 +35,7 @@ class CreateTicketModelsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('confirmation');
-            $table->integer('type')->unsigned(); //1 = service request, 2 = incident, 3 = change
+            $table->integer('type')->unsigned();
             $table->integer('status')->unsigned(); //1 = open, 2 = waiting, 3 = closed
             $table->integer('prio')->unsigned(); //1 = low, 2 = medium, 3 = high
             $table->integer('group')->unsigned();

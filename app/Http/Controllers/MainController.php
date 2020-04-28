@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -31,14 +31,14 @@ use App\MailserviceModel;
 
 /**
  * Class MainController
- * 
+ *
  * Perform general computations
  */
 class MainController extends Controller
 {
     /**
      * Return either agent dashboard or ticket creation dashboard
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\View\View
      */
@@ -53,7 +53,7 @@ class MainController extends Controller
             \App::setLocale($ws->lang);
 
             $img = BgImagesModel::queryRandomImage($ws->id);
-            
+
             $captchadata = CaptchaModel::createSum(session()->getId());
 
             $infomessage = $ws->welcomemsg;
@@ -101,8 +101,8 @@ class MainController extends Controller
     }
 
     /**
-     * Default site landing page
-     * 
+     * Default service landing page
+     *
      * @return Illuminate\View\View
      */
     public function index()
@@ -114,12 +114,29 @@ class MainController extends Controller
 
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        return view('home', ['captchadata' => $captchadata]);
+        $count_workspaces = WorkSpaceModel::count();
+        $count_tickets = TicketModel::count();
+        $count_agents = AgentModel::count();
+        $count_clients = TicketModel::distinct('email')->count('email');
+
+        if (isset($_COOKIE['mobep'])) {
+            session()->reflash();
+
+            return redirect('/mobep/index');
+        }
+
+        return view('home', [
+            'captchadata' => $captchadata,
+            'count_workspaces' => $count_workspaces,
+            'count_tickets' => $count_tickets,
+            'count_agents' => $count_agents,
+            'count_clients' => $count_clients
+        ]);
     }
 
     /**
      * View news page
-     * 
+     *
      * @return mixed
      */
     public function news()
@@ -136,7 +153,7 @@ class MainController extends Controller
 
     /**
      * View features page
-     * 
+     *
      * @return mixed
      */
     public function features()
@@ -153,7 +170,7 @@ class MainController extends Controller
 
     /**
      * View about page
-     * 
+     *
      * @return mixed
      */
     public function about()
@@ -170,7 +187,7 @@ class MainController extends Controller
 
     /**
      * View faq page
-     * 
+     *
      * @return mixed
      */
     public function faq()
@@ -187,7 +204,7 @@ class MainController extends Controller
 
     /**
      * View imprint page
-     * 
+     *
      * @return mixed
      */
     public function imprint()
@@ -204,7 +221,7 @@ class MainController extends Controller
 
     /**
      * View tac page
-     * 
+     *
      * @return mixed
      */
     public function tac()
@@ -221,7 +238,7 @@ class MainController extends Controller
 
     /**
      * Perform login
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function login()
@@ -237,8 +254,12 @@ class MainController extends Controller
                 if ($user->account_confirm !== '_confirmed') {
                     return back()->with('error', __('app.account_not_yet_confirmed'));
                 }
+
+                if ($user->deactivated) {
+                    return back()->with('error', __('app.account_deactivated'));
+                }
             }
-            
+
             if (Auth::attempt([
                 'email' => $attr['email'],
                 'password' => $attr['password']
@@ -269,7 +290,7 @@ class MainController extends Controller
 
     /**
      * Perform logout
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function logout()
@@ -288,7 +309,7 @@ class MainController extends Controller
 
     /**
      * Send email with password recovery link to user
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function recover()
@@ -299,7 +320,7 @@ class MainController extends Controller
 
         $user = User::getByEmail($attr['email']);
         if (!$user) {
-            return back()->with('error', 'email_not_found');
+            return back()->with('error', __('app.email_not_found'));
         }
 
         $entity = User::getAgent($user->id);
@@ -315,7 +336,7 @@ class MainController extends Controller
 
     /**
      * Password reset view
-     * 
+     *
      * @return Illuminate\View\View
      */
     public function viewReset()
@@ -331,7 +352,7 @@ class MainController extends Controller
 
     /**
      * Reset new password
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function reset()
@@ -359,7 +380,7 @@ class MainController extends Controller
 
     /**
      * Process registration
-     * 
+     *
      * @return mixed
      */
     public function register()
@@ -372,14 +393,14 @@ class MainController extends Controller
             'password_confirmation' => 'required',
             'captcha' => 'required|numeric'
         ]);
-        
+
         $attr['lang'] = 'en';
         $attr['usebgcolor'] = false;
         $attr['bgcolorcode'] = 'F5F5F6';
         $attr['welcomemsg'] = __('app.system_welcomemsg');
 
         $attr['name'] = md5($attr['fullname'] . $attr['email'] . random_bytes(55));
-        
+
         $workspace = WorkSpaceModel::get($attr['name']);
         if ($workspace !== null) {
             return back()->with('error', __('app.workspace_already_exists'));
@@ -389,11 +410,11 @@ class MainController extends Controller
         if ($emailuser !== null) {
             return back()->with('error', __('app.email_already_in_use'));
         }
-        
+
         if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
             return back()->with('error', __('app.captcha_invalid'));
         }
-        
+
         if ($attr['password'] !== $attr['password_confirmation']) {
             return back()->with('error', __('app.password_mismatch'));
         }
@@ -470,7 +491,7 @@ class MainController extends Controller
 
     /**
      * Confirm account
-     * 
+     *
      * @return Illuminate\Http\RedirectResponse
      */
     public function confirm()
@@ -490,7 +511,7 @@ class MainController extends Controller
 
     /**
      * Perform mailservice operations
-     * 
+     *
      * @param string $password
      * @return void
      */
@@ -504,5 +525,22 @@ class MainController extends Controller
         } else {
             return response()->json(['code' => 403, 'data' => array()]);
         }
+    }
+
+    /**
+     * Mobile endpoint: landing page
+     *
+     * @return mixed
+     */
+    public function mobep_index()
+    {
+        if (!Auth::guest()) {
+            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id())->workspace)->first();
+            return redirect('/' . $ws->name . '/index');
+        }
+
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('mobep.index', ['captchadata' => $captchadata]);
     }
 }

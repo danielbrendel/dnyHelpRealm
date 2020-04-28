@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -11809,18 +11809,16 @@ pre {
   bottom: 0;
   width: 80%;
   float: left;
-  transform: translateX(-50%) translateY(0%);
+  transform: translateX(-50%) translateY(-50%);
   height: auto;
   margin-bottom: 15px;
   background-color: #c8c8c8;
-  opacity: 0.6;
   border-radius: 10px;
 }
 
 @media screen and (max-width: 765px) {
   .cookie-consent-inner {
     z-index: 1;
-    opacity: 1;
   }
 }
 
@@ -11867,6 +11865,18 @@ pre {
   margin-bottom: 25px;
 }
 
+.home-statistics {
+  position: relative;
+  margin-top: 35px;
+  margin-bottom: 35px;
+}
+
+.home-statistics-item {
+  position: relative;
+  padding: 15px;
+  display: inline-block;
+}
+
 .home-screenshot {
   position: relative;
   margin-bottom: 15px;
@@ -11874,9 +11884,7 @@ pre {
 }
 
 .home-copyright {
-  position: relative;
-  margin-top: 50px;
-  margin-bottom: 8px;
+  width: 100%;
   color: #7f8a9d;
 }
 
@@ -11884,6 +11892,7 @@ pre {
   position: relative;
   margin-left: 15px;
   margin-right: 15px;
+  margin-bottom: 90px;
 }
 
 .imprint {
@@ -11908,5 +11917,46 @@ pre {
 
 a.navbar-item:hover {
   text-decoration: none !important;
+}
+
+#mobep {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.mobep-outer {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+}
+
+.mobep-content {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  transform: translate(-50%, -50%);
+}
+
+.mobep-headline {
+  font-size: 1.5em;
+  margin-bottom: 45px;
+}
+
+.mobep-recover-top {
+  position: relative;
+  top: 12px;
+}
+
+.mobep-border {
+  border-top: 1px solid #ccc;
+  margin-top: 18px;
+  padding-top: 12px;
+}
+
+.mobep-signup {
+  font-size: 1.3em;
 }
 

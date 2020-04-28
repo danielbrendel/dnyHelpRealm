@@ -3,7 +3,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -21,7 +21,7 @@
 
         <meta name="author" content="{{ env('APP_AUTHOR') }}">
         <meta name="description" content="{{ env('APP_DESCRIPTION') }}">
-        <meta name="tags" content="dnyHelpRealm, HelpRealm, ticket, ticket system, support ticket system, support, system, agent, client, helpdesk">
+        <meta name="tags" content="{{ env('APP_METATAGS') }}">
 
         <link rel="shortcut icon" href="{{ asset('gfx/logo.png') }}">
 
@@ -29,7 +29,7 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro.datatables.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
-        
+
         @if (env('APP_ENV') == 'local')
         <script src="{{ asset('js/vue.js') }}"></script>
         @elseif (env('APP_ENV') == 'production')
@@ -69,11 +69,11 @@
                     <div name="sidebaritem" class="app-sidebar-logo">
                         <div class="app-logo" style="background-image: url({{ asset('/gfx/logo.png') }});" title="{{ env('APP_NAME') . ' | ' . env('APP_DESCRIPTION') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';"></div>
                     </div>
-                
+
                     <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.dashboard') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-tachometer-alt fa-lg"></i></div>
                     </div>
-                
+
                     <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_list') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/list') }}';">
                         <div class="app-sidebar-item-content"><i class="far fa-list-alt fa-lg"></i></div>
                     </div>
@@ -81,16 +81,16 @@
                     <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_create') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/create') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-plus fa-lg"></i></div>
                     </div>
-                
+
                     <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.ticket_search') }}" onclick="location.href='{{ url('/' . $workspace . '/ticket/search') }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-search fa-lg"></i></div>
                     </div>
-                
+
                     @if ($superadmin)
                         <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.groups') }}" onclick="location.href='{{ url('/' . $workspace . '/group/list') }}';">
                             <div class="app-sidebar-item-content"><i class="fas fa-layer-group fa-lg"></i></div>
                         </div>
-                
+
                         <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.agent_list') }}" onclick="location.href='{{ url('/' . $workspace . '/agent/list') }}';">
                             <div class="app-sidebar-item-content"><i class="fas fa-user-tie fa-lg"></i></div>
                         </div>
@@ -119,7 +119,7 @@
                         <div class="app-account" style="background-image: url({{ asset('gfx/avatars/' . $user->avatar) }});" title="{{ __('app.viewsettings') }}" onclick="location.href='{{ url('/' . $workspace . '/settings') }}';"></div>
                         <div class="app-info"><a href="javascript:void(0)" onclick="vue.bShowAbout = true;"><i class="fas fa-info-circle fa-lg" title="{{ __('app.about') }}"></i></a></div>
                     </div>
-                    
+
                     <div class="container">
                         @yield('content')
                     </div>
@@ -202,7 +202,7 @@
                 methods: {
                     toggleMenu: function() {
                         //Toggle the sidenav menu
-                        
+
                         this.showSideBar = !this.showSideBar;
 
                         if (this.showSideBar) {

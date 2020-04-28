@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -28,6 +28,7 @@ Route::post('/reset', 'MainController@reset');
 Route::get('/register', 'MainController@viewRegister');
 Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
+Route::get('/mobep/index', 'MainController@mobep_index');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');

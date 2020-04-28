@@ -5,7 +5,7 @@
 
     (C) 2019 - 2020 by Daniel Brendel
 
-    Version: 0.1
+     Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
@@ -31,14 +31,14 @@ use \App\TicketsHaveTypes;
 
 /**
  * Class SettingsController
- * 
+ *
  * Perform settings specific computations
  */
 class SettingsController extends Controller
 {
     /**
      * Redirect depending on entity type
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -53,7 +53,7 @@ class SettingsController extends Controller
 
     /**
      * Show agent settings view
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -77,7 +77,7 @@ class SettingsController extends Controller
         }
 
         $agent = User::getAgent(auth()->id());
-        
+
         return view('settings.agent', [
             'workspace' => $ws->name,
             'location' => __('app.settings'),
@@ -91,7 +91,7 @@ class SettingsController extends Controller
 
     /**
      * Save settings
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -109,10 +109,10 @@ class SettingsController extends Controller
             'password_confirm' => 'nullable',
             'mailonticketingroup' => 'nullable|numeric'
         ]);
-        
+
         $user = User::get(auth()->id());
         $agent = User::getAgent(auth()->id());
-        
+
         if (isset($attr['email'])) { $user->email = $attr['email']; $agent->email = $attr['email']; }
         if (isset($attr['surname'])) $agent->surname = $attr['surname'];
         if (isset($attr['lastname'])) $agent->lastname = $attr['lastname'];
@@ -133,7 +133,7 @@ class SettingsController extends Controller
 
     /**
      * Get image type
-     * 
+     *
      * @param string $ext The image file extension
      * @param string $file The path to the image file
      * @return int|null Image type identifier or null if not found
@@ -146,20 +146,20 @@ class SettingsController extends Controller
             array('jpeg', IMAGETYPE_JPEG),
             array('gif', IMAGETYPE_GIF)
         );
-        
+
         for ($i = 0; $i < count($imagetypes); $i++) {
             if ($ext == $imagetypes[$i][0]) {
                 if (exif_imagetype($file) == $imagetypes[$i][1])
                     return $imagetypes[$i][1];
             }
         }
-        
+
         return null;
     }
 
     /**
      * Save avatar
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -178,11 +178,11 @@ class SettingsController extends Controller
             $av->move(base_path() . '/public/gfx/avatars', 'tmp.' . $av->getClientOriginalExtension());
 
             list($width, $height) = getimagesize(base_path() . '/public/gfx/avatars/tmp.' . $av->getClientOriginalExtension());
-			
+
 			$avimg = imagecreatetruecolor(64, 64);
 			if (!$avimg)
 				return false;
-			
+
             $srcimage = null;
             $newname =  md5_file(base_path() . '/public/gfx/avatars/tmp.' . $av->getClientOriginalExtension()) . '.' . $av->getClientOriginalExtension();
 			switch ($this->GetImageType($av->getClientOriginalExtension(), base_path() . '/public/gfx/avatars/tmp.' . $av->getClientOriginalExtension())) {
@@ -200,9 +200,9 @@ class SettingsController extends Controller
 					return back()->with('error', __('app.settings_avatar_invalid_image_type'));
 					break;
 			}
-			
+
             unlink(base_path() . '/public/gfx/avatars/tmp.' . $av->getClientOriginalExtension());
-            
+
             $user = User::get(auth()->id());
             $user->avatar = $newname;
             $user->save();
@@ -215,7 +215,7 @@ class SettingsController extends Controller
 
     /**
      * Store locale
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -230,17 +230,17 @@ class SettingsController extends Controller
         ]);
 
         \App::setLocale($attr['lang']);
-        
+
         $user = User::get(auth()->id());
         $user->language = $attr['lang'];
         $user->save();
-        
+
         return back()->with('success', __('app.settings_saved'));
     }
 
     /**
      * Show system settings view
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -285,6 +285,7 @@ class SettingsController extends Controller
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
             'infomessage' => $ws->welcomemsg,
+            'emailconfirm' => $ws->emailconfirm,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId())
         ]);
@@ -292,7 +293,7 @@ class SettingsController extends Controller
 
     /**
      * Save system settings
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -316,11 +317,16 @@ class SettingsController extends Controller
             'lang' => 'nullable',
             'usebgcolor' => 'numeric|nullable',
             'bgcolorcode' => 'nullable',
-            'infomessage' => 'nullable'
+            'infomessage' => 'nullable',
+            'emailconfirm' => 'numeric|nullable'
         ]);
 
         if (!isset($attr['usebgcolor'])) {
             $attr['usebgcolor'] = false;
+        }
+
+        if (!isset($attr['emailconfirm'])) {
+            $attr['emailconfirm'] = false;
         }
 
         if (!isset($attr['bgcolorcode'])) {
@@ -330,16 +336,18 @@ class SettingsController extends Controller
         if (isset($attr['company'])) $ws->company = $attr['company'];
         if (isset($attr['lang'])) $ws->lang = $attr['lang'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
-        if (isset($attr['bgcolorcode'])) $ws->bgcolorcode = $attr['bgcolorcode'];
+        if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
+        if (isset($attr['emailconfirm'])) $ws->emailconfirm = $attr['emailconfirm'];
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
+
         $ws->save();
-        
+
         return back()->with('success', __('app.settings_saved'));
     }
 
     /**
      * Add background image
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -381,7 +389,7 @@ class SettingsController extends Controller
 
     /**
      * Delete background image
-     * 
+     *
      * @param string $workspace
      * @param string $filename
      * @return Illuminate\Http\RedirectResponse
@@ -427,7 +435,7 @@ class SettingsController extends Controller
 
     /**
      * Add ticket type
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -462,7 +470,7 @@ class SettingsController extends Controller
 
     /**
      * Edit ticket type
-     * 
+     *
      * @param string $workspace
      * @param int $id
      * @return mixed
@@ -499,7 +507,7 @@ class SettingsController extends Controller
 
     /**
      * Remove ticket type
-     * 
+     *
      * @param string $workspace
      * @param int $id
      * @return mixed
@@ -536,7 +544,7 @@ class SettingsController extends Controller
 
     /**
      * Cancel workspace
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */

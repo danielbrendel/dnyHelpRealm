@@ -4,7 +4,7 @@
 
         (C) 2019 - 2020 by Daniel Brendel
 
-        Version: 0.1
+        Version: 1.0
         Contact: dbrendel1988<at>gmail<dot>com
         GitHub: https://github.com/danielbrendel/
 
@@ -32,7 +32,8 @@
         'group_data_stored' => 'Gruppendaten wurden gespeichert',
         'group_not_empty' => 'Die Gruppe ist nicht leer',
         'ticket_created' => 'Ticket wurde erstellt',
-        'ticket_created_customer' => 'Ihr Ticket wurde erstellt. Sie müssen noch Ihre E-Mail Adresse bestätigen, bevor Sie ihr Ticket verwalten können. Bitte befolgen Sie dazu die Anweisungen der E-Mail, die wir Ihnen geschickt haben.',
+        'ticket_created_customer_confirm' => 'Ihr Ticket wurde erstellt. Sie müssen noch Ihre E-Mail Adresse bestätigen, bevor Sie ihr Ticket verwalten können. Bitte befolgen Sie dazu die Anweisungen der E-Mail, die wir Ihnen geschickt haben.',
+        'ticket_created_customer_notconfirm' => 'Ihr Ticket wurde erstellt. Eine Bestätigung wurde an Ihre angegebene E-Mail Adresse versandt.',
         'ticket_creation_failed' => 'Konnte Ticket nicht erstellen',
         'ticket_deleted' => 'Ticket wurde gelöscht',
         'ticket_not_found' => 'Das angegebene Ticket wurde nicht gefunden',
@@ -280,7 +281,8 @@
         'mail_password_reset_title' => 'Passwort Wiederherstellen',
         'mail_password_reset_body' => 'Von Ihrem Konto wurde ein Zurücksetzen des Passworts angefordert. Klicken Sie den Link, um Ihr Passwort zurückzusetzen. Falls Sie die Aktion nicht angefordert haben, können Sie diese E-Mail ignorieren.',
         'mail_ticket_create_title' => 'Ticket erfolgreich erstellt',
-        'mail_ticket_create_body' => 'Ihr Ticket wurde erfolgreich erstellt. Klicken Sie den Link unten, um Ihr Ticket zu öffnen und Ihre E-Mail Adresse zu bestätigen oder bestätigen Sie Ihre E-Mail Adresse, indem Sie auf diese E-Mail mit einem beliebigen Text antworten.',
+        'mail_ticket_create_body_confirm' => 'Ihr Ticket wurde erfolgreich erstellt. Klicken Sie den Link unten, um Ihr Ticket zu öffnen und Ihre E-Mail Adresse zu bestätigen oder bestätigen Sie Ihre E-Mail Adresse, indem Sie auf diese E-Mail mit einem beliebigen Text antworten.',
+        'mail_ticket_create_body_notconfirm' => 'Ihr Ticket wurde erfolgreich erstellt. Bitte bachten Sie, dass es etwas Zeit in Anspruch nehmen kann, bis Sie eine Antwort erhalten. Hinweis: Sie können auf diese E-Mail antworten, um weitere Informationen Ihrem Ticket hinzuzufügen.',
         'mail_ticket_create_open' => 'Ticket öffnen',
         'mail_ticket_creation' => 'Ticket Erstellung',
         'mail_ticket_assign_title' => 'Ticket zugewiesen',
@@ -332,5 +334,8 @@
         'system_info_message' => 'Die Info-Nachricht im Ticketformular. Folgende HTML Tags werden unterstützt:',
         'email_not_found' => 'Die angegebene E-Mail Adresse existiert nicht in unserer Datenbank.',
         'email_already_in_use' => 'Die angegebene E-Mail Adresse wird bereits für einen Workspace verwendet.',
-        'ticket_invalid_captcha' => 'Das Captcha ist ungültig'
+        'ticket_invalid_captcha' => 'Das Captcha ist ungültig',
+        'system_welcomemsg' => 'Willkommen auf unserem Support Kontaktformular. Bitte beschreiben Sie Ihr Problem so genau wie möglich. Wir werden uns dann schnellstmöglich mit Ihnen in Verbindung setzen.',
+        'system_emailconfirm' => 'Aktivieren Sie diese Option, wenn Kunden im Erstellprozess eines Tickets Ihre E-Mail Adresse bestätigen müssen.',
+        'account_deactivated' => 'Ihr Account wurde deaktiviert.',
     ];
