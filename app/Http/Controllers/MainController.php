@@ -426,7 +426,7 @@ class MainController extends Controller
 
         $user = new \App\User;
         $user->workspace = $workspace->id;
-        $user->name = 'admin';
+        $user->name = $attr['name'];
         $user->email = $attr['email'];
         $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         $user->account_confirm = md5($user->email . date('Y-m-d H:i:s') . random_bytes(55));
