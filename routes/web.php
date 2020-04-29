@@ -29,6 +29,7 @@ Route::get('/register', 'MainController@viewRegister');
 Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
 Route::get('/mobep/index', 'MainController@mobep_index');
+Route::get('/mobep/notifications', 'MainController@mobep_notifications');
 Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');

@@ -14,7 +14,7 @@
 
 @section('content')
     <div class="columns is-centered is-vcentered">
-        <div class="column is-three-fifths">
+        <div class="column is-four-fifths">
             <div class="home-padding">
                 <div class="home-headline">
                     <center><h1>{{ env('APP_DESCRIPTION') }}</h1></center>
@@ -25,26 +25,42 @@
                 </div>
 
                 @if (env('APP_SHOWSTATISTICS'))
-                    <div class="home-statistics">
+                    <div class="home-statistics fade-in">
                         <center>
                             <div class="home-statistics-item">
-                                <h3>Workspaces</h3>
-                                <div data-role="donut" data-value="{{ $count_workspaces }}" data-cap="" data-animate="10"></div>
+                                <div class="home-statistics-item-inner">
+                                    <div class="home-statistics-item-info">
+                                        <h3>Workspaces</h3>
+                                        <span id="count-workspaces">{{ $count_workspaces }}</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="home-statistics-item">
-                                <h3>Tickets</h3>
-                                <div data-role="donut" data-value="{{ $count_tickets }}" data-cap="" data-animate="10"></div>
+                                <div class="home-statistics-item-inner">
+                                    <div class="home-statistics-item-info">
+                                        <h3>Tickets</h3>
+                                        <span id="count-tickets">{{ $count_tickets }}</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="home-statistics-item">
-                                <h3>Agents</h3>
-                                <div data-role="donut" data-value="{{ $count_agents }}" data-cap="" data-animate="10"></div>
+                                <div class="home-statistics-item-inner">
+                                    <div class="home-statistics-item-info">
+                                        <h3>Agents</h3>
+                                        <span id="count-agents">{{ $count_agents }}</span>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="home-statistics-item">
-                                <h3>Clients</h3>
-                                <div data-role="donut" data-value="{{ $count_clients }}" data-cap="" data-animate="10"></div>
+                                <div class="home-statistics-item-inner">
+                                    <div class="home-statistics-item-info">
+                                        <h3>Clients</h3>
+                                        <span id="count-clients">{{ $count_clients }}</span>
+                                    </div>
+                                </div>
                             </div>
                         </center>
                     </div>
@@ -54,7 +70,7 @@
                     <center><button type="button" class="button is-outlined is-medium" onclick="vue.bShowRegister = true;">{{ __('app.register') }}</button></center>
                 </div>
 
-                <div class="home-screenshot">
+                <div class="home-screenshot fade-in">
                     <center><img src="{{ asset('/gfx/preview.png') }}" alt="preview_screenshot"/></center>
                 </div>
             </div>

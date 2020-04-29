@@ -22,6 +22,7 @@
 html {
     width: 100%;
     height: 100%;
+    overflow-y: hidden !important;
 }
 
 body {
@@ -856,8 +857,35 @@ pre {
 }
 .home-statistics-item {
     position: relative;
-    padding: 15px;
+    padding: 11px;
+    margin-right: 15px;
+    width: 141px;
+    height: 125px;
     display: inline-block;
+    background-color: rgb(250, 250, 250);
+    border-radius: 2px;
+}
+.home-statistics-item-inner {
+    position: relative;
+    height: 90%;
+    top: 5px;
+    border-left: 3px solid rgb(153, 217, 234);
+    vertical-align: middle;
+    text-align: center;
+}
+.home-statistics-item-info {
+    position: relative;
+    top: 50%;
+    width: 90%;
+    transform: translate(-0%, -50%);
+}
+.home-statistics-item-inner h3 {
+    color: rgb(120, 120, 120);
+    font-size: 1.0em;
+}
+.home-statistics-item-inner span {
+    color: rgb(0, 0, 0);
+    font-size: 1.4em;
 }
 .home-screenshot {
     position: relative;
@@ -932,4 +960,29 @@ a.navbar-item:hover {
 }
 .mobep-signup {
     font-size: 1.3em;
+}
+
+//Fade in
+.fade-in {
+    -webkit-animation: fadein 4s;
+    -moz-animation: fadein 4s;
+    -ms-animation: fadein 4s;
+    -o-animation: fadein 4s;
+    animation: fadein 4s;
+}
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }

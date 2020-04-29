@@ -15,6 +15,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Auth;
 use App\User;
 use App\TicketModel;
@@ -28,6 +29,7 @@ use App\WorkSpaceModel;
 use App\HomeFaqModel;
 use App\TicketsHaveTypes;
 use App\MailserviceModel;
+use App\PushModel;
 
 /**
  * Class MainController
@@ -114,10 +116,14 @@ class MainController extends Controller
 
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        $count_workspaces = WorkSpaceModel::count();
-        $count_tickets = TicketModel::count();
-        $count_agents = AgentModel::count();
-        $count_clients = TicketModel::distinct('email')->count('email');
+		if (env('APP_SHOWSTATISTICS')) {
+		    $oneDay = 60 * 60 * 24;
+
+			$count_workspaces = Cache::remember('count_workspaces', $oneDay, function() { return WorkSpaceModel::count(); });
+			$count_tickets = Cache::remember('count_tickets', $oneDay, function() { return TicketModel::count(); });
+			$count_agents = Cache::remember('count_agents', $oneDay, function() { return AgentModel::count(); });
+			$count_clients = Cache::remember('count_clients', $oneDay, function() { return TicketModel::distinct('email')->count('email'); });
+		}
 
         if (isset($_COOKIE['mobep'])) {
             session()->reflash();
@@ -542,5 +548,19 @@ class MainController extends Controller
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('mobep.index', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * Mobile endpoint: notifications
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mobep_notifications()
+    {
+        if (Auth::guest()) {
+            return response()->json(array('code' => 403));
+        }
+
+        return response()->json(array('code' => 200, 'data' => PushModel::getUnseenNotifications(auth()->id())));
     }
 }

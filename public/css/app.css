@@ -10897,6 +10897,7 @@ a.text-dark:focus {
 html {
   width: 100%;
   height: 100%;
+  overflow-y: hidden !important;
 }
 
 body {
@@ -11873,8 +11874,39 @@ pre {
 
 .home-statistics-item {
   position: relative;
-  padding: 15px;
+  padding: 11px;
+  margin-right: 15px;
+  width: 141px;
+  height: 125px;
   display: inline-block;
+  background-color: #fafafa;
+  border-radius: 2px;
+}
+
+.home-statistics-item-inner {
+  position: relative;
+  height: 90%;
+  top: 5px;
+  border-left: 3px solid #99d9ea;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.home-statistics-item-info {
+  position: relative;
+  top: 50%;
+  width: 90%;
+  transform: translate(0%, -50%);
+}
+
+.home-statistics-item-inner h3 {
+  color: #787878;
+  font-size: 1em;
+}
+
+.home-statistics-item-inner span {
+  color: black;
+  font-size: 1.4em;
 }
 
 .home-screenshot {
@@ -11958,5 +11990,30 @@ a.navbar-item:hover {
 
 .mobep-signup {
   font-size: 1.3em;
+}
+
+.fade-in {
+  -webkit-animation: fadein 4s;
+  animation: fadein 4s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 

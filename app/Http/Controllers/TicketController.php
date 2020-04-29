@@ -343,6 +343,8 @@ class TicketController extends Controller
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id])->render();
                     @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+
+                    PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
                 }
             }
 
@@ -552,7 +554,7 @@ class TicketController extends Controller
     }
 
     /**
-     * Assign ticket to group
+     * Assign ticket to agent
      *
      * @param string $workspace
      * @param int $ticket The ticket ID
@@ -580,8 +582,12 @@ class TicketController extends Controller
             $record->assignee = $agent;
             $record->save();
 
-            $htmlCode = view('mail.ticket_assign', ['workspace' => $ws->name, 'name' => $ag->surname . ' ' . $ag->lastname, 'id' => $ticket])->render();
-            @mail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+            if ($ag->user_id !== auth()->id()) {
+                $htmlCode = view('mail.ticket_assign', ['workspace' => $ws->name, 'name' => $ag->surname . ' ' . $ag->lastname, 'id' => $ticket])->render();
+                @mail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+
+                PushModel::addNotification(__('app.mail_ticket_assigned'), $record->subject, $ag->user_id);
+            }
 
             return back()->with('success', __('app.ticket_agent_assigned'));
         } else {
@@ -849,9 +855,10 @@ class TicketController extends Controller
 
             $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
             if ($assignee != null) {
-                $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id])->render();
-
+                $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id, 'message' => $attr['text'], 'customer' => $updTicket->name])->render();
                 @mail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+
+                PushModel::addNotification(__('app.mail_ticket_customer_replied'), $attr['text'], $assignee->user_id);
             }
 
             return back();

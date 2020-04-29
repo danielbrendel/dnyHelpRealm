@@ -47,6 +47,7 @@
         'workspace_cancel' => 'Cancel Workspace',
         'workspace_cancel_btn' => 'Cancel and delete my data',
         'workspace_cancel_confirm' => 'Are you sure you want to proceed? This cannot be undone! All your data will be erased.',
+        'workspace_not_found' => 'The specified workspace could not be found',
         'superadmin_permission_required' => 'Only superadmins have this permission',
         'agent_created' => 'The agent has been created',
         'agent_not_found' => 'The specified agent does not exist',

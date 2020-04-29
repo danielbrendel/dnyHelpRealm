@@ -31,6 +31,7 @@
         'group_not_found' => 'Die angegebene Gruppe wurde nicht gefunden',
         'group_data_stored' => 'Gruppendaten wurden gespeichert',
         'group_not_empty' => 'Die Gruppe ist nicht leer',
+        'workspace_not_found' => 'Der angegebene Workspace wurde nicht gefunden',
         'ticket_created' => 'Ticket wurde erstellt',
         'ticket_created_customer_confirm' => 'Ihr Ticket wurde erstellt. Sie müssen noch Ihre E-Mail Adresse bestätigen, bevor Sie ihr Ticket verwalten können. Bitte befolgen Sie dazu die Anweisungen der E-Mail, die wir Ihnen geschickt haben.',
         'ticket_created_customer_notconfirm' => 'Ihr Ticket wurde erstellt. Eine Bestätigung wurde an Ihre angegebene E-Mail Adresse versandt.',
