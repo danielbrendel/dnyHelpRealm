@@ -11823,6 +11823,12 @@ pre {
   }
 }
 
+@media screen and (max-width: 690px) {
+  .cookie-consent-inner {
+    transform: translateX(-50%) translateY(-20%);
+  }
+}
+
 .cookie-consent-text {
   position: relative;
   margin-left: 25px;
@@ -11875,7 +11881,7 @@ pre {
 .home-statistics-item {
   position: relative;
   padding: 11px;
-  margin-right: 15px;
+  margin: 8px;
   width: 141px;
   height: 125px;
   display: inline-block;
