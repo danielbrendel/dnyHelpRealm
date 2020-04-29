@@ -99,3 +99,5 @@ Route::any('/mailservice/{password}', 'MainController@mailservice');
 
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');
+
+Route::get('/{workspace}', 'MainController@workspaceIndex');

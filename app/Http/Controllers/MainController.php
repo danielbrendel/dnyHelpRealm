@@ -123,7 +123,12 @@ class MainController extends Controller
 			$count_tickets = Cache::remember('count_tickets', $oneDay, function() { return TicketModel::count(); });
 			$count_agents = Cache::remember('count_agents', $oneDay, function() { return AgentModel::count(); });
 			$count_clients = Cache::remember('count_clients', $oneDay, function() { return TicketModel::distinct('email')->count('email'); });
-		}
+		} else {
+            $count_workspaces = null;
+            $count_tickets = null;
+            $count_agents = null;
+            $count_clients = null;
+        }
 
         if (isset($_COOKIE['mobep'])) {
             session()->reflash();
@@ -147,11 +152,6 @@ class MainController extends Controller
      */
     public function news()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('news', ['captchadata' => $captchadata]);
@@ -164,11 +164,6 @@ class MainController extends Controller
      */
     public function features()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('features', ['captchadata' => $captchadata]);
@@ -181,11 +176,6 @@ class MainController extends Controller
      */
     public function about()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('about', ['captchadata' => $captchadata]);
@@ -198,11 +188,6 @@ class MainController extends Controller
      */
     public function faq()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('faq', ['captchadata' => $captchadata, 'faqs' => HomeFaqModel::getAll()]);
@@ -215,11 +200,6 @@ class MainController extends Controller
      */
     public function imprint()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('imprint', ['captchadata' => $captchadata]);
@@ -232,11 +212,6 @@ class MainController extends Controller
      */
     public function tac()
     {
-        if (!Auth::guest()) {
-            $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id()))->first();
-            return redirect('/' . $ws->name . '/index');
-        }
-
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('tac', ['captchadata' => $captchadata]);

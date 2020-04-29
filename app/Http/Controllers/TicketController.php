@@ -139,8 +139,7 @@ class TicketController extends Controller
             'agents' => AgentModel::where('active', '=', true)->where('workspace', '=', $ws->id)->get(),
             'groups' => GroupsModel::where('workspace', '=', $ws->id)->get(),
             'files' => $ticketFileInfo,
-            'superadmin' => User::getAgent(auth()->id())->superadmin,
-            'notifications' => PushModel::getUnseenNotifications(auth()->id())
+            'superadmin' => User::getAgent(auth()->id())->superadmin
         ];
 
         $attr['threaddata'] = array();

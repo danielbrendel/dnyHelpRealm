@@ -49,7 +49,7 @@
                                 {{ __('app.created_at') }} {{ $ticket->created_at->diffForHumans() }}
                             </div>
                         </div>
-                        
+
                         <p><center><pre>{{ $ticket->text }}</pre></center></p>
 
                         <div class="dashboard-card">
@@ -83,7 +83,7 @@
                                         <b>{{ __('app.prio_high') }}</b>
                                     @endif</p>
                                 <p>{{ $group }}</p>
-                                <p>Assignee: <?php echo (($agent != null) ? $agent->surname . ' ' . $agent->lastname : ' - ');  ?></p>
+                                <p>Assignee: @if ($agent != null) {{ $agent->surname . ' ' . $agent->lastname }} @else {{ ' - ' }} @endif</p>
                             </div>
                         </div>
 
@@ -134,19 +134,19 @@
                         <div class="window-field">
                             <div class="window-field-inner">
                                 <div class="window-field-headline">{{ __('app.notes') }}</div>
-                                
+
                                 <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/notes/save') }}">
                                     @csrf
                                     @method('PATCH')
-        
+
                                     <div class="field">
                                         <center><textarea name="notes" class="textarea" style="width: 90%;">{{ $ticket->notes }}</textarea></center>
                                     </div>
-        
+
                                     <div class="field">
                                         <center><input type="submit" class="button" value="{{ __('app.save') }}"/></center>
                                     </div>
-        
+
                                     <br/>
                                 </form>
                             </div>
@@ -287,7 +287,7 @@
         </footer>
     </div>
     </div>
-    
+
     <div class="modal" :class="{'is-active': bShowAssignGroup}">
     <div class="modal-background"></div>
     <div class="modal-card">
@@ -435,18 +435,4 @@
     </div>
 
     </div>
-@endsection
-
-@section('javascript')
-    @foreach ($notifications as $notification)
-        Push.create("{{ $notification->title }}", {
-            body: "{{ $notification->message }}",
-            icon: "{{ asset('/gfx/favicon.png') }}",
-            timeout: 5000,
-            onClick: function () {
-                window.focus();
-                this.close();
-            }
-        });
-    @endforeach
 @endsection
