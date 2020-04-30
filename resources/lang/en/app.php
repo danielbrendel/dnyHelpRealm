@@ -47,7 +47,7 @@
         'workspace_cancel' => 'Cancel Workspace',
         'workspace_cancel_btn' => 'Cancel and delete my data',
         'workspace_cancel_confirm' => 'Are you sure you want to proceed? This cannot be undone! All your data will be erased.',
-        'workspace_not_found' => 'The specified workspace could not be found',
+        'workspace_not_found_or_deactivated' => 'The specified workspace could not be found or has been deactivated',
         'superadmin_permission_required' => 'Only superadmins have this permission',
         'agent_created' => 'The agent has been created',
         'agent_not_found' => 'The specified agent does not exist',
@@ -308,7 +308,7 @@
         'system_usebgcolor' => 'Use a plain background color instead of background images',
         'system_colorcode' => 'The color code if above option is activated',
         'mail_salutation' => 'Dear :name,',
-        'mail_footer' => 'Kind regards - ' . env('APP_NAME'),
+        'mail_footer' => 'Kind regards,',
         'mail_password_reset_subject' => 'Password reset',
         'mail_password_reset' => 'Reset password',
         'mail_password_reset_title' => 'Password reset',
@@ -369,5 +369,6 @@
         'email_already_in_use' => 'The specified e-mail address is already associated with one of our workspaces.',
         'system_welcomemsg' => 'Welcome to our support contact form. Please describe your issue as detailed as possible. We will get back to you as soon as possible.',
         'system_emailconfirm' => 'Activate this option if customers must confirm their e-mail addresses in the ticket creation process.',
-        'account_deactivated' => 'Your account has been dactivated'
+        'account_deactivated' => 'Your account has been dactivated',
+        'documentation_view' => 'Documentation'
     ];

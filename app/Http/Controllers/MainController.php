@@ -46,9 +46,9 @@ class MainController extends Controller
      */
     public function workspaceIndex($workspace)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return redirect('/')->with('error', __('app.workspace_not_found'));
+            return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if ((Auth::guest()) || (request('v') === 'c')) {
@@ -111,7 +111,7 @@ class MainController extends Controller
     {
         if (!Auth::guest()) {
             $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id())->workspace)->first();
-            return redirect('/' . $ws->name . '/index');
+            return redirect('/' . $ws->name);
         }
 
         $captchadata = CaptchaModel::createSum(session()->getId());
@@ -255,12 +255,15 @@ class MainController extends Controller
                     }
                 }
 
-                $ws = WorkSpaceModel::where('id', '=', $entity->workspace)->first();
+                $ws = WorkSpaceModel::where('id', '=', $entity->workspace)->where('deactivated', '=', false)->first();
                 if ($ws === null) {
-                    return back()->with('error', __('app.workspace_not_found'));
+                    Auth::logout();
+                    request()->session()->invalidate();
+
+                    return back()->with('error', __('app.workspace_not_found_or_deactivated'));
                 }
 
-                return redirect('/' . $ws->name . '/index');
+                return redirect('/' . $ws->name);
             } else {
                 return redirect('/')->with('error', __('app.invalid_credentials'));
             }
@@ -517,7 +520,7 @@ class MainController extends Controller
     {
         if (!Auth::guest()) {
             $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id())->workspace)->first();
-            return redirect('/' . $ws->name . '/index');
+            return redirect('/' . $ws->name);
         }
 
         $captchadata = CaptchaModel::createSum(session()->getId());

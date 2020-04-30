@@ -31,7 +31,7 @@
         'group_not_found' => 'Die angegebene Gruppe wurde nicht gefunden',
         'group_data_stored' => 'Gruppendaten wurden gespeichert',
         'group_not_empty' => 'Die Gruppe ist nicht leer',
-        'workspace_not_found' => 'Der angegebene Workspace wurde nicht gefunden',
+        'workspace_not_found_or_deactivated' => 'Der angegebene Workspace existiert entweder nicht oder wurde deaktiviert',
         'ticket_created' => 'Ticket wurde erstellt',
         'ticket_created_customer_confirm' => 'Ihr Ticket wurde erstellt. Sie müssen noch Ihre E-Mail Adresse bestätigen, bevor Sie ihr Ticket verwalten können. Bitte befolgen Sie dazu die Anweisungen der E-Mail, die wir Ihnen geschickt haben.',
         'ticket_created_customer_notconfirm' => 'Ihr Ticket wurde erstellt. Eine Bestätigung wurde an Ihre angegebene E-Mail Adresse versandt.',
@@ -276,7 +276,7 @@
         'open_ticket' => 'Ticket öffnen',
         'login_as_agent' => 'Als Agent anmelden',
         'mail_salutation' => 'Dear :name,',
-        'mail_footer' => 'Kind regards - ' . env('APP_NAME'),
+        'mail_footer' => 'Kind regards,',
         'mail_password_reset_subject' => 'Passwort Wiederherstellung',
         'mail_password_reset' => 'Wiederherstellen',
         'mail_password_reset_title' => 'Passwort Wiederherstellen',
@@ -339,4 +339,5 @@
         'system_welcomemsg' => 'Willkommen auf unserem Support Kontaktformular. Bitte beschreiben Sie Ihr Problem so genau wie möglich. Wir werden uns dann schnellstmöglich mit Ihnen in Verbindung setzen.',
         'system_emailconfirm' => 'Aktivieren Sie diese Option, wenn Kunden im Erstellprozess eines Tickets Ihre E-Mail Adresse bestätigen müssen.',
         'account_deactivated' => 'Ihr Account wurde deaktiviert.',
+        'documentation_view' => 'Dokumentation'
     ];

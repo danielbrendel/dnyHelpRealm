@@ -25,7 +25,7 @@ class FaqController extends Controller
 {
     /**
      * View FAQ list
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -39,9 +39,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         return view('faq.list', [
@@ -55,7 +55,7 @@ class FaqController extends Controller
 
     /**
      * View FAQ creation form
-     * 
+     *
      * @param string $workspace
      * @return mixed
      */
@@ -65,9 +65,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -84,7 +84,7 @@ class FaqController extends Controller
 
     /**
      * Create FAQ entry
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -98,9 +98,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -120,7 +120,7 @@ class FaqController extends Controller
 
     /**
      * View FAQ edit form
-     * 
+     *
      * @param string $workspace
      * @param int $id
      * @return mixed
@@ -135,9 +135,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $faq = FaqModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -156,7 +156,7 @@ class FaqController extends Controller
 
     /**
      * Edit FAQ data
-     * 
+     *
      * @param string $workspace
      * @param int $id
      * @return mixed
@@ -171,9 +171,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -195,7 +195,7 @@ class FaqController extends Controller
 
     /**
      * Delete FAQ entry
-     * 
+     *
      * @param string $workspace
      * @param int $id
      * @return mixed
@@ -210,9 +210,9 @@ class FaqController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $faq = FaqModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();

@@ -14,6 +14,7 @@
 
 namespace App\Http\Controllers;
 
+use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Auth;
@@ -49,9 +50,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
@@ -101,9 +102,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -172,9 +173,9 @@ class TicketController extends Controller
      */
     public function viewShowTicketClient($workspace, $hash)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         \App::setLocale($ws->lang);
@@ -284,9 +285,9 @@ class TicketController extends Controller
             'captcha' => 'required|numeric'
         ]);
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         \App::setLocale($ws->lang);
@@ -371,9 +372,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -433,9 +434,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = [
@@ -464,9 +465,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!$agent->superadmin) {
@@ -506,9 +507,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $agent = AgentModel::getAgent(User::get(auth()->id())->user_id);
@@ -566,9 +567,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ag = AgentModel::where('id', '=', $agent)->where('workspace', '=', $ws->id)->first();
@@ -608,9 +609,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $groupData = GroupsModel::where('id', '=', $group)->where('workspace', '=', $ws->id)->first();
@@ -653,9 +654,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if ($status < 1) $status = 1;
@@ -692,9 +693,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $type)->first();
@@ -727,9 +728,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if ($prio < 1) $prio = 1;
@@ -759,9 +760,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -814,9 +815,9 @@ class TicketController extends Controller
      */
     public function addCommentCustomer($workspace, $id)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         \App::setLocale($ws->lang);
@@ -880,9 +881,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -918,9 +919,9 @@ class TicketController extends Controller
      */
     public function editCommentCustomer($workspace, $id, $cmt)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         \App::setLocale($ws->lang);
@@ -962,9 +963,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $agent = AgentModel::where('user_id', '=', auth()->id())->where('workspace', '=', $ws->id)->first();
@@ -1003,9 +1004,9 @@ class TicketController extends Controller
      */
     public function addFile($workspace, $hash)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (Auth::guest()) {
@@ -1066,9 +1067,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         return view('ticket.search', [
@@ -1092,9 +1093,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -1148,9 +1149,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -1178,9 +1179,9 @@ class TicketController extends Controller
      */
     public function getAttachment($workspace, $ticketHash, $id)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ticket = TicketModel::where('hash', '=', $ticketHash)->where('workspace', '=', $ws->id)->first();
@@ -1206,9 +1207,9 @@ class TicketController extends Controller
      */
     public function deleteAttachment($workspace, $ticketHash, $id)
     {
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $ticket = TicketModel::where('hash', '=', $ticketHash)->where('workspace', '=', $ws->id)->first();
@@ -1226,5 +1227,127 @@ class TicketController extends Controller
         $file->delete();
 
         return back()->with('success', __('app.ticket_file_deleted'));
+    }
+
+    /**
+     * Create a ticket
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
+     */
+    public function apiCreateTicket($workspace)
+    {
+        $invalidFields = array();
+
+        if ((!isset($_POST['subject'])) || (strlen($_POST['subject']) < 5)) {
+           $invalidFields[] = array('name' => 'subject', 'value' => (isset($_POST['subject'])) ? $_POST['subject'] : null);
+        }
+
+        if ((!isset($_POST['text'])) || (strlen($_POST['text']) > 4096)) {
+            $invalidFields[] = array('name' => 'text', 'value' => (isset($_POST['text'])) ? $_POST['text'] : null);
+        }
+
+        if (!isset($_POST['name'])) {
+            $invalidFields[] = array('name' => 'name', 'value' => null);
+        }
+
+        if ((!isset($_POST['email'])) || (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL))) {
+            $invalidFields[] = array('name' => 'email', 'value' => (isset($_POST['email'])) ? $_POST['email'] : null);
+        }
+
+        if (!isset($_POST['type'])) {
+            $invalidFields[] = array('name' => 'type', 'value' => null);
+        }
+
+        if ((!isset($_POST['prio'])) || (($_POST['prio'] < 1) || ($_POST['prio'] > 3))) {
+            $invalidFields[] = array('name' => 'prio', 'value' => (isset($_POST['prio'])) ? $_POST['prio'] : null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $_POST['type'])->first();
+        if ($hasType === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket_type' => $_POST['type']));
+        }
+
+        $attr = [
+            'subject' => $_POST['subject'],
+            'text' => $_POST['text'],
+            'name' => $_POST['name'],
+            'email' => $_POST['email'],
+            'type' => $_POST['type'],
+            'prio' => $_POST['prio'],
+        ];
+
+        $attr['workspace'] = $ws->id;
+
+        $attr['assignee'] = 0;
+        $attr['group'] = GroupsModel::getPrimaryGroup($ws->id)->id;
+
+        $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(55));
+        $attr['address'] = $_SERVER['REMOTE_ADDR'];
+
+        if ($ws->emailconfirm) {
+            $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
+            $attr['status'] = 0;
+        } else {
+            $attr['confirmation'] = '_confirmed';
+            $attr['status'] = 1;
+        }
+
+        $ticketOfAddress = TicketModel::where('address', '=', $attr['address'])->orderBy('created_at', 'desc')->first();
+        if ($ticketOfAddress !== null) {
+            $tmNow = Carbon::now();
+            $tmLast = Carbon::createFromFormat('Y-m-d H:i:s', $ticketOfAddress->created_at);
+            $diff = $tmLast->diffInSeconds($tmNow);
+            if ($diff < 60) {
+                return response()->json(array('code' => 429, 'workspace' => $workspace, 'ticket_wait_time' => $diff));
+            }
+        }
+
+        $data = TicketModel::create($attr);
+        if ($data) {
+            $att = request()->file('attachment');
+            if ($att != null) {
+                $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5(random_bytes(55));
+                $fext = $att->getClientOriginalExtension();
+                $att->move(public_path() . '/uploads', $fname . '.' . $fext);
+
+                $dbstor = new TicketsHaveFiles();
+                $dbstor->ticket_hash = $attr['hash'];
+                $dbstor->file = $fname . '.' . $fext;
+                $dbstor->save();
+            }
+
+            if ($ws->emailconfirm) {
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+            } else {
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash])->render();
+            }
+
+            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+
+            $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
+            foreach ($agentsInGroup as $entry) {
+                $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
+                if ($agentOfGroup !== null) {
+                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id])->render();
+                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+
+                    PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
+                }
+            }
+
+            return response()->json(array('code' => 201, 'workspace' => $workspace, 'data' => $attr));
+        } else {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'data' => $attr));
+        }
     }
 }

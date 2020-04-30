@@ -103,7 +103,7 @@
                     </a>
 
                     @if (env('APP_SUPPORT', null) !== null)
-                        <a class="navbar-item" href="{{ url('/' . env('APP_SUPPORT') . '/index') }}" target="_blank">
+                        <a class="navbar-item" href="{{ url('/' . env('APP_SUPPORT')) }}" target="_blank">
                             {{ __('app.home_support') }}
                         </a>
                     @endif

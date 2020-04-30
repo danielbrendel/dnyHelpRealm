@@ -67,10 +67,10 @@
             <div class="app-userarea">
                 <div id="sidebar" class="app-sidebar">
                     <div name="sidebaritem" class="app-sidebar-logo">
-                        <div class="app-logo" style="background-image: url({{ asset('/gfx/logo.png') }});" title="{{ env('APP_NAME') . ' | ' . env('APP_DESCRIPTION') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';"></div>
+                        <div class="app-logo" style="background-image: url({{ asset('/gfx/logo.png') }});" title="{{ env('APP_NAME') . ' | ' . env('APP_DESCRIPTION') }}" onclick="location.href='{{ url('/' . $workspace) }}';"></div>
                     </div>
 
-                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.dashboard') }}" onclick="location.href='{{ url('/' . $workspace . '/index') }}';">
+                    <div name="sidebaritem" class="app-sidebar-item-wrapper" title="{{ __('app.dashboard') }}" onclick="location.href='{{ url('/' . $workspace) }}';">
                         <div class="app-sidebar-item-content"><i class="fas fa-tachometer-alt fa-lg"></i></div>
                     </div>
 

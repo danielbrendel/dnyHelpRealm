@@ -15,5 +15,5 @@
 @endsection
 
 @section('action')
-    <a class="button" href="{{ url('/' . $workspace . '/index') }}">{{ __('app.mail_open_app') }}</a>
+    <a class="button" href="{{ url('/' . $workspace) }}">{{ __('app.mail_open_app') }}</a>
 @endsection

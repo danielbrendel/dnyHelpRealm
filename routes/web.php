@@ -30,7 +30,6 @@ Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
 Route::get('/mobep/index', 'MainController@mobep_index');
 Route::get('/mobep/notifications', 'MainController@mobep_notifications');
-Route::get('/{workspace}/index', 'MainController@workspaceIndex');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');
 Route::get('/{workspace}/agent/{id}/show', 'AgentController@viewShow');
@@ -99,5 +98,7 @@ Route::any('/mailservice/{password}', 'MainController@mailservice');
 
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');
+
+Route::post('/api/{workspace}/ticket/create', 'TicketController@apiCreateTicket');
 
 Route::get('/{workspace}', 'MainController@workspaceIndex');

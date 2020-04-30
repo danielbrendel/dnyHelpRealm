@@ -23,14 +23,14 @@ use App\CaptchaModel;
 
 /**
  * Class TicketControllerTest
- * 
+ *
  * Test for TicketController
  */
 class TicketControllerTest extends TestCase
 {
     /**
      * Set up controller test
-     * 
+     *
      * @return void
      */
     public function setUp():void
@@ -42,7 +42,7 @@ class TicketControllerTest extends TestCase
 
     /**
      * Perform login
-     * 
+     *
      * @return void
      */
     private function login()
@@ -56,14 +56,14 @@ class TicketControllerTest extends TestCase
 
     /**
      * Perform logout
-     * 
+     *
      * @return void
      */
     private function logout()
     {
         $this->get('/logout');
     }
-    
+
     /**
      * Test for viewTicketList
      *
@@ -102,7 +102,7 @@ class TicketControllerTest extends TestCase
 
     /**
      * Test for createTicketAgent
-     * 
+     *
      * @return int
      */
     public function testCreateTicketAgent()
@@ -126,10 +126,10 @@ class TicketControllerTest extends TestCase
         $ticket = TicketModel::where('subject', '=', $token)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals($token . '@test.de', $ticket->email);
-        $this->assertNotEquals('_confirmed', $ticket->confirmation);
-        
+        $this->assertEquals('_confirmed', $ticket->confirmation);
+
         $this->logout();
-        
+
         $response = $this->get('/' . env('DATA_WORKSPACENAME') . '/ticket/show/' . $ticket->hash . '?confirmation=' . $ticket->confirmation);
         $response->assertStatus(200);
         $response->assertViewIs('ticket.customer_show');
@@ -165,7 +165,7 @@ class TicketControllerTest extends TestCase
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/assign/agent/' . env('DATA_USERID'));
         $response->assertStatus(302);
-        
+
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals(env('DATA_USERID'), $ticket->assignee);
@@ -184,7 +184,7 @@ class TicketControllerTest extends TestCase
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/assign/group/' . env('DATA_GROUPID'));
         $response->assertStatus(302);
-        
+
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals(env('DATA_GROUPID'), $ticket->group);
@@ -205,7 +205,7 @@ class TicketControllerTest extends TestCase
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/status/' . $status);
         $response->assertStatus(302);
-        
+
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals($status, $ticket->status);
@@ -226,7 +226,7 @@ class TicketControllerTest extends TestCase
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/type/' . $type);
         $response->assertStatus(302);
-        
+
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals($type, $ticket->type);
@@ -247,7 +247,7 @@ class TicketControllerTest extends TestCase
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/prio/' . $priority);
         $response->assertStatus(302);
-        
+
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
         $this->assertEquals($priority, $ticket->prio);
@@ -257,7 +257,7 @@ class TicketControllerTest extends TestCase
 
     /**
      * Test for adding and editing comments
-     * 
+     *
      * @depends testSetPriority
      * @param int $id
      * @return void
@@ -289,7 +289,7 @@ class TicketControllerTest extends TestCase
         $this->assertEquals($comment, $ticketThread->text);
 
         $this->logout();
-        
+
         $response = $this->get('/'. env('DATA_WORKSPACENAME') . '/ticket/show/' . $ticket->hash);
         $response->assertStatus(200);
         $response->assertViewIs('ticket.customer_show');
@@ -331,7 +331,7 @@ class TicketControllerTest extends TestCase
 
     /**
      * Test for search
-     * 
+     *
      * @depends testViewSearch
      * @return void
      */
@@ -376,7 +376,7 @@ class TicketControllerTest extends TestCase
 
     /**
      * Test for saveNotes
-     * 
+     *
      * @return void
      */
     public function testSaveNotes()
@@ -391,5 +391,34 @@ class TicketControllerTest extends TestCase
 
         $ticket = TicketModel::where('id', '=', env('DATA_TICKETID'))->first();
         $this->assertEquals($notes, $ticket->notes);
+    }
+
+    /**
+     * Test for API ticket creation
+     *
+     * @return void
+     */
+    public function testApiCreateTicket()
+    {
+        $this->markTestSkipped('Currently only for single test');
+
+        $token = md5(random_bytes(55));
+        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
+
+        $response = $this->post('/api/' . env('DATA_WORKSPACENAME') . '/ticket/create', [
+            'subject' => $token,
+            'text' => $token,
+            'name' => $token . ' ' . $token,
+            'email' => $token . '@test.de',
+            'type' => '1',
+            'prio' => '1',
+            'attachment' => null
+        ]);
+
+        $response->assertStatus(200);
+        $operationResult = $response->getOriginalContent();
+
+        $this->assertTrue(isset($operationResult->code));
+        $this->assertEquals(201, $operationResult->code);
     }
 }

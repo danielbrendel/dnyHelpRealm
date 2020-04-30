@@ -26,14 +26,14 @@ use App\AgentsHaveGroups;
 
 /**
  * Class MainControllerTest
- * 
+ *
  * Test for MainController
  */
 class MainControllerTest extends TestCase
 {
     /**
      * Perform login
-     * 
+     *
      * @return void
      */
     private function login()
@@ -48,7 +48,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Perform logout
-     * 
+     *
      * @return void
      */
     public function logout()
@@ -65,13 +65,13 @@ class MainControllerTest extends TestCase
     public function testWorkspaceIndex()
     {
         $this->logout();
-        $response = $this->get('/' . env('DATA_WORKSPACENAME') . '/index');
+        $response = $this->get('/' . env('DATA_WORKSPACENAME'));
         $response->assertStatus(200);
         $response->assertViewIs('dashboard_customer');
         $response->assertSee(__('app.ticket_create'));
-        
+
         $this->login();
-        $response = $this->get('/' . env('DATA_WORKSPACENAME') . '/index');
+        $response = $this->get('/' . env('DATA_WORKSPACENAME'));
         $response->assertStatus(200);
         $response->assertViewIs('dashboard_agent');
         $response->assertSee(__('app.welcome'));
@@ -164,7 +164,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Test for login
-     * 
+     *
      * @return void
      */
     public function testLogin()
@@ -174,7 +174,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Test for login
-     * 
+     *
      * @return void
      */
     public function testLogout()
@@ -184,7 +184,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Test for recovering password
-     * 
+     *
      * @return void
      */
     public function testRecoverPassword()
@@ -193,7 +193,7 @@ class MainControllerTest extends TestCase
             'email' => env('DATA_USEREMAIL')
         ]);
         $response->assertStatus(302);
-        
+
         $user = User::where('id', '=', env('DATA_USERID'))->first();
         $this->assertIsObject($user);
         $this->assertTrue(strlen($user->password_reset) > 0);
@@ -217,7 +217,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Test for registering process
-     * 
+     *
      * @return void
      */
     public function testRegistration()
@@ -228,7 +228,7 @@ class MainControllerTest extends TestCase
         $response->assertStatus(200);
 
         $token = md5(random_bytes(55));
-        
+
         $response = $this->post('/register', [
             'company' => $token,
             'fullname' => $token . ' ' . $token,
@@ -239,11 +239,11 @@ class MainControllerTest extends TestCase
             '_token' => csrf_token()
         ]);
         $response->assertStatus(302);
-        
+
         $user = User::where('email', '=', $token . '@test.de')->first();
         $this->assertIsObject($user);
         $this->assertNotEquals('_confirmed', $user->account_confirm);
-        
+
         $agent = AgentModel::where('id', '=', $user->user_id)->first();
         $this->assertIsObject($agent);
         $this->assertEquals($token . '@test.de', $agent->email);
@@ -260,7 +260,7 @@ class MainControllerTest extends TestCase
 
     /**
      * Test for e-mail cronjob
-     * 
+     *
      * @return void
      */
     public function testMailservice()

@@ -24,14 +24,14 @@ use \App\WorkSpaceModel;
 
 /**
  * Class AgentController
- * 
+ *
  * Handle agent specific computations
  */
 class AgentController extends Controller
 {
     /**
      * View list of agents
-     * 
+     *
      * @param string $workspace
      * @return \Illuminate\View\View
      */
@@ -41,9 +41,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         return view('agents.list', [
@@ -57,7 +57,7 @@ class AgentController extends Controller
 
     /**
      * View specific agent data
-     * 
+     *
      * @param string $workspace
      * @return \Illuminate\View\View
      */
@@ -67,14 +67,14 @@ class AgentController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if (!$agent) {
-            return redirect('/' . $ws->name . '/index')->with('error', __('app.agent_not_found'));
+            return redirect('/' . $ws->name)->with('error', __('app.agent_not_found'));
         }
 
         $groups = array();
@@ -98,7 +98,7 @@ class AgentController extends Controller
 
     /**
      * Show creation view
-     * 
+     *
      * @param string $workspace
      * @return \Illuminate\View\View
      */
@@ -108,9 +108,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         return view('agents.create', [
@@ -123,7 +123,7 @@ class AgentController extends Controller
 
     /**
      * Create new agent
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -137,9 +137,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -163,7 +163,7 @@ class AgentController extends Controller
         unset($attr['password']);
         unset($attr['password_confirm']);
         $data = AgentModel::create($attr);
-        
+
         $userdata = new \App\User;
         $userdata->workspace = $ws->id;
         $userdata->name = $data->surname . ' ' . $data->lastname;
@@ -186,7 +186,7 @@ class AgentController extends Controller
 
     /**
      * Edit agent data
-     * 
+     *
      * @param string $workspace
      * @param $id
      * @return Illuminate\Http\RedirectResponse
@@ -197,15 +197,15 @@ class AgentController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
             return back()->with('error', __('app.superadmin_permission_required'));
         }
-        
+
         $attr = request()->validate([
             'surname' => 'nullable',
             'lastname' => 'nullable',
@@ -216,13 +216,13 @@ class AgentController extends Controller
             'password' => 'nullable',
             'password_confirm' => 'nullable'
         ]);
-        
+
         if (isset($attr['password']) && $attr['password'] != null) {
             if (!isset($attr['password_confirm']) || $attr['password'] !== $attr['password_confirm']) {
                 return back()->with('error', __('app.password_mismatch'));
             }
         }
-        
+
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
         if ($agent) {
             if ($attr['surname'] != null) $agent->surname = $attr['surname'];
@@ -246,7 +246,7 @@ class AgentController extends Controller
 
     /**
      * Delete agent
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -264,11 +264,11 @@ class AgentController extends Controller
             return back()->with('error', __('app.may_not_delete_self'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
-        
+
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id);
         $user = User::where('user_id', '=', $id)->where('workspace', '=', $ws->id);
 
@@ -287,7 +287,7 @@ class AgentController extends Controller
 
     /**
      * Set activation status
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -301,9 +301,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $agent = AgentModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -317,7 +317,7 @@ class AgentController extends Controller
 
     /**
      * Assign agent to group
-     * 
+     *
      * @param string $workspace
      * @param $agent
      * @param $group
@@ -333,9 +333,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $groupData = GroupsModel::where('workspace', '=', $ws->id)->where('id', '=', $group)->first();
@@ -352,7 +352,7 @@ class AgentController extends Controller
 
     /**
      * Remove agent from group
-     * 
+     *
      * @param string $workspace
      * @param $agent
      * @param $group
@@ -368,9 +368,9 @@ class AgentController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $groupData = GroupsModel::where('workspace', '=', $ws->id)->where('id', '=', $group)->first();

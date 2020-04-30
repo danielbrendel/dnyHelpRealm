@@ -63,9 +63,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $langs = array();
@@ -254,9 +254,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $langs = array();
@@ -307,9 +307,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -357,9 +357,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -400,9 +400,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -445,9 +445,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -481,9 +481,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -518,9 +518,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
@@ -554,9 +554,9 @@ class SettingsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {

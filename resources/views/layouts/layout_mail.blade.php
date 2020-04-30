@@ -59,7 +59,6 @@
             .button {
                 display: block;
                 min-width: 115px;
-                height: 25px;
                 padding: 10px;
                 text-align: center;
                 text-decoration: none;
@@ -78,7 +77,7 @@
             <div class="mail-title">@yield('title')</div>
             <div class="mail-body">@yield('body')</div>
             <div class="mail-action">@yield('action')</div>
-            <div class="mail-footer">{{ __('app.mail_footer') }}</div>
+            <div class="mail-footer">{{ __('app.mail_footer') }}<br/>{{ env('APP_NAME') }}</div>
         </div>
     </body>
 </html>

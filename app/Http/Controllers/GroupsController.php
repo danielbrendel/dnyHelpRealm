@@ -25,14 +25,14 @@ use \App\WorkSpaceModel;
 
 /**
  * Class GroupsController
- * 
+ *
  * Handle group related computations
  */
 class GroupsController extends Controller
 {
     /**
      * List all groups
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\View\View
      */
@@ -42,11 +42,11 @@ class GroupsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
-        
+
         return view('groups.list', [
             'workspace' => $ws->name,
             'user' => User::get(auth()->id()),
@@ -58,7 +58,7 @@ class GroupsController extends Controller
 
     /**
      * Show group creation dialog
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\View\View
      */
@@ -68,9 +68,9 @@ class GroupsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         return view('groups.create', [
@@ -83,7 +83,7 @@ class GroupsController extends Controller
 
     /**
      * Create new group
-     * 
+     *
      * @param string $workspace
      * @return Illuminate\Http\RedirectResponse
      */
@@ -97,9 +97,9 @@ class GroupsController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -127,7 +127,7 @@ class GroupsController extends Controller
 
     /**
      * View specific group
-     * 
+     *
      * @param string $workspace
      * @param $id
      * @return mixed
@@ -138,9 +138,9 @@ class GroupsController extends Controller
             return back()->with('error', __('app.login_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $group = GroupsModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -170,7 +170,7 @@ class GroupsController extends Controller
 
     /**
      * Edit group data
-     * 
+     *
      * @param string $workspace
      * @param $id
      * @return Illuminate\Http\RedirectResponse
@@ -185,9 +185,9 @@ class GroupsController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $attr = request()->validate([
@@ -195,7 +195,7 @@ class GroupsController extends Controller
             'description' => 'nullable',
             'def' => 'numeric'
         ]);
-        
+
         if (!isset($attr['def'])) {
             $attr['def'] = false;
         }
@@ -215,7 +215,7 @@ class GroupsController extends Controller
 
     /**
      * Delete a group
-     * 
+     *
      * @param string $workspace
      * @param $id
      * @return Illuminate\Http\RedirectResponse
@@ -230,9 +230,9 @@ class GroupsController extends Controller
             return back()->with('error', __('app.superadmin_permission_required'));
         }
 
-        $ws = WorkSpaceModel::where('name', '=', $workspace)->first();
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found'));
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
         $hastickets = TicketModel::where('workspace', '=', $ws->id)->where('group', '=', $id)->where('status', '<>', '3')->first();
