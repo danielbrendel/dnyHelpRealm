@@ -130,10 +130,10 @@ class MainController extends Controller
             $count_clients = null;
         }
 
-        if (isset($_COOKIE['mobep'])) {
+        if (isset($_COOKIE['clep'])) {
             session()->reflash();
 
-            return redirect('/mobep/index');
+            return redirect('/clep/index');
         }
 
         return view('home', [
@@ -512,11 +512,11 @@ class MainController extends Controller
     }
 
     /**
-     * Mobile endpoint: landing page
+     * Client endpoint: landing page
      *
      * @return mixed
      */
-    public function mobep_index()
+    public function clep_index()
     {
         if (!Auth::guest()) {
             $ws = WorkSpaceModel::where('id', '=', User::get(auth()->id())->workspace)->first();
@@ -525,15 +525,15 @@ class MainController extends Controller
 
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        return view('mobep.index', ['captchadata' => $captchadata]);
+        return view('clep.index', ['captchadata' => $captchadata]);
     }
 
     /**
-     * Mobile endpoint: notifications
+     * Client endpoint: notifications
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function mobep_notifications()
+    public function clep_notifications()
     {
         if (Auth::guest()) {
             return response()->json(array('code' => 403));

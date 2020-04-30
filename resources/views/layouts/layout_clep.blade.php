@@ -51,9 +51,9 @@
         <script src="{{ asset('js/app.js') }}"></script>
     </head>
 
-    <body class="mobep-outer">
-        <div id="mobep">
-        <div class="mobep-content">
+    <body class="clep-outer">
+        <div id="clep">
+        <div class="clep-content">
             @if ($errors->any())
                 <div id="error-message-1">
                     <article class="message is-danger">
@@ -202,7 +202,7 @@
 
     <script>
         var vue = new Vue({
-            el: '#mobep',
+            el: '#clep',
 
             data: {
                 bShowRecover: false,
@@ -240,15 +240,15 @@
                     }
                 },
 
-                setMobepFlag: function() {
+                setclepFlag: function() {
                     var curDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
-                    document.cookie = 'mobep=1; expires=' + curDate.toUTCString() + '; path=/;';
+                    document.cookie = 'clep=1; expires=' + curDate.toUTCString() + '; path=/;';
                 }
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
-            vue.setMobepFlag();
+            vue.setclepFlag();
         });
     </script>
 </html>

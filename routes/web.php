@@ -28,8 +28,8 @@ Route::post('/reset', 'MainController@reset');
 Route::get('/register', 'MainController@viewRegister');
 Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
-Route::get('/mobep/index', 'MainController@mobep_index');
-Route::get('/mobep/notifications', 'MainController@mobep_notifications');
+Route::get('/clep/index', 'MainController@clep_index');
+Route::get('/clep/notifications', 'MainController@clep_notifications');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');
 Route::get('/{workspace}/agent/{id}/show', 'AgentController@viewShow');

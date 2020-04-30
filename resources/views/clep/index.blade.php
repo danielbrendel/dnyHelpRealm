@@ -10,11 +10,11 @@
     Released under the MIT license
 -->
 
-@extends('layouts.layout_mobep')
+@extends('layouts.layout_clep')
 
 @section('content')
     <div>
-        <h1 class="mobep-headline">
+        <h1 class="clep-headline">
             <?php
                 $first = substr(env('APP_NAME'), 0, 4);
                 $second = substr(env('APP_NAME'), 4);
@@ -50,14 +50,14 @@
                     <button class="button is-success" onclick="document.getElementById('loginform').submit();">{{ __('app.login') }}</button>
                 </span>
 
-                <span class="is-right mobep-recover-top">
+                <span class="is-right clep-recover-top">
                     <div class="recover-pw">
                         <center><a href="javascript:void(0)" onclick="vue.bShowRecover = true;">{{ __('app.recover_password') }}</a></center>
                     </div>
                 </span>
             </div>
 
-            <div class="mobep-border mobep-signup">
+            <div class="clep-border clep-signup">
                 <center><a href="javascript:void(0)" onclick="vue.bShowRegister = true;">{{ __('app.register') }}</a></center>
             </div>
         </form>

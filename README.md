@@ -45,14 +45,14 @@ and small teams.
 + Responsive layout
 + SaaS solution
 + API Endpoint
-+ Mobile Endpoint
++ Endpoint for client apps
 + Documentation
 
 ## Documentation
 The documentation is located in the /doc directory. A generated PDF needs to be put to /public/data/documentation.pdf
 
 ## System requirements
-The product is beeing developed with the following engine versions:
+The product is being developed with the following engine versions:
 + PHP 7.4.1 
 + MySQL 10.4.11-MariaDB
 + Default PHP extensions
