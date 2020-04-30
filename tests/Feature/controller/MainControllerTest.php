@@ -270,4 +270,34 @@ class MainControllerTest extends TestCase
         $content = $response->decodeResponseJson();
         $this->assertEquals(200, $content['code']);
     }
+
+    /**
+     * Test for client endpoint index view
+     *
+     * @return void
+     */
+    public function testClepIndex()
+    {
+        $response = $this->get('/clep/index');
+        $response->assertStatus(200);
+        $response->assertViewIs('clep.index');
+    }
+
+    /**
+     * Test for client endpoint notifications
+     *
+     * @return void
+     */
+    public function testClepNotifications()
+    {
+        $this->login();
+
+        $response = $this->get('/clep/notifications');
+        $response->assertStatus(200);
+        $content = $response->getOriginalContent();
+        $this->assertEquals(200, $content['code']);
+        $this->assertTrue(isset($content['data']));
+
+        $this->logout();
+    }
 }
