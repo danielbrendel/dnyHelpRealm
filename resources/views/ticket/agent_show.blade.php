@@ -50,7 +50,7 @@
                             </div>
                         </div>
 
-                        <p><center><pre>{{ $ticket->text }}</pre></center></p>
+                        <p><center><pre class="is-wordbreak">{{ $ticket->text }}</pre></center></p>
 
                         <div class="dashboard-card">
                             <div class="left">
