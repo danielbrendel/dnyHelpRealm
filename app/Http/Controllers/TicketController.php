@@ -801,7 +801,6 @@ class TicketController extends Controller
             @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
             return redirect('/' . $workspace . '/ticket/' . $id . '/show#thread-post-' . $data->id)->with('success', __('app.ticket_comment_added'));
-            //return back()->with('success', __('app.ticket_comment_added'));
         } else {
             return back()->with('error', __('app.ticket_comment_add_failure'));
         }
@@ -836,13 +835,17 @@ class TicketController extends Controller
             return back()->with('error', __('app.ticket_closed'));
         }
 
+        $captchaValidator = (env('APP_CAPTCHAFORCUSTOMERREPLIES')) ? 'required|numeric' : 'nullable';
+
         $attr = request()->validate([
             'text' => 'required|max:4096',
-            'captcha' => 'required|numeric'
+            'captcha' => $captchaValidator
         ]);
 
-        if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
-            return back()->with('error', __('app.ticket_invalid_captcha'));
+        if (env('APP_CAPTCHAFORCUSTOMERREPLIES')) {
+            if ($attr['captcha'] !== CaptchaModel::querySum(session()->getId())) {
+                return back()->with('error', __('app.ticket_invalid_captcha'));
+            }
         }
 
         $attr['ticket_id'] = $id;
@@ -862,7 +865,7 @@ class TicketController extends Controller
                 PushModel::addNotification(__('app.mail_ticket_customer_replied'), $attr['text'], $assignee->user_id);
             }
 
-            return back();
+            return redirect('/' . $workspace . '/ticket/show/' . $ticket->hash . '#thread-post-' . $data->id);
         } else {
             return back()->with('error', __('app.ticket_comment_add_failure'));
         }
@@ -1012,12 +1015,13 @@ class TicketController extends Controller
 
         if (Auth::guest()) {
             \App::setLocale($ws->lang);
-            $attr = request()->validate(['file' => 'file|required', 'captcha' => 'required|numeric']);
+            $captchaValidator = (env('APP_CAPTCHAFORCUSTOMERREPLIES')) ? 'required|numeric' : 'nullable';
+            $attr = request()->validate(['file' => 'file|required', 'captcha' => $captchaValidator]);
         } else {
             $attr = request()->validate(['file' => 'file|required']);
         }
 
-        if ((Auth::guest()) && ($attr['captcha'] !== CaptchaModel::querySum(session()->getId()))) {
+        if ((Auth::guest()) && (env('APP_CAPTCHAFORCUSTOMERREPLIES')) && ($attr['captcha'] !== CaptchaModel::querySum(session()->getId()))) {
             return back()->with('error', __('app.ticket_invalid_captcha'));
         }
 
@@ -1046,11 +1050,7 @@ class TicketController extends Controller
             $dbstor->file = $fname . '.' . $fext;
             $dbstor->save();
 
-            if (!Auth::guest()) {
-                return back()->with('success', __('app.ticket_file_attached'));
-            } else {
-                return back();
-            }
+            return back()->with('success', __('app.ticket_file_attached'));
         }
 
         return back()->with('error', 'app.ticket_no_file_given');

@@ -43,6 +43,7 @@
                     <li>Gravatar support</li>
                     <li>Security (protection against XSS, CSRF, SQL injection, spam)</li>
 					<li>Responsive layout</li>
+                    <li>Ticket creation API</li>
                 </ul>
             </div>
         </div>

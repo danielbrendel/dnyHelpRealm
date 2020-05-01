@@ -129,12 +129,14 @@
                         <textarea class="textarea" name="text" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;">{{ old('text') }}</textarea>
                     </div>
 
+                    @if (env('APP_CAPTCHAFORCUSTOMERREPLIES'))
                     <div class="field" style="top: 5px;">
                         <label class="label">Captcha: {{ $captchadata[0] }} + {{ $captchadata[1] }} = ?</label>
                         <div class="control">
                             <input class="input" onkeyup="vue.invalidTicketCaptcha(); document.getElementById('attachment-captcha').value = this.value;" onchange="vue.invalidTicketCaptcha(); document.getElementById('attachment-captcha').value = this.value;" name="captcha" id="ticketcaptcha" placeholder="{{ $captchadata[0] }} + {{ $captchadata[1] }} = ?" required>
                         </div>
                     </div>
+                    @endif
 
                     <div class="threadinput-button">
                         <input type="submit" class="button is-stretched" value="{{ __('app.post_thread') }}" <?php if ($isclosed === true) { echo 'title="' . __('app.ticket_closed') . '" disabled'; } ?>>
@@ -161,7 +163,7 @@
                                     <div class="thread-header-avatar" style="background-image: url({{ $td['avatar'] }});"></div>
                                     <div class="thread-header-wrapper">
                                         <div class="thread-header-poster">
-                                            {{ $td['name'] }}
+                                            <a name="thread-post-{{ $entry->id }}">{{ $td['name'] }}</a>
                                         </div>
                                         <div class="thread-header-date" title="{{ $entry->created_at }}">
                                             {{ $entry->created_at->diffForHumans() }}

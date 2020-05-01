@@ -24,7 +24,7 @@
 
                 <div class="window-item-content">
                     <div class="window-item-content-body">
-                        <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $workspace . '?v=c') }}" target="_blank">{{ url('/' . $workspace) }}</a>
+                        <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $workspace . '?v=c') }}" class="is-wordbreak" target="_blank">{{ url('/' . $workspace) }}</a>
                         <br/><br/>
 
                         <span><i class="far fa-file-pdf"></i> <a href="{{ url('/data/documentation.pdf') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>
