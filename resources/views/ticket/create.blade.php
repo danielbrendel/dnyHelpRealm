@@ -13,8 +13,8 @@
 @extends('layouts.layout_agent', ['user' => $user, 'superadmin' => $superadmin])
 
 @section('content')
-    <div class="column">
-        <div class="column is-three-fifths is-centered" style="top: -48px;">
+    <div class="columns">
+        <div class="column">
             <div class="window-item">
                 <div class="window-item-header">
                     <div class="window-item-header-body">
@@ -25,7 +25,7 @@
                 <div class="window-item-content">
                     <div class="window-item-content-body">
                         <form method="POST" action="{{ url('/' . $workspace . '/ticket/create/agent') }}" enctype="multipart/form-data">
-                            @csrf 
+                            @csrf
 
                             <br/>
 
@@ -144,7 +144,7 @@
                         </form>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 @endsection
