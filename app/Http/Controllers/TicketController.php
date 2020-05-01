@@ -800,7 +800,8 @@ class TicketController extends Controller
 
             @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
 
-            return back()->with('success', __('app.ticket_comment_added'));
+            return redirect('/' . $workspace . '/ticket/' . $id . '/show#thread-post-' . $data->id)->with('success', __('app.ticket_comment_added'));
+            //return back()->with('success', __('app.ticket_comment_added'));
         } else {
             return back()->with('error', __('app.ticket_comment_add_failure'));
         }

@@ -198,7 +198,7 @@
 
                                                 <div class="thread-header-wrapper">
                                                     <div class="thread-header-poster">
-                                                        {{ $td['name'] }}
+                                                        <a name="thread-post-{{ $entry->id }}">{{ $td['name'] }}</a>
                                                     </div>
                                                     <div class="thread-header-date" title="{{ $entry->created_at }}">
                                                         {{ $entry->created_at->diffForHumans() }}
