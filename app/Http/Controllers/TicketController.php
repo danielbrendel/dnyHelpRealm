@@ -220,8 +220,6 @@ class TicketController extends Controller
             }
         }
 
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
         $attr = [
             'workspace' => $ws->name,
             'wsobject' => $ws,

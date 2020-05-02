@@ -300,4 +300,22 @@ class MainControllerTest extends TestCase
 
         $this->logout();
     }
+
+    /**
+     * Test for client endpoint statistics
+     *
+     * @return void
+     */
+    public function testClepStatistics()
+    {
+        $this->login();
+
+        $response = $this->get('/clep/statistics');
+        $response->assertStatus(200);
+        $content = $response->getOriginalContent();
+        $this->assertEquals(200, $content['code']);
+        $this->assertTrue(isset($content['data']));
+
+        $this->logout();
+    }
 }

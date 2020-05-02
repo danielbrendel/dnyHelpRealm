@@ -46,6 +46,7 @@ and small teams.
 + SaaS solution
 + API Endpoint
 + Endpoint for client apps
++ Ajax requests
 + Documentation
 
 ## Documentation

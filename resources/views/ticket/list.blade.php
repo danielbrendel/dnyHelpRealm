@@ -106,7 +106,7 @@
 
                 <div class="window-item-content">
                     <div class="window-item-content-body">
-                        <table class="table striped table-border mt-4" data-role="table" data-pagination="true"><!--bordered hovered-->
+                        <table class="table striped table-border mt-4" data-role="table" data-pagination="true">
                             <thead>
                             <tr>
                                 <th class="text-left">{{ __('app.ticket_id', ['id' => '']) }}</th>

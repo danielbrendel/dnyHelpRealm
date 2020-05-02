@@ -164,7 +164,7 @@ class TicketControllerTest extends TestCase
     public function testAssignToAgent($id)
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/assign/agent/' . env('DATA_USERID'));
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
@@ -183,7 +183,7 @@ class TicketControllerTest extends TestCase
     public function testAssignToGroup($id)
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/assign/group/' . env('DATA_GROUPID'));
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
@@ -204,7 +204,7 @@ class TicketControllerTest extends TestCase
         $status = 2;
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/status/' . $status);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
@@ -225,7 +225,7 @@ class TicketControllerTest extends TestCase
         $type = 2;
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/type/' . $type);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
@@ -246,7 +246,7 @@ class TicketControllerTest extends TestCase
         $priority = 2;
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/ticket/' . $id . '/prio/' . $priority);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', $id)->first();
         $this->assertIsObject($ticket);
@@ -261,6 +261,7 @@ class TicketControllerTest extends TestCase
      * @depends testSetPriority
      * @param int $id
      * @return void
+     * @throws \Exception
      */
     public function testAddAndEditComments($id)
     {
@@ -387,7 +388,7 @@ class TicketControllerTest extends TestCase
             'notes' => $notes,
             '_token' => csrf_token()
         ]);
-        $response->assertStatus(302);
+        $response->assertStatus(200);
 
         $ticket = TicketModel::where('id', '=', env('DATA_TICKETID'))->first();
         $this->assertEquals($notes, $ticket->notes);

@@ -797,14 +797,13 @@ pre {
     position: fixed;
     display: none;
     bottom: 0;
-    width: 80%;
+    width: 100%;
     float: left;
     -ms-transform: translateX(-50%) translateY(-50%);
     transform: translateX(-50%) translateY(-50%);
     height: auto;
     margin-bottom: 15px;
     background-color: rgb(200, 200, 200);
-    border-radius: 10px;
 }
 @media screen and (max-width: 765px) {
     .cookie-consent-inner {
