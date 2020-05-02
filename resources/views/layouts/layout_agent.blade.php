@@ -43,7 +43,7 @@
     <body>
         <div id="app">
             <div class="feedback-error" id="errormsg">
-                <div class="feedback-content">
+                <div class="feedback-content" id="errormsg-content">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             {{ $error }}
@@ -57,7 +57,7 @@
             </div>
 
             <div class="feedback-success" id="successmsg">
-                <div class="feedback-content">
+                <div class="feedback-content" id="successmsg-content">
                     @if (Session::has('success'))
                         {{ Session::get('success') }}
                     @endif
@@ -144,7 +144,7 @@
                             <button class="button" onclick="vue.bShowAbout = false;">{{ __('app.close') }}</button>
                             </footer>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -279,6 +279,76 @@
                     }
                 }
             });
+
+            function showResultMessage(resultType, message)
+            {
+                if (resultType == 200) {
+                    let content = document.getElementById('successmsg-content');
+                    content.innerHTML = message;
+                    showSuccess();
+                } else if (resultType == 500) {
+                    let content = document.getElementById('errormsg-content');
+                    content.innerHTML = message;
+                    showError();
+                } else {
+                    console.log('resultType ' + resultType + " is unknown");
+                }
+            }
+
+            function ajaxRequest(method, url, data = {}, successfunc = function(data){}, finalfunc = function(){}, surpressSuccessMessage = false)
+            {
+                let func = window.axios.get;
+                if (method == 'post') {
+                    func = window.axios.post;
+                } else if (method == 'patch') {
+                    func = window.axios.patch;
+                } else if (method == 'delete') {
+                    func = window.axios.delete;
+                }
+
+                func(url, data)
+                    .then(function(response){
+                        successfunc(response.data);
+
+                        if (!surpressSuccessMessage) {
+                            showResultMessage(response.data.code, response.data.message);
+                        }
+                    })
+                    .catch(function (error) {
+                        showResultMessage(500, error);
+                    })
+                    .finally(function(){
+                        finalfunc();
+                    }
+                );
+            }
+
+            function fetchNotifications()
+            {
+                ajaxRequest('get', '{{ url('/clep/notifications') }}', {},
+                    function(data){
+                        if (data.code === 200) {
+                            for (let i = 0; i < data.data.length; i++) {
+                                Push.create(data.data[i].title, {
+                                    body: data.data[i].message,
+                                    icon: '{{ asset('gfx/logo.png') }}',
+                                    timeout: 4000,
+                                    onClick: function () {
+                                        window.focus();
+                                        this.close();
+                                    }
+                                });
+                            }
+                        }
+                    },
+                    function(){},
+                    true
+                );
+
+                setTimeout('fetchNotifications()', 1000 * 60);
+            }
+
+            fetchNotifications();
 
             @yield('javascript')
         </script>

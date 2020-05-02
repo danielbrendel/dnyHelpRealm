@@ -541,4 +541,40 @@ class MainController extends Controller
 
         return response()->json(array('code' => 200, 'data' => PushModel::getUnseenNotifications(auth()->id())));
     }
+
+    /**
+     * Client endpoint: statistics
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clep_statistics()
+    {
+        if (Auth::guest()) {
+            return response()->json(array('code' => 403));
+        }
+
+        $ws = WorkSpaceModel::where('id', '=', User::getAgent(auth()->id())->workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'data' => __('app.workspace_not_found_or_deactivated')));
+        }
+
+        $typeCounts = array();
+        $ticketTypes = TicketsHaveTypes::where('workspace', '=', $ws->id)->get();
+        foreach ($ticketTypes as $ticketType) {
+            $item = array();
+            $item['name'] = $ticketType->name;
+            $item['count'] = TicketModel::where('workspace', '=', $ws->id)->where('type', '=', $ticketType->id)->count();
+            $typeCounts[] = $item;
+        }
+
+        $data = array(
+            'serving' => TicketModel::where('workspace', '=', $ws->id)->count(),
+            'yours' => TicketModel::where('workspace', '=', $ws->id)->where('assignee', '=', User::getAgent(auth()->id())->id)->count(),
+            'agents' => AgentModel::where('workspace', '=', $ws->id)->count(),
+            'groups' => GroupsModel::where('workspace', '=', $ws->id)->count(),
+            'typeCounts' => $typeCounts,
+        );
+
+        return response()->json(array('code' => 200, 'data' => $data));
+    }
 }

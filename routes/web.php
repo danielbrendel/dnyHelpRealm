@@ -30,6 +30,7 @@ Route::post('/register', 'MainController@register');
 Route::get('/confirm', 'MainController@confirm');
 Route::get('/clep/index', 'MainController@clep_index');
 Route::get('/clep/notifications', 'MainController@clep_notifications');
+Route::get('/clep/statistics', 'MainController@clep_statistics');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');
 Route::get('/{workspace}/agent/{id}/show', 'AgentController@viewShow');

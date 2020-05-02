@@ -499,7 +499,7 @@ class TicketController extends Controller
      *
      * @param string $workspace
      * @param int $id The ticket ID
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function editTicket($workspace, $id)
     {
@@ -559,22 +559,23 @@ class TicketController extends Controller
      * @param string $workspace
      * @param int $ticket The ticket ID
      * @param int $agent The agent ID
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
     public function assignToAgent($workspace, $ticket, $agent)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         $ag = AgentModel::where('id', '=', $agent)->where('workspace', '=', $ws->id)->first();
         if (!$ag) {
-            return back()->with('error', __('app.agent_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.agent_not_found')));
         }
 
         $record = TicketModel::where('id', '=', $ticket)->where('workspace', '=', $ws->id)->first();
@@ -589,9 +590,9 @@ class TicketController extends Controller
                 PushModel::addNotification(__('app.mail_ticket_assigned'), $record->subject, $ag->user_id);
             }
 
-            return back()->with('success', __('app.ticket_agent_assigned'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_agent_assigned')));
         } else {
-            return back()->with('error', __('app.ticket_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_not_found')));
         }
     }
 
@@ -601,22 +602,23 @@ class TicketController extends Controller
      * @param string $workspace
      * @param int $ticket The ticket ID
      * @param int $group The group ID
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
     public function assignToGroup($workspace, $ticket, $group)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         $groupData = GroupsModel::where('id', '=', $group)->where('workspace', '=', $ws->id)->first();
         if ($groupData === null) {
-            return back()->with('error', __('app.group_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.group_not_found')));
         }
 
         $record = TicketModel::where('id', '=', $ticket)->where('workspace', '=', $ws->id)->first();
@@ -634,9 +636,9 @@ class TicketController extends Controller
                 }
             }
 
-            return back()->with('success', __('app.ticket_group_assigned'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_group_assigned')));
         } else {
-            return back()->with('error', __('app.ticket_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_not_found')));
         }
     }
 
@@ -646,17 +648,18 @@ class TicketController extends Controller
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $status The new ticket status
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Throwable
      */
     public function setStatus($workspace, $id, $status)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         if ($status < 1) $status = 1;
@@ -673,9 +676,9 @@ class TicketController extends Controller
                 @mail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_closed'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
             }
 
-            return back()->with('success', __('app.ticket_status_changed'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_status_changed')));
         } else {
-            return back()->with('error', __('app.ticket_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_not_found')));
         }
     }
 
@@ -685,22 +688,22 @@ class TicketController extends Controller
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $type The new ticket type
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function setType($workspace, $id, $type)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $type)->first();
         if ($hasType === null) {
-            return back()->with('error', __('app.ticket_type_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_type_not_found')));
         }
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -708,9 +711,9 @@ class TicketController extends Controller
             $ticket->type = $type;
             $ticket->save();
 
-            return back()->with('success', __('app.ticket_type_changed'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_type_changed')));
         } else {
-            return back()->with('error', __('app.ticket_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_not_found')));
         }
     }
 
@@ -720,17 +723,17 @@ class TicketController extends Controller
      * @param string $workspace
      * @param int $id The ticket ID
      * @param int $prio The new priority
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function setPriority($workspace, $id, $prio)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         if ($prio < 1) $prio = 1;
@@ -741,9 +744,9 @@ class TicketController extends Controller
             $ticket->prio = $prio;
             $ticket->save();
 
-            return back()->with('success', __('app.ticket_prio_changed'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_prio_changed')));
         } else {
-            return back()->with('error', __('app.ticket_not_found'));
+            return response()->json(array('code' => 500, 'message' => __('app.ticket_not_found')));
         }
     }
 
@@ -1142,17 +1145,17 @@ class TicketController extends Controller
      *
      * @param string $workspace
      * @param int $id The ticket ID
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\JsonResponse
      */
     public function saveNotes($workspace, $id)
     {
         if (!WorkSpaceModel::isLoggedIn($workspace)) {
-            return back()->with('error', __('app.login_required'));
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
         }
 
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
         }
 
         $attr = request()->validate([
@@ -1164,10 +1167,10 @@ class TicketController extends Controller
             $ticket->notes = $attr['notes'];
             $ticket->save();
 
-            return back()->with('success', __('app.ticket_notes_saved'));
+            return response()->json(array('code' => 200, 'message' => __('app.ticket_notes_saved')));
         }
 
-        return back()->with('error', __('app.ticket_note_save_fail'));
+        return response()->json(array('code' => 500, 'message' => __('app.ticket_note_save_fail')));
     }
 
     /**

@@ -29,25 +29,25 @@
                 <div class="tile is-ancestor has-text-centered">
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <p class="title">{{ $yours }}/{{ $serving }}</p>
+                            <p class="title" id="stats-yours">{{ $yours }}/{{ $serving }}</p>
                             <p class="subtitle">{{ __('app.your_tickets') }}</p>
                         </article>
                     </div>
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <p class="title">{{ $serving }}</p>
+                            <p class="title" id="stats-serving">{{ $serving }}</p>
                             <p class="subtitle">{{ __('app.total_tickets') }}</p>
                         </article>
                     </div>
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <p class="title">{{ $groups }}</p>
+                            <p class="title" id="stats-groups">{{ $groups }}</p>
                             <p class="subtitle">{{ __('app.total_groups') }}</p>
                         </article>
                     </div>
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <p class="title">{{ $agents }}</p>
+                            <p class="title" id="stats-agents">{{ $agents }}</p>
                             <p class="subtitle">{{ __('app.total_agents') }}</p>
                         </article>
                     </div>
@@ -60,8 +60,8 @@
                             <h3>{{ __('app.your_tickets') }}</h3><br>
 
                             <table class="table striped table-border mt-4" data-role="table" data-pagination="true"
-                                data-table-rows-count-title="{{ __('app.table_show_entries') }}" 
-                                data-table-search-title="{{ __('app.table_search') }}" 
+                                data-table-rows-count-title="{{ __('app.table_show_entries') }}"
+                                data-table-search-title="{{ __('app.table_search') }}"
                                 data-table-info-title="{{ __('app.table_row_info') }}"
                                 data-pagination-prev-title="{{ __('app.table_pagination_prev') }}"
                                 data-pagination-next-title="{{ __('app.table_pagination_next') }}"><!--bordered hovered-->
@@ -75,14 +75,14 @@
                                         <th class="text-left">{{ __('app.ticket_prio') }}</th>
                                     </tr>
                                 </thead>
-            
+
                                 <tbody>
                                     @foreach ($tickets as $ticket)
                                         <tr>
                                             <td>
                                                 #{{ $ticket->id}}
                                             </td>
-                                            
+
                                             <td class="right">
                                                 <a href="{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/show') }}" title="{{ __('app.view_details') }}">{{ $ticket->subject }}</a>
                                             </td>
@@ -90,7 +90,7 @@
                                             <td>
                                                 <div title="{{ $ticket->updated_at }}">{{ $ticket->updated_at->diffForHumans() }}</div>
                                             </td>
-                                            
+
                                             <td class="right">
                                                 @foreach ($groupnames as $group)
                                                     @if ($group['ticket_id'] == $ticket->id)
@@ -98,7 +98,7 @@
                                                     @endif
                                                 @endforeach
                                             </td>
-                                            
+
                                             <td class="right">
                                                     @if ($ticket->status == 0)
                                                         <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
@@ -111,7 +111,7 @@
                                                     @endif
                                                 </div>
                                             </td>
-                                            
+
                                             <td class="right">
                                                 @if ($ticket->prio == 1)
                                                     {{ __('app.prio_low') }}
@@ -125,9 +125,9 @@
                                     @endforeach
                                 </tbody>
                             </table>
-            
+
                             <br/>
-            
+
                                 <center><a class="button" href="javascript:void(0)" onclick="location.reload();">{{ __('app.refresh') }}</a></center><br/>
                         </article>
                     </div>
@@ -141,7 +141,7 @@
 
                             <canvas id="ticketChart"></canvas>
 
-                            
+
                         </article>
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                 ],
                 borderWidth: 1
                 }],
-            
+
                 labels: [
                     @foreach ($typeCounts as $typeCount) {!! "'" . $typeCount['name'] . "'," !!} @endforeach
                 ]}
@@ -175,4 +175,24 @@
     @else
         document.getElementById('chart-no-data').style.display = 'inline-block';
     @endif
+
+    function fetchStatistics()
+    {
+        ajaxRequest('get', '{{ url('/clep/statistics') }}', {},
+            function(data){
+                if (data.code === 200) {
+                    document.getElementById('stats-yours').innerHTML = data.data.yours + ' / ' + data.data.serving;
+                    document.getElementById('stats-serving').innerHTML = data.data.serving;
+                    document.getElementById('stats-agents').innerHTML = data.data.agents;
+                    document.getElementById('stats-groups').innerHTML = data.data.groups;
+                }
+            },
+            function(){},
+            true
+        );
+
+        setTimeout('fetchStatistics()', 1000 * 60);
+    }
+
+    fetchStatistics();
 @endsection

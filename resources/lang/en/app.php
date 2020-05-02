@@ -75,6 +75,7 @@
         'ticket_not_found' => 'The specified ticket could not be found',
         'ticket_data_stored' => 'The ticket data have been stored',
         'ticket_group_assigned' => 'The ticket has been assigned to the specified group',
+        'ticket_assignee' => 'Assignee',
         'ticket_status_changed' => 'The ticket status has been changed',
         'ticket_type_changed' => 'The ticket type has been changed',
         'ticket_prio_changed' => 'The ticket priority has been changed',

@@ -50,24 +50,31 @@
                             </div>
                         </div>
 
-                        <p><center><pre class="is-wordbreak">{{ $ticket->text }}</pre></center></p>
+                        <p>
+                            <center>
+                                <pre class="is-wordbreak">{{ $ticket->text }}</pre>
+                            </center>
+                        </p>
 
                         <div class="dashboard-card">
                             <div class="left">
-                                <p>@if ($ticket->status == 0)
-                                    <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
+                                <p id="view-status">
+                                    @if ($ticket->status == 0)
+                                        <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
                                     @elseif ($ticket->status == 1)
-                                            <div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>
-                                        @elseif ($ticket->status == 2)
-                                            <div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>
-                                        @elseif ($ticket->status == 3)
-                                            <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
-                                        @endif</p>
+                                        <div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>
+                                    @elseif ($ticket->status == 2)
+                                        <div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>
+                                    @elseif ($ticket->status == 3)
+                                        <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
+                                    @endif
+                                </p>
                                 <p>
                                     <a href="javascript:void(0);" onclick="alert('{{ $ticket->hash }}');">{{ __('app.ticket_hash') }}</a>
                                 </p>
-                                <p>
+                                <p id="view-type">
                                     {{ $ticketType->name }}
+                                </p>
                                 <p>
                                     <a href="mailto:{{ $ticket->email }}">{{ __('app.ticket_created_for', ['clientname' => $ticket->name]) }}</a>
                                 </p>
@@ -75,15 +82,16 @@
 
                             <div class="right2">
                                 <p>&nbsp;</p>
-                                <p>@if ($ticket->prio == 1)
+                                <p id="view-prio">@if ($ticket->prio == 1)
                                         {{ __('app.prio_low') }}
                                     @elseif ($ticket->prio == 2)
                                         {{ __('app.prio_med') }}
                                     @elseif ($ticket->prio == 3)
                                         <b>{{ __('app.prio_high') }}</b>
-                                    @endif</p>
-                                <p>{{ $group }}</p>
-                                <p>Assignee: @if ($agent != null) {{ $agent->surname . ' ' . $agent->lastname }} @else {{ ' - ' }} @endif</p>
+                                    @endif
+                                </p>
+                                <p id="view-group">{{ $group }}</p>
+                                <p id="view-agent">{{ __('app.ticket_assignee') }}: @if ($agent != null) {{ $agent->surname . ' ' . $agent->lastname }} @else {{ ' - ' }} @endif</p>
                             </div>
                         </div>
 
@@ -140,11 +148,11 @@
                                     @method('PATCH')
 
                                     <div class="field">
-                                        <center><textarea name="notes" class="textarea" style="width: 90%;">{{ $ticket->notes }}</textarea></center>
+                                        <center><textarea name="notes" id="notes" class="textarea" style="width: 90%;">{{ $ticket->notes }}</textarea></center>
                                     </div>
 
                                     <div class="field">
-                                        <center><input type="submit" class="button" value="{{ __('app.save') }}"/></center>
+                                        <center><input type="button" class="button" onclick="ajaxSaveNotes()" value="{{ __('app.save') }}"/></center>
                                     </div>
 
                                     <br/>
@@ -234,205 +242,305 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="modal" :class="{'is-active': bShowCmtEdit}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.edit_comment') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowCmtEdit = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edCmtForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowCmtEdit}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.edit_comment') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowCmtEdit = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edCmtForm">
+                    @csrf
+                    @method('PATCH')
 
-                <textarea name="text" id="edCmtText"></textarea>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="document.getElementById('edCmtForm').submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowCmtEdit = false;">{{ __('app.cancel') }}</button>
-        </footer>
-    </div>
-    </div>
+                    <textarea name="text" id="edCmtText"></textarea>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="document.getElementById('edCmtForm').submit();">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowCmtEdit = false;">{{ __('app.cancel') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowAssignAgent}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_assign_agent') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowAssignAgent = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edAssignAgentForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowAssignAgent}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_assign_agent') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowAssignAgent = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edAssignAgentForm">
+                    @csrf
+                    @method('PATCH')
 
-                <div class="field">
-                    <div class="control">
-                        <select name="agent" id="selAgent">
-                            @foreach ($agents as $agent)
-                                <option value="{{ $agent->id }}" <?php if ($agent->user_id == $user->id) echo 'selected'; ?>>{{ $agent->surname . ' ' . $agent->lastname }}</option>
-                            @endforeach
-                        </select>
+                    <div class="field">
+                        <div class="control">
+                            <select name="agent" id="selAgent">
+                                @foreach ($agents as $agent)
+                                    <option value="{{ $agent->id }}" <?php if ($agent->user_id == $user->id) echo 'selected'; ?>>{{ $agent->surname . ' ' . $agent->lastname }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edAssignAgentForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/agent/') }}/' + selAgent.value; frm.submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowAssignAgent = false;">{{ __('app.close') }}</button>
-        </footer>
-    </div>
-    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="ajaxAssignAgent();">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowAssignAgent = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowAssignGroup}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_assign_group') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowAssignGroup = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edAssignGroupForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowAssignGroup}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_assign_group') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowAssignGroup = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edAssignGroupForm">
+                    @csrf
+                    @method('PATCH')
 
-                <div class="field">
-                    <div class="control">
-                        <select name="agent" id="selGroup">
-                            @foreach ($groups as $grp)
-                                <option value="{{ $grp->id }}">{{ $grp->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="field">
+                        <div class="control">
+                            <select name="agent" id="selGroup">
+                                @foreach ($groups as $grp)
+                                    <option value="{{ $grp->id }}">{{ $grp->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edAssignGroupForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/group/') }}/' + selGroup.value; frm.submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowAssignGroup = false;">{{ __('app.close') }}</button>
-        </footer>
-    </div>
-    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="ajaxAssignGroup()">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowAssignGroup = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowChangeStatus}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_change_status') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowChangeStatus = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edchangeStatusForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowChangeStatus}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_change_status') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowChangeStatus = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edchangeStatusForm">
+                    @csrf
+                    @method('PATCH')
 
-                <div class="field">
-                    <div class="control">
-                        <select name="agent" id="selStatus">
-                            <option value="1">{{ __('app.ticket_status_open') }}</option>
-                            <option value="2">{{ __('app.ticket_status_waiting') }}</option>
-                            <option value="3">{{ __('app.ticket_status_closed') }}</option>
-                        </select>
+                    <div class="field">
+                        <div class="control">
+                            <select name="agent" id="selStatus">
+                                <option value="1">{{ __('app.ticket_status_open') }}</option>
+                                <option value="2">{{ __('app.ticket_status_waiting') }}</option>
+                                <option value="3">{{ __('app.ticket_status_closed') }}</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangeStatusForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/status/') }}/' + selStatus.value; frm.submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowChangeStatus = false;">{{ __('app.close') }}</button>
-        </footer>
-    </div>
-    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="ajaxChangeStatus();">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowChangeStatus = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowChangePrio}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_change_prio') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowChangePrio = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edchangePrioForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowChangePrio}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_change_prio') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowChangePrio = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edchangePrioForm">
+                    @csrf
+                    @method('PATCH')
 
-                <div class="field">
-                    <div class="control">
-                        <select name="agent" id="selPrio">
-                            <option value="1">{{ __('app.prio_low') }}</option>
-                            <option value="2">{{ __('app.prio_med') }}</option>
-                            <option value="3">{{ __('app.prio_high') }}</option>
-                        </select>
+                    <div class="field">
+                        <div class="control">
+                            <select name="agent" id="selPrio">
+                                <option value="1">{{ __('app.prio_low') }}</option>
+                                <option value="2">{{ __('app.prio_med') }}</option>
+                                <option value="3">{{ __('app.prio_high') }}</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangePrioForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/prio/') }}/' + selPrio.value; frm.submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowChangePrio = false;">{{ __('app.close') }}</button>
-        </footer>
-    </div>
-    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="ajaxChangePrio();">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowChangePrio = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowChangeType}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_change_type') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowChangeType = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edchangeTypeForm">
-                @csrf
-                @method('PATCH')
+        <div class="modal" :class="{'is-active': bShowChangeType}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_change_type') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowChangeType = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edchangeTypeForm">
+                    @csrf
+                    @method('PATCH')
 
-                <div class="field">
-                    <div class="control">
-                        <select name="agent" id="selType">
-                            @foreach ($ticketTypes as $ticketType)
-                                <option value="{{ $ticketType->id }}">{{ $ticketType->name }}</option>
-                            @endforeach
-                        </select>
+                    <div class="field">
+                        <div class="control">
+                            <select name="agent" id="selType">
+                                @foreach ($ticketTypes as $ticketType)
+                                    <option value="{{ $ticketType->id }}">{{ $ticketType->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edchangeTypeForm'); frm.action = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/type/') }}/' + selType.value; frm.submit();">{{ __('app.save') }}</button>
-        <button class="button" onclick="vue.bShowChangeType = false;">{{ __('app.close') }}</button>
-        </footer>
-    </div>
-    </div>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="ajaxChangeType();">{{ __('app.save') }}</button>
+            <button class="button" onclick="vue.bShowChangeType = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
 
-    <div class="modal" :class="{'is-active': bShowFileDelete}">
-    <div class="modal-background"></div>
-    <div class="modal-card">
-        <header class="modal-card-head is-stretched">
-        <p class="modal-card-title">{{ __('app.ticket_delete_file') }}</p>
-        <button class="delete" aria-label="close" onclick="vue.bShowFileDelete = false;"></button>
-        </header>
-        <section class="modal-card-body is-stretched">
-            <form method="POST" id="edDeleteFile">
-                @csrf
-                @method('DELETE')
+        <div class="modal" :class="{'is-active': bShowFileDelete}">
+        <div class="modal-background"></div>
+        <div class="modal-card">
+            <header class="modal-card-head is-stretched">
+            <p class="modal-card-title">{{ __('app.ticket_delete_file') }}</p>
+            <button class="delete" aria-label="close" onclick="vue.bShowFileDelete = false;"></button>
+            </header>
+            <section class="modal-card-body is-stretched">
+                <form method="POST" id="edDeleteFile">
+                    @csrf
+                    @method('DELETE')
 
-                <div class="field">
-                    <div class="control">
-                        <label class="label">{{ __('app.ticket_confirm_delete') }}</label>
+                    <div class="field">
+                        <div class="control">
+                            <label class="label">{{ __('app.ticket_confirm_delete') }}</label>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </section>
-        <footer class="modal-card-foot is-stretched">
-        <button class="button is-success" onclick="var frm = document.getElementById('edDeleteFile'); frm.action = vue.currentDeleteFile; frm.submit();">{{ __('app.confirm') }}</button>
-        <button class="button" onclick="vue.bShowFileDelete = false;">{{ __('app.close') }}</button>
-        </footer>
+                </form>
+            </section>
+            <footer class="modal-card-foot is-stretched">
+            <button class="button is-success" onclick="var frm = document.getElementById('edDeleteFile'); frm.action = vue.currentDeleteFile; frm.submit();">{{ __('app.confirm') }}</button>
+            <button class="button" onclick="vue.bShowFileDelete = false;">{{ __('app.close') }}</button>
+            </footer>
+        </div>
+        </div>
     </div>
-    </div>
+@endsection
 
-    </div>
+@section('javascript')
+    function ajaxAssignAgent()
+    {
+        ajaxRequest('patch',
+            '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/agent/') }}/' + document.getElementById('selAgent').value,
+            {},
+            function(data){
+                document.getElementById('view-agent').innerHTML = '{{ __('app.ticket_assignee') }}: ' + document.getElementById('selAgent').options[document.getElementById('selAgent').selectedIndex].text;
+            },
+            function(){
+                vue.bShowAssignAgent = false;
+            }
+        );
+    }
+
+    function ajaxAssignGroup()
+    {
+        ajaxRequest('patch',
+            '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/assign/group/') }}/' + document.getElementById('selGroup').value,
+            {},
+            function(data){
+                document.getElementById('view-group').innerHTML = document.getElementById('selGroup').options[document.getElementById('selGroup').selectedIndex].text;
+            },
+            function(){
+                vue.bShowAssignGroup = false;
+            }
+        );
+    }
+
+    function ajaxChangeStatus()
+    {
+        ajaxRequest('patch',
+        '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/status/') }}/' + document.getElementById('selStatus').value,
+        {},
+        function(data){
+            let prev = document.getElementsByClassName('dashboard-badge');
+            for (i = 0; i < prev.length; i++) { prev[i].parentNode.removeChild(prev[i]) };
+
+            if (document.getElementById('selStatus').value == 0) {
+                document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>';
+            } else if (document.getElementById('selStatus').value == 1) {
+                document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>';
+            } else if (document.getElementById('selStatus').value == 2) {
+                document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>';
+            } else if (document.getElementById('selStatus').value == 3) {
+                document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>';
+            }
+        },
+        function(){
+            vue.bShowChangeStatus = false;
+        }
+        );
+    }
+
+    function ajaxChangePrio()
+    {
+        ajaxRequest('patch',
+            '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/prio/') }}/' + document.getElementById('selPrio').value,
+            {},
+            function(data){
+                if (document.getElementById('selPrio').value == 1)
+                    document.getElementById('view-prio').innerHTML = '{{ __('app.prio_low') }}';
+                else if (document.getElementById('selPrio').value == 2)
+                    document.getElementById('view-prio').innerHTML = '{{ __('app.prio_med') }}';
+                else if (document.getElementById('selPrio').value == 3)
+                    document.getElementById('view-prio').innerHTML = '<b>{{ __('app.prio_high') }}</b>';
+            },
+            function(){
+                vue.bShowChangePrio = false;
+            }
+        );
+    }
+
+    function ajaxChangeType()
+    {
+        ajaxRequest('patch',
+            '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/type/') }}/' + document.getElementById('selType').value,
+            {},
+            function(data){
+                document.getElementById('view-type').innerHTML = document.getElementById('selType').options[document.getElementById('selType').selectedIndex].text;
+            },
+            function(){
+                vue.bShowChangeType = false;
+            }
+        );
+    }
+
+    function ajaxSaveNotes()
+    {
+        ajaxRequest('patch',
+            '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/notes/save') }}',
+            {
+                notes: document.getElementById('notes').value
+            },
+            function(data){
+            },
+            function(){
+            }
+        );
+    }
 @endsection

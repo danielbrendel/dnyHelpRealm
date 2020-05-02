@@ -56,6 +56,7 @@
         'ticket_comment_edited' => 'Der Kommentar wurde aktualisiert',
         'ticket_comment_deleted' => 'Der Kommentar wurde gelöscht',
         'ticket_create' => 'Neues Ticket erstellen',
+        'ticket_assignee' => 'Bearbeiter',
         'ticket_created_for' => 'Erstellt für: :clientname',
         'ticket_list' => 'Ticketliste',
         'ticket_found' => 'Gefundene Tickets',
