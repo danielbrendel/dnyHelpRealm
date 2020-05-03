@@ -282,9 +282,11 @@ class SettingsController extends Controller
             'lang' => $ws->lang,
             'usebgcolor' => $ws->usebgcolor,
             'bgcolorcode' => $ws->bgcolorcode,
+            'onlycustom' => $ws->onlycustom,
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
             'infomessage' => $ws->welcomemsg,
+            'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId())
@@ -318,7 +320,9 @@ class SettingsController extends Controller
             'usebgcolor' => 'numeric|nullable',
             'bgcolorcode' => 'nullable',
             'infomessage' => 'nullable',
-            'emailconfirm' => 'numeric|nullable'
+            'emailconfirm' => 'numeric|nullable',
+            'onlycustom' => 'numeric|nullable',
+            'extfilter' => 'nullable'
         ]);
 
         if (!isset($attr['usebgcolor'])) {
@@ -329,6 +333,10 @@ class SettingsController extends Controller
             $attr['emailconfirm'] = false;
         }
 
+        if (!isset($attr['onlycustom'])) {
+            $attr['onlycustom'] = false;
+        }
+
         if (!isset($attr['bgcolorcode'])) {
             $attr['bgcolorcode'] = '#F5F5F6';
         }
@@ -337,8 +345,10 @@ class SettingsController extends Controller
         if (isset($attr['lang'])) $ws->lang = $attr['lang'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
-        if (isset($attr['emailconfirm'])) $ws->emailconfirm = $attr['emailconfirm'];
+        if (isset($attr['emailconfirm'])) $ws->emailconfirm = (bool)$attr['emailconfirm'];
+        if (isset($attr['onlycustom'])) $ws->onlycustom = (bool)$attr['onlycustom'];
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
+        if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 
         $ws->save();
 

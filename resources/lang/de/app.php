@@ -340,5 +340,8 @@
         'system_welcomemsg' => 'Willkommen auf unserem Support Kontaktformular. Bitte beschreiben Sie Ihr Problem so genau wie möglich. Wir werden uns dann schnellstmöglich mit Ihnen in Verbindung setzen.',
         'system_emailconfirm' => 'Aktivieren Sie diese Option, wenn Kunden im Erstellprozess eines Tickets Ihre E-Mail Adresse bestätigen müssen.',
         'account_deactivated' => 'Ihr Account wurde deaktiviert.',
-        'documentation_view' => 'Dokumentation'
+        'documentation_view' => 'Dokumentation',
+        'system_onlycustom' => 'Ich möchte mein eigenes Frontend verwenden und daher das vorgefertigte Formular deaktivieren',
+        'system_extfilter' => 'Folgende Dateierweiterungen vom Datei-Upload ausschließen',
+        'ticket_disallowed_file_extension' => 'Dateien mit der Erweiterung :ext sind nicht erlaubt'
     ];

@@ -320,7 +320,7 @@ class TicketController extends Controller
             $tmNow = Carbon::now();
             $tmLast = Carbon::createFromFormat('Y-m-d H:i:s', $ticketOfAddress->created_at);
             $diff = $tmLast->diffInSeconds($tmNow);
-            if ($diff < 60) {
+            if ($diff < env('APP_TICKET_CREATION_WAITTIME')) {
                 return back()->withInput()->with('error', __('app.ticket_wait_time', ['remaining' => $diff]));
             }
         }
@@ -1044,6 +1044,18 @@ class TicketController extends Controller
         if ($att != null) {
             $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5(random_bytes(55));
             $fext = $att->getClientOriginalExtension();
+
+            if (Auth::guest()) {
+                if (strlen($ws->extfilter) > 0) {
+                    foreach (explode(' ', $ws->extfilter) as $fileext) {
+                        $fileext = str_replace('.', '', trim($fileext));
+                        if ($fext === $fileext) {
+                            return back()->with('error', __('app.ticket_disallowed_file_extension', ['ext' => $fext]));
+                        }
+                    }
+                }
+            }
+
             $att->move(public_path() . '/uploads', $fname . '.' . $fext);
 
             $dbstor = new TicketsHaveFiles();
@@ -1309,7 +1321,7 @@ class TicketController extends Controller
             $tmNow = Carbon::now();
             $tmLast = Carbon::createFromFormat('Y-m-d H:i:s', $ticketOfAddress->created_at);
             $diff = $tmLast->diffInSeconds($tmNow);
-            if ($diff < 60) {
+            if ($diff < env('APP_TICKET_CREATION_WAITTIME')) {
                 return response()->json(array('code' => 429, 'workspace' => $workspace, 'ticket_wait_time' => $diff));
             }
         }
@@ -1320,6 +1332,16 @@ class TicketController extends Controller
             if ($att != null) {
                 $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5(random_bytes(55));
                 $fext = $att->getClientOriginalExtension();
+
+                if (strlen($ws->extfilter) > 0) {
+                    foreach (explode(' ', $ws->extfilter) as $fileext) {
+                        $fileext = str_replace('.', '', trim($fileext));
+                        if ($fext === $fileext) {
+                            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => array('name' => 'attachment', 'value' => $fext)));
+                        }
+                    }
+                }
+
                 $att->move(public_path() . '/uploads', $fname . '.' . $fext);
 
                 $dbstor = new TicketsHaveFiles();

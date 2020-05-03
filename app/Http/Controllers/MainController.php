@@ -54,6 +54,10 @@ class MainController extends Controller
         if ((Auth::guest()) || (request('v') === 'c')) {
             \App::setLocale($ws->lang);
 
+            if ($ws->onlycustom) {
+                abort(404);
+            }
+
             $img = BgImagesModel::queryRandomImage($ws->id);
 
             $captchadata = CaptchaModel::createSum(session()->getId());
@@ -179,6 +183,18 @@ class MainController extends Controller
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('about', ['captchadata' => $captchadata]);
+    }
+
+    /**
+     * View API page
+     *
+     * @return mixed
+     */
+    public function api()
+    {
+        $captchadata = CaptchaModel::createSum(session()->getId());
+
+        return view('api', ['captchadata' => $captchadata]);
     }
 
     /**

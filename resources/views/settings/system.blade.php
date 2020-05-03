@@ -63,7 +63,20 @@
 
                             <div class="field">
                                 <div class="control">
+                                    <label class="label">{{ __('app.system_extfilter') }}</label>
+                                    <input type="text" class="input" name="extfilter" value="{{ $extfilter }}" placeholder="ext1 ext2 ext3"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
                                     <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_emailconfirm') }}" name="emailconfirm" value="1" <?php if ((bool)$emailconfirm === true) { echo 'checked'; } ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_onlycustom') }}" name="onlycustom" value="1" <?php if ((bool)$onlycustom === true) { echo 'checked'; } ?>/>
                                 </div>
                             </div>
 

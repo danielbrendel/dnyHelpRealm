@@ -17,6 +17,7 @@ Route::get('/home', 'MainController@index');
 Route::get('/features', 'MainController@features');
 Route::get('/about', 'MainController@about');
 Route::get('/faq', 'MainController@faq');
+Route::get('/api', 'MainController@api');
 Route::get('/imprint', 'MainController@imprint');
 Route::get('/tac', 'MainController@tac');
 Route::get('/news', 'MainController@news');

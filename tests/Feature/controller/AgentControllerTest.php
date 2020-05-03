@@ -23,14 +23,14 @@ use App\AgentsHaveGroups;
 
 /**
  * Class AgentControllerTest
- * 
+ *
  * Test for agent controller
  */
 class AgentControllerTest extends TestCase
 {
     /**
      * Set up controller test
-     * 
+     *
      * @return void
      */
     public function setUp():void
@@ -106,11 +106,11 @@ class AgentControllerTest extends TestCase
             '_token' => csrf_token()
         ]);
         $response->assertStatus(302);
-        
+
         $result = User::where('email', '=', $email)->first();
         $this->assertIsObject($result);
         $this->assertTrue(isset($result->account_confirm));
-        
+
         $result = AgentModel::where('user_id', '=', $result->id)->first();
         $this->assertIsObject($result);
         $this->assertTrue(isset($result->superadmin));
@@ -144,7 +144,7 @@ class AgentControllerTest extends TestCase
             '_token' => csrf_token()
         ]);
         $response->assertStatus(302);
-        
+
         $result = AgentModel::where('id', '=', $id)->first();
         $this->assertIsObject($result);
         $this->assertEquals($newSurname, $result->surname);
@@ -169,14 +169,14 @@ class AgentControllerTest extends TestCase
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/agent/' . $id .  '/active/0');
         $response->assertStatus(302);
-        
+
         $result = AgentModel::where('id', '=', $id)->first();
         $this->assertIsObject($result);
         $this->assertEquals(0, $result->active);
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/agent/' . $id .  '/active/1');
         $response->assertStatus(302);
-        
+
         $result = AgentModel::where('id', '=', $id)->first();
         $this->assertIsObject($result);
         $this->assertEquals(1, $result->active);
@@ -195,7 +195,7 @@ class AgentControllerTest extends TestCase
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/agent/' . $id .  '/group/' . env('DATA_GROUPID') . '/add');
         $response->assertStatus(302);
-        
+
         $result = AgentsHaveGroups::where('agent_id', '=', $id)->where('group_id', '=', env('DATA_GROUPID'))->first();
         $this->assertIsObject($result);
 
@@ -213,7 +213,7 @@ class AgentControllerTest extends TestCase
     {
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/agent/' . $id .  '/group/' . env('DATA_GROUPID') . '/remove');
         $response->assertStatus(302);
-        
+
         $result = AgentsHaveGroups::where('agent_id', '=', $id)->where('group_id', '=', env('DATA_GROUPID'))->first();
         $this->assertTrue($result === null);
 
@@ -231,7 +231,7 @@ class AgentControllerTest extends TestCase
     {
         $response = $this->delete('/' . env('DATA_WORKSPACENAME') . '/agent/' . $id .  '/delete');
         $response->assertStatus(302);
-        
+
         $result = AgentModel::where('id', '=', $id)->first();
         $this->assertTrue($result === null);
 

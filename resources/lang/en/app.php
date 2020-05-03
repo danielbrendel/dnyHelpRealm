@@ -19,6 +19,7 @@
         'home_about' => 'About',
         'home_features' => 'Features',
         'home_faq' => 'FAQ',
+        'home_api' => 'API',
         'home_doc' => 'Documentation',
         'home_imprint' => 'Imprint',
         'home_privacy' => 'Privacy',
@@ -371,5 +372,8 @@
         'system_welcomemsg' => 'Welcome to our support contact form. Please describe your issue as detailed as possible. We will get back to you as soon as possible.',
         'system_emailconfirm' => 'Activate this option if customers must confirm their e-mail addresses in the ticket creation process.',
         'account_deactivated' => 'Your account has been dactivated',
-        'documentation_view' => 'Documentation'
+        'documentation_view' => 'Documentation',
+        'system_onlycustom' => 'I want to use my own frontend and thus the predefined contact form disabled',
+        'system_extfilter' => 'Exclude the following extensions from file uploads',
+        'ticket_disallowed_file_extension' => 'Files with the extension :ext are not allowed'
     ];

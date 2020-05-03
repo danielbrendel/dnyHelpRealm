@@ -94,6 +94,10 @@
                         {{ __('app.home_doc') }}
                     </a>
 
+                    <a class="navbar-item" href="{{ url('/api') }}">
+                        {{ __('app.home_api') }}
+                    </a>
+
                     <a class="navbar-item" href="{{ url('/imprint') }}">
                         {{ __('app.home_imprint') }}
                     </a>

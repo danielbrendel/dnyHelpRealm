@@ -22,7 +22,7 @@ use Webklex\PHPIMAP\Client;
 
 /**
  * Class MailserviceModel
- * 
+ *
  * Perform ticket emailing operations
  */
 class MailserviceModel extends Model
@@ -32,7 +32,7 @@ class MailserviceModel extends Model
 
     /**
      * Construct and connect
-     * 
+     *
      * @return void
      */
     public function __construct()
@@ -48,14 +48,14 @@ class MailserviceModel extends Model
     public function iniFileSize()
     {
         $value = ini_get('upload_max_filesize');
-        
+
         if (is_numeric($value)) {
             return $value;
         }
 
         $lastChar = strtolower(substr($value, -1));
         $actValue = intval(substr($value, 0, strlen($value)-1));
-        
+
         if ($lastChar === 'k') {
             return $actValue * 1024;
         } else if ($lastChar === 'm') {
@@ -69,7 +69,7 @@ class MailserviceModel extends Model
 
     /**
      * Process inbox. Create thread from message and then delete the message
-     * 
+     *
      * @return array The result of processed items
      */
     public function processInbox()
@@ -142,6 +142,22 @@ class MailserviceModel extends Model
                                 $attachments = $message->getAttachments();
                                 foreach ($attachments as $file) {
                                     if ($file->getSize() <= $this->iniFileSize()) {
+                                        $bIgnoreFile = false;
+
+                                        if (strlen($ws->extfilter) > 0) {
+                                            foreach (explode(' ', $ws->extfilter) as $fileext) {
+                                                $fileext = str_replace('.', '', trim($fileext));
+                                                if ($file->getExtension() === $fileext) {
+                                                    $bIgnoreFile = true;
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                        if ($bIgnoreFile) {
+                                            continue;
+                                        }
+
                                         $newName = $file->getName() . md5(random_bytes(55)) . '.' . $file->getExtension();
                                         $file->save(public_path() . '/uploads', $newName);
 
@@ -155,9 +171,9 @@ class MailserviceModel extends Model
                                 }
 
                                 $message->delete();
-                                
+
                                 $resultArray[] = $resultArrItem;
-                                
+
                                 if ($ws !== null) {
                                     if ($isAgent !== null) {
                                         $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
