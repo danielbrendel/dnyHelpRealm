@@ -24,14 +24,14 @@ use App\TicketsHaveTypes;
 
 /**
  * Class SettingsControllerTest
- * 
+ *
  * Test for SettingsController
  */
 class SettingsControllerTest extends TestCase
 {
     /**
      * Set up controller test
-     * 
+     *
      * @return void
      */
     public function setUp():void
@@ -66,7 +66,7 @@ class SettingsControllerTest extends TestCase
     public function testSave()
     {
         $agent = AgentModel::where('id', '=', env('DATA_USERID'))->first();
-        
+
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/settings/save', [
             'surname' => $agent->surname,
             'lastname' => $agent->lastname,
@@ -92,7 +92,7 @@ class SettingsControllerTest extends TestCase
         $user = User::where('id', '=', env('DATA_USERID'))->first();
         $user->language = 'de';
         $user->save();
-        
+
         \App::setLocale('de');
 
         $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/settings/locale', [
@@ -197,5 +197,23 @@ class SettingsControllerTest extends TestCase
 
         $ticketType = TicketsHaveTypes::where('workspace', '=', env('DATA_WORKSPACE'))->where('id', '=', $id)->first();
         $this->assertTrue($ticketType === null);
+    }
+
+    /**
+     * Test for generateApiToken
+     *
+     * @return void
+     */
+    public function testGenerateToken()
+    {
+        $response = $this->patch('/' . env('DATA_WORKSPACENAME') . '/settings/system/apitoken');
+        $response->assertStatus(200);
+
+        $content = $response->getOriginalContent();
+        $this->assertEquals(200, $content['code']);
+        $this->assertTrue(isset($content['token']));
+
+        $row = WorkSpaceModel::where('name', '=', env('DATA_WORKSPACENAME'))->where('apitoken', '=', $content['token'])->first();
+        $this->assertTrue($row !== null);
     }
 }
