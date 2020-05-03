@@ -34,8 +34,8 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->string('bgcolorcode');
             $table->string('welcomemsg', 4096);
             $table->boolean('emailconfirm')->default(false);
-            $table->boolean('onlycustom')->default(false);
             $table->string('extfilter')->default('');
+            $table->string('apitoken')->default('');
             $table->boolean('deactivated')->default(false);
             $table->timestamps();
         });

@@ -341,7 +341,9 @@
         'system_emailconfirm' => 'Aktivieren Sie diese Option, wenn Kunden im Erstellprozess eines Tickets Ihre E-Mail Adresse bestätigen müssen.',
         'account_deactivated' => 'Ihr Account wurde deaktiviert.',
         'documentation_view' => 'Dokumentation',
-        'system_onlycustom' => 'Ich möchte mein eigenes Frontend verwenden und daher das vorgefertigte Formular deaktivieren',
         'system_extfilter' => 'Folgende Dateierweiterungen vom Datei-Upload ausschließen',
-        'ticket_disallowed_file_extension' => 'Dateien mit der Erweiterung :ext sind nicht erlaubt'
+        'ticket_disallowed_file_extension' => 'Dateien mit der Erweiterung :ext sind nicht erlaubt',
+        'system_api_token' => 'API Token',
+        'system_api_token_generate' => 'Generieren',
+        'api_token_generated' => 'API Token erstellt'
     ];

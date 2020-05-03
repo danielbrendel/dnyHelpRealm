@@ -54,10 +54,6 @@ class MainController extends Controller
         if ((Auth::guest()) || (request('v') === 'c')) {
             \App::setLocale($ws->lang);
 
-            if ($ws->onlycustom) {
-                abort(404);
-            }
-
             $img = BgImagesModel::queryRandomImage($ws->id);
 
             $captchadata = CaptchaModel::createSum(session()->getId());
@@ -418,6 +414,8 @@ class MainController extends Controller
         if ($attr['password'] !== $attr['password_confirmation']) {
             return back()->with('error', __('app.password_mismatch'));
         }
+
+        $attr['apitoken'] = md5(random_bytes(55));
 
         $workspace = WorkSpaceModel::create($attr);
         if ($workspace === null) {

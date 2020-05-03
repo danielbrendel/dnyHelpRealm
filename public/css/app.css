@@ -10897,7 +10897,7 @@ a.text-dark:focus {
 html {
   width: 100%;
   height: 100%;
-  overflow-y: hidden !important;
+  overflow-y: auto;
 }
 
 body {
@@ -11512,8 +11512,8 @@ pre {
     width: 50%;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
     overflow-y: auto;
+    transform: translate(-50%, -50%);
     max-height: 800px;
   }
 }

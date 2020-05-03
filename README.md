@@ -65,6 +65,7 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 + DATA_USERID: ID of a test user
 + DATA_WORKSPACE: ID of a test workspace
 + DATA_WORKSPACENAME: Namehash of that workspace
++ DATA_WORKSPACEAPITOKEN: API token for the API endpoint
 + DATA_GROUPID: ID of a test group
 + DATA_GROUPNAME: Name of the test group
 + DATA_TICKETID: Ticket ID of a test ticket

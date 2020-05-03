@@ -92,6 +92,7 @@ Route::patch('/{workspace}/settings/locale', 'SettingsController@saveLocale');
 Route::patch('/{workspace}/settings/avatar', 'SettingsController@saveAvatar');
 Route::get('/{workspace}/settings/system', 'SettingsController@viewSystemSettings');
 Route::patch('/{workspace}/settings/system', 'SettingsController@saveSystemSettings');
+Route::patch('/{workspace}/settings/system/apitoken', 'SettingsController@generateApiToken');
 Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@addBackgroundImage');
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
 Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');

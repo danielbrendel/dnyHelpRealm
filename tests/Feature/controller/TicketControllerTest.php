@@ -407,6 +407,7 @@ class TicketControllerTest extends TestCase
         $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 
         $response = $this->post('/api/' . env('DATA_WORKSPACENAME') . '/ticket/create', [
+            'apitoken' => env('DATA_WORKSPACEAPITOKEN'),
             'subject' => $token,
             'text' => $token,
             'name' => $token . ' ' . $token,

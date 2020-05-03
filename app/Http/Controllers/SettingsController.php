@@ -280,9 +280,9 @@ class SettingsController extends Controller
             'superadmin' => User::getAgent(auth()->id())->superadmin,
             'company' => $ws->company,
             'lang' => $ws->lang,
+            'apitoken' => $ws->apitoken,
             'usebgcolor' => $ws->usebgcolor,
             'bgcolorcode' => $ws->bgcolorcode,
-            'onlycustom' => $ws->onlycustom,
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
             'infomessage' => $ws->welcomemsg,
@@ -321,7 +321,6 @@ class SettingsController extends Controller
             'bgcolorcode' => 'nullable',
             'infomessage' => 'nullable',
             'emailconfirm' => 'numeric|nullable',
-            'onlycustom' => 'numeric|nullable',
             'extfilter' => 'nullable'
         ]);
 
@@ -333,10 +332,6 @@ class SettingsController extends Controller
             $attr['emailconfirm'] = false;
         }
 
-        if (!isset($attr['onlycustom'])) {
-            $attr['onlycustom'] = false;
-        }
-
         if (!isset($attr['bgcolorcode'])) {
             $attr['bgcolorcode'] = '#F5F5F6';
         }
@@ -346,7 +341,6 @@ class SettingsController extends Controller
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
         if (isset($attr['emailconfirm'])) $ws->emailconfirm = (bool)$attr['emailconfirm'];
-        if (isset($attr['onlycustom'])) $ws->onlycustom = (bool)$attr['onlycustom'];
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 
@@ -615,5 +609,32 @@ class SettingsController extends Controller
         request()->session()->invalidate();
 
         return redirect('/')->with('success', __('app.workspace_deleted'));
+    }
+
+    /**
+     * Generate API token
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function generateApiToken($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return response()->json(array('code' => 500, 'message' => __('app.superadmin_permission_required')));
+        }
+
+        $ws->apitoken = md5(random_bytes(55));
+        $ws->save();
+
+        return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->apitoken));
     }
 }

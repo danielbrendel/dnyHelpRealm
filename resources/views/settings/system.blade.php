@@ -76,12 +76,6 @@
 
                             <div class="field">
                                 <div class="control">
-                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_onlycustom') }}" name="onlycustom" value="1" <?php if ((bool)$onlycustom === true) { echo 'checked'; } ?>/>
-                                </div>
-                            </div>
-
-                            <div class="field">
-                                <div class="control">
                                     <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_usebgcolor') }}" name="usebgcolor" value="1" <?php if ((bool)$usebgcolor === true) { echo 'checked'; } ?>/>
                                 </div>
                             </div>
@@ -148,6 +142,17 @@
 
                         <hr/>
 
+                        <strong>{{ __('app.system_api_token') }}</strong><br/>
+                        <div class="field">
+                            <div class="control">
+                                <input type="text" id="apitoken" value="{{ $apitoken }}"/>
+                            </div>
+                        </div>
+
+                        <input type="button" class="button" onclick="generateApiToken()" value="{{ __('app.system_api_token_generate') }}">
+
+                        <hr/>
+
                         <div class="field">
                             <div class="control">
                                 <label class="label">{{ __('app.system_backgrounds') }}</label>
@@ -203,4 +208,16 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('javascript')
+    function generateApiToken()
+    {
+        ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/apitoken') }}', {},
+            function(data){
+                document.getElementById('apitoken').value = data.token;
+            },
+            function(){}
+        );
+    }
 @endsection

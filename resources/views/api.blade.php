@@ -27,7 +27,7 @@
                 </p>
 
                 <p>
-                    In order to create a ticket call the following API route:
+                    In order to create a ticket call the following API route as POST request:
                 </p>
 
                 <p>
@@ -36,7 +36,9 @@
 
                 <p>
                     Where {workspace} is your workspace hash name. You can find it in your system settings tab.
-                    The following post data fields are supported:
+                    Also you need an API token for every request to our API for security reasons. An API token is
+                    automatically generated on registration, but you can generate new tokens in the system settings
+                    menu. The following post data fields are supported:
                 </p>
 
                 <p>
@@ -47,6 +49,11 @@
                             <th>Required</th>
                         </thead>
                         <tbody>
+                            <tr>
+                                <td><code>apitoken</code></td>
+                                <td>The workspace API token</td>
+                                <td>Required</td>
+                            </tr>
                             <tr>
                                 <td><code>subject</code></td>
                                 <td>The subject of the ticket</td>
@@ -98,7 +105,7 @@
                         <thead>
                             <th>Code</th>
                             <th>Description</th>
-                            <th>Required</th>
+                            <th>Additional data</th>
                         </thead>
                         <tbody>
                         <tr>
@@ -114,6 +121,15 @@
                                     <li>No workspace found: none</li>
                                     <li>Ticket type not found: field ‚ticket_type‘ with the request value</li>
                                 </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><code>403 Forbidden</code></td>
+                            <td>
+                                The request API token is invalid
+                            </td>
+                            <td>
+                                A field 'apitoken' with the invalid token
                             </td>
                         </tr>
                         <tr>
@@ -146,7 +162,7 @@
                 </p>
 
                 <p>
-                    An example response could look like the following:<br/>
+                    An example response can look like the following:<br/>
                     <code>{</code><br/>
                     <code>&nbsp;&nbsp;"code": "201",</code><br/>
                     <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>

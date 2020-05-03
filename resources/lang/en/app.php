@@ -373,7 +373,9 @@
         'system_emailconfirm' => 'Activate this option if customers must confirm their e-mail addresses in the ticket creation process.',
         'account_deactivated' => 'Your account has been dactivated',
         'documentation_view' => 'Documentation',
-        'system_onlycustom' => 'I want to use my own frontend and thus the predefined contact form disabled',
         'system_extfilter' => 'Exclude the following extensions from file uploads',
-        'ticket_disallowed_file_extension' => 'Files with the extension :ext are not allowed'
+        'ticket_disallowed_file_extension' => 'Files with the extension :ext are not allowed',
+        'system_api_token' => 'API Token',
+        'system_api_token_generate' => 'Generate',
+        'api_token_generated' => 'API token has been generated'
     ];

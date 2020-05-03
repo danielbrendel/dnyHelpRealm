@@ -20,12 +20,12 @@ use Auth;
 class WorkSpaceModel extends Model
 {
     protected $fillable = [
-        'name', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg'
+        'name', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg', 'apitoken'
     ];
 
     /**
      * Get workspace by name
-     * 
+     *
      * @param string $name
      * @return mixed
      */
@@ -37,7 +37,7 @@ class WorkSpaceModel extends Model
 
     /**
      * Check if current user is logged in into their belonging workspace
-     * 
+     *
      * @param string $workspace
      * @return bool
      */

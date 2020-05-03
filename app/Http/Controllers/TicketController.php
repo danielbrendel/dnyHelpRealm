@@ -1253,6 +1253,10 @@ class TicketController extends Controller
     {
         $invalidFields = array();
 
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
         if ((!isset($_POST['subject'])) || (strlen($_POST['subject']) < 5)) {
            $invalidFields[] = array('name' => 'subject', 'value' => (isset($_POST['subject'])) ? $_POST['subject'] : null);
         }
@@ -1284,6 +1288,10 @@ class TicketController extends Controller
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
             return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
         }
 
         $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $_POST['type'])->first();
