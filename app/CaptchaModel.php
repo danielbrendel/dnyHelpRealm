@@ -18,14 +18,14 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class CaptchaModel
- * 
+ *
  * Represents captcha object
  */
 class CaptchaModel extends Model
 {
     /**
      * Query sum of hash
-     * 
+     *
      * @param string $hash The input hash
      * @return string|bool The found sum or false on failure
      */
@@ -40,7 +40,7 @@ class CaptchaModel extends Model
 
     /**
      * Create sum for hash
-     * 
+     *
      * @param string $hash The input hash
      * @return array An array containing both summands
      */
@@ -55,9 +55,9 @@ class CaptchaModel extends Model
         if (!$entry) {
             $entry = new \App\CaptchaModel;
         }
-        
+
         $entry->hash = $hash;
-        $entry->sum = $result[0] + $result[1];
+        $entry->sum = strval($result[0] + $result[1]);
         $entry->save();
 
         return $result;

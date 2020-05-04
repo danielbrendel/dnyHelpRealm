@@ -64,7 +64,7 @@ class MainController extends Controller
             }
             $infomessage = strip_tags($infomessage, env('APP_ALLOWEDHTMLTAGS'));
 
-            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::all(), 'infomessage' => $infomessage]);
+            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::where('workspace', '=', $ws->id)->get(), 'infomessage' => $infomessage]);
         } else {
             $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
             $groups = array();
