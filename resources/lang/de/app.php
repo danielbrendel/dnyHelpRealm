@@ -259,7 +259,7 @@
         'confirm' => 'Bestätigen',
         'email_not_found' => 'Die angegebene E-Mail Adresse wurde nicht gefunden',
         'reg_invalid_captcha' => 'Captcha ungültig',
-        'created_at' => 'Erstellt: ',
+        'created_at' => 'Erstellt: :date',
         'may_not_delete_self' => 'Sie dürfen Ihren eigenen Account nicht löschen',
         'table_show_entries' => 'Zeige Einträge:',
         'table_search' => 'Suchen:',

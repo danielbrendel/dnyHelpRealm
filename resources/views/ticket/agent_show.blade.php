@@ -46,7 +46,7 @@
                             </div>
 
                             <div class="ticket-agent-menu-item is-right2" style="color: rgb(150, 150, 150);" title="{{ $ticket->created_at }}">
-                                {{ __('app.created_at') }} {{ $ticket->created_at->diffForHumans() }}
+                                <i title="{{ __('app.created_at', ['date' => $ticket->created_at]) }}" class="far fa-calendar-alt"></i>&nbsp;{{ $ticket->created_at->diffForHumans() }}
                             </div>
                         </div>
 

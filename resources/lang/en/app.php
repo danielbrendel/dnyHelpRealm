@@ -294,7 +294,7 @@
         'notes' => 'Notes',
         'confirm' => 'Confirm',
         'email_not_found' => 'The specified E-Mail address could not be found',
-        'created_at' => 'Created: ',
+        'created_at' => 'Created: :date',
         'may_not_delete_self' => 'You may not delete your own account',
         'table_show_entries' => 'Show entries:',
         'table_search' => 'Search:',
