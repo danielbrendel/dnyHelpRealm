@@ -339,7 +339,7 @@ class SettingsController extends Controller
         if (isset($attr['company'])) $ws->company = $attr['company'];
         if (isset($attr['lang'])) $ws->lang = $attr['lang'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
-        if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
+        if (isset($attr['bgcolorcode'])) $ws->bgcolorcode = $attr['bgcolorcode'];
         if (isset($attr['emailconfirm'])) $ws->emailconfirm = (bool)$attr['emailconfirm'];
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
