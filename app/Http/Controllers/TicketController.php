@@ -628,7 +628,7 @@ class TicketController extends Controller
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
                 if ($agentOfGroup !== null) {
-                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id])->render();
+                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id, 'subject' => $record->subject, 'text' => $record->text])->render();
 
                     @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
                 }
@@ -790,7 +790,7 @@ class TicketController extends Controller
         $sender = User::getAgent(auth()->id());
 
         if (strlen($sender->signature) > 0) {
-            $attr['text'] .= "\r\n{$sender->signature}";
+            $attr['text'] .= "\r\n\r\n{$sender->signature}";
         }
 
         $attr['ticket_id'] = $id;

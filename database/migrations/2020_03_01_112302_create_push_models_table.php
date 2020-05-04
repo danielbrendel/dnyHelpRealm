@@ -29,7 +29,7 @@ class CreatePushModelsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('title');
-            $table->string('message');
+            $table->string('message', 4096);
             $table->boolean('seen')->default(false);
             $table->timestamps();
         });
