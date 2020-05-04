@@ -377,5 +377,6 @@
         'ticket_disallowed_file_extension' => 'Files with the extension :ext are not allowed',
         'system_api_token' => 'API Token',
         'system_api_token_generate' => 'Generate',
-        'api_token_generated' => 'API token has been generated'
+        'api_token_generated' => 'API token has been generated',
+        'settings_signature' => 'Signature to be appended to ticket replies'
     ];

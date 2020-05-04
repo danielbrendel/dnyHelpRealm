@@ -107,7 +107,8 @@ class SettingsController extends Controller
             'email' => 'email',
             'password' => 'nullable',
             'password_confirm' => 'nullable',
-            'mailonticketingroup' => 'nullable|numeric'
+            'mailonticketingroup' => 'nullable|numeric',
+            'signature' => 'nullable|max:4096'
         ]);
 
         $user = User::get(auth()->id());
@@ -124,6 +125,7 @@ class SettingsController extends Controller
             $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         }
         if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
+        if (isset($attr['signature'])) $agent->signature = $attr['signature']; else $agent->signature = '';
 
         $user->save();
         $agent->save();

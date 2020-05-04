@@ -8,6 +8,11 @@
     {{ __('app.mail_salutation', ['name' => $name]) }}
     <br/><br/>
     {{ __('app.mail_ticket_create_body_notconfirm') }}
+    <br/><br/>
+    <hr/>
+    <strong>{{ $subject }}:</strong><br/>
+    <pre>{{ $text }}</pre>
+    <hr/>
 @endsection
 
 @section('action')

@@ -56,6 +56,13 @@
                             </div>
 
                             <div class="field">
+                                <label class="label">{{ __('app.settings_signature') }}</label>
+                                <div class="control">
+                                    <textarea name="signature" class="textarea">{{ $agent->signature }}</textarea>
+                                </div>
+                            </div>
+
+                            <div class="field">
                                 <label class="label">{{ __('app.settings_password') }}</label>
                                 <div class="control">
                                     <input type="password" name="password"/>

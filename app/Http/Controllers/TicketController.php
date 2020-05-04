@@ -328,9 +328,9 @@ class TicketController extends Controller
         $data = TicketModel::create($attr);
         if ($data) {
             if ($ws->emailconfirm) {
-                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
             } else {
-                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash])->render();
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
             @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
@@ -407,9 +407,9 @@ class TicketController extends Controller
         $data = TicketModel::create($attr);
         if ($data) {
             if ($ws->emailconfirm) {
-                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
             } else {
-                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash])->render();
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
             @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
@@ -788,6 +788,10 @@ class TicketController extends Controller
         ]);
 
         $sender = User::getAgent(auth()->id());
+
+        if (strlen($sender->signature) > 0) {
+            $attr['text'] .= "\r\n{$sender->signature}";
+        }
 
         $attr['ticket_id'] = $id;
         $attr['user_id'] = auth()->id();
@@ -1359,9 +1363,9 @@ class TicketController extends Controller
             }
 
             if ($ws->emailconfirm) {
-                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'confirmation' => $attr['confirmation']])->render();
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
             } else {
-                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash])->render();
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
             @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
