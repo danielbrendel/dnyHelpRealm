@@ -335,7 +335,7 @@ class SettingsController extends Controller
         }
 
         if (!isset($attr['bgcolorcode'])) {
-            $attr['bgcolorcode'] = '#F5F5F6';
+            $attr['bgcolorcode'] = '#E5E5E6';
         }
 
         if (isset($attr['company'])) $ws->company = $attr['company'];

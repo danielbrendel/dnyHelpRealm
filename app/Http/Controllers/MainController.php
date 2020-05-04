@@ -392,7 +392,7 @@ class MainController extends Controller
 
         $attr['lang'] = 'en';
         $attr['usebgcolor'] = false;
-        $attr['bgcolorcode'] = 'F5F5F6';
+        $attr['bgcolorcode'] = 'E5E5E6';
         $attr['welcomemsg'] = __('app.system_welcomemsg');
 
         $attr['name'] = md5($attr['fullname'] . $attr['email'] . random_bytes(55));
