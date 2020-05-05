@@ -536,16 +536,22 @@ pre {
     position: relative;
     @media screen and (min-width: 821px) {
         width: 50%;
-        top: 50%;
-        left: 50%;
         overflow-y: auto;
-        -webkit-transform: translate(-50%,-50%);
-        transform: translate(-50%,-50%);
-        max-height: 800px;
     }
     @media screen and (max-width: 820px) {
         width: 100%;
         height: auto;
+    }
+    @media screen and (max-height: 797px) {
+        width: 100%;
+        height: auto;
+    }
+    @media screen and (min-height: 798px) {
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translate(-50%,-50%);
+        transform: translate(-50%,-50%);
+        max-height: 800px;
     }
     overflow-x: hidden;
     vertical-align: middle;
