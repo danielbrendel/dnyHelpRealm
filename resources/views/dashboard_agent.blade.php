@@ -57,14 +57,14 @@
                 <div class="tile is-ancestor">
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <h3>{{ __('app.your_tickets') }}</h3><br>
+                            <h3>{{ __('app.your_tickets') }}</h3><br/>
 
                             <table class="table striped table-border mt-4" data-role="table" data-pagination="true"
                                 data-table-rows-count-title="{{ __('app.table_show_entries') }}"
                                 data-table-search-title="{{ __('app.table_search') }}"
                                 data-table-info-title="{{ __('app.table_row_info') }}"
                                 data-pagination-prev-title="{{ __('app.table_pagination_prev') }}"
-                                data-pagination-next-title="{{ __('app.table_pagination_next') }}"><!--bordered hovered-->
+                                data-pagination-next-title="{{ __('app.table_pagination_next') }}">
                                 <thead>
                                     <tr>
                                         <th class="text-left">{{ __('app.ticket_id', ['id' => '']) }}</th>
@@ -100,16 +100,15 @@
                                             </td>
 
                                             <td class="right">
-                                                    @if ($ticket->status == 0)
-                                                        <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
-                                                    @elseif ($ticket->status == 1)
-                                                        <div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>
-                                                    @elseif ($ticket->status == 2)
-                                                        <div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>
-                                                    @elseif ($ticket->status == 3)
-                                                        <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
-                                                    @endif
-                                                </div>
+                                                @if ($ticket->status == 0)
+                                                    <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
+                                                @elseif ($ticket->status == 1)
+                                                    <div class="dashboard-badge dashboard-badge-is-green">{{ __('app.ticket_status_open') }}</div>
+                                                @elseif ($ticket->status == 2)
+                                                    <div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>
+                                                @elseif ($ticket->status == 3)
+                                                    <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
+                                                @endif
                                             </td>
 
                                             <td class="right">
@@ -128,7 +127,7 @@
 
                             <br/>
 
-                                <center><a class="button" href="javascript:void(0)" onclick="location.reload();">{{ __('app.refresh') }}</a></center><br/>
+                            <center><a class="button" href="javascript:void(0)" onclick="location.reload();">{{ __('app.refresh') }}</a></center><br/>
                         </article>
                     </div>
                     <div class="tile is-parent">
@@ -140,8 +139,6 @@
                             </div>
 
                             <canvas id="ticketChart"></canvas>
-
-
                         </article>
                     </div>
                 </div>

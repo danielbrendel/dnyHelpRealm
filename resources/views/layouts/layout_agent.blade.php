@@ -195,7 +195,7 @@
                     bAddAgentToGroup: false,
                 },
                 created: function() {
-                    if (window.innerWidth <= 480) {
+                    if (window.innerWidth <= 775) {
                         this.showSideBar = true;
                     }
                 },

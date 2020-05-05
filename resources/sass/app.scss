@@ -161,7 +161,7 @@ pre {
     height: 100%;
     background-color: rgb(34, 41, 47);
     transition: 0.5s;
-    @media screen and (max-width: 480px) {
+    @media screen and (max-width: 775px) {
         width: 0px;
     }
 }
@@ -524,6 +524,11 @@ pre {
 }
 .ticket-agent-menu-item a {
     color: rgb(100, 100, 100);
+}
+.ticket-agent-text {
+    text-align: center;
+    margin-top: 15px;
+    margin-bottom: 22px;
 }
 
 //Guest area
@@ -996,4 +1001,9 @@ a.navbar-item:hover {
 @-ms-keyframes fadein {
     from { opacity: 0; }
     to   { opacity: 1; }
+}
+
+//Status badge area
+#view-status {
+    margin-bottom: 28px;
 }

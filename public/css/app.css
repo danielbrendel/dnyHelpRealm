@@ -11055,7 +11055,7 @@ pre {
   transition: 0.5s;
 }
 
-@media screen and (max-width: 480px) {
+@media screen and (max-width: 775px) {
   .app-sidebar {
     width: 0px;
   }
@@ -11489,6 +11489,12 @@ pre {
 
 .ticket-agent-menu-item a {
   color: #646464;
+}
+
+.ticket-agent-text {
+  text-align: center;
+  margin-top: 15px;
+  margin-bottom: 22px;
 }
 
 .guest-bg {
@@ -12032,5 +12038,9 @@ a.navbar-item:hover {
   to {
     opacity: 1;
   }
+}
+
+#view-status {
+  margin-bottom: 28px;
 }
 

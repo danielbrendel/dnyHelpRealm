@@ -79,7 +79,7 @@
     </div>
 
     <div class="ticket-guest-text">
-        <pre>{{ $ticket->text }}</pre>
+        <pre class="is-wordbreak">{{ $ticket->text }}</pre>
     </div>
 
     <div class="attachments">

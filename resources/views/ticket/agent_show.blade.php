@@ -50,15 +50,13 @@
                             </div>
                         </div>
 
-                        <p>
-                            <center>
-                                <pre class="is-wordbreak">{{ $ticket->text }}</pre>
-                            </center>
-                        </p>
+                        <div class="ticket-agent-text">
+                            <pre class="is-wordbreak">{{ $ticket->text }}</pre>
+                        </div>
 
                         <div class="dashboard-card">
                             <div class="left">
-                                <p id="view-status">
+                                <div id="view-status">
                                     @if ($ticket->status == 0)
                                         <div class="dashboard-badge dashboard-badge-is-red">{{ __('app.ticket_status_confirmation') }}</div>
                                     @elseif ($ticket->status == 1)
@@ -68,7 +66,7 @@
                                     @elseif ($ticket->status == 3)
                                         <div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>
                                     @endif
-                                </p>
+                                </div>
                                 <p>
                                     <a href="javascript:void(0);" onclick="alert('{{ $ticket->hash }}');">{{ __('app.ticket_hash') }}</a>
                                 </p>
