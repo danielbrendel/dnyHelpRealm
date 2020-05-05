@@ -16,20 +16,9 @@
         <meta charset="utf-8">
 
         <style>
-            html, body {
-                width: 100%;
-                height: 100%;
-                margin: 0;
-            }
-
             .mail-wrapper {
                 position: relative;
-                width: 280px;
-                min-height: 120px;
-                top: 50%;
-                left: 50%;
-                -webkit-transform: translate(-50%,-50%);
-                transform: translate(-50%,-50%);
+                width: 100%;
             }
 
             .mail-title {
