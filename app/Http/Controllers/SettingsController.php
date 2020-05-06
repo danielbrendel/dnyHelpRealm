@@ -288,8 +288,11 @@ class SettingsController extends Controller
             'langs' => $langs,
             'bgs' => BgImagesModel::getAllBackgrounds($ws->id),
             'infomessage' => $ws->welcomemsg,
+            'formtitle' => $ws->formtitle,
+            'ticketcreatedmsg' => $ws->ticketcreatedmsg,
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
+            'formactions' => $ws->formactions,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId())
         ]);
@@ -322,7 +325,10 @@ class SettingsController extends Controller
             'usebgcolor' => 'numeric|nullable',
             'bgcolorcode' => 'nullable',
             'infomessage' => 'nullable',
+            'formtitle' => 'nullable',
+            'ticketcreatedmsg' => 'nullable',
             'emailconfirm' => 'numeric|nullable',
+            'formactions' => 'numeric|nullable',
             'extfilter' => 'nullable'
         ]);
 
@@ -334,6 +340,10 @@ class SettingsController extends Controller
             $attr['emailconfirm'] = false;
         }
 
+        if (!isset($attr['formactions'])) {
+            $attr['formactions'] = false;
+        }
+
         if (!isset($attr['bgcolorcode'])) {
             $attr['bgcolorcode'] = '#E5E5E6';
         }
@@ -343,7 +353,10 @@ class SettingsController extends Controller
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
         if (isset($attr['bgcolorcode'])) $ws->bgcolorcode = $attr['bgcolorcode'];
         if (isset($attr['emailconfirm'])) $ws->emailconfirm = (bool)$attr['emailconfirm'];
+        if (isset($attr['formactions'])) $ws->formactions = (bool)$attr['formactions'];
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
+        if (isset($attr['formtitle'])) $ws->formtitle = $attr['formtitle'];
+        if (isset($attr['ticketcreatedmsg'])) $ws->ticketcreatedmsg = $attr['ticketcreatedmsg'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 
         $ws->save();

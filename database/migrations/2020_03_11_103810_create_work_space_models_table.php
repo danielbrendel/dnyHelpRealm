@@ -33,6 +33,8 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->boolean('usebgcolor');
             $table->string('bgcolorcode');
             $table->string('welcomemsg', 4096);
+            $table->string('formtitle');
+            $table->string('ticketcreatedmsg', 512);
             $table->boolean('emailconfirm')->default(false);
             $table->string('extfilter')->default('');
             $table->string('apitoken')->default('');

@@ -378,5 +378,8 @@
         'system_api_token' => 'API Token',
         'system_api_token_generate' => 'Generate',
         'api_token_generated' => 'API token has been generated',
-        'settings_signature' => 'Signature to be appended to ticket replies'
+        'settings_signature' => 'Signature to be appended to ticket replies',
+        'system_form_title' => 'Title of ticket creation form',
+        'system_ticket_created_msg' => 'Message to show if a ticket has been successfully created',
+        'system_formactions' => 'Show links to open ticket and login as agent'
     ];

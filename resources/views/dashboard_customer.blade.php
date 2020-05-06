@@ -13,7 +13,7 @@
 @extends('layouts.layout_customer', ['wsobject' => $wsobject, 'bgimage' => $bgimage, 'captchadata' => $captchadata])
 
 @section('content')
-    <center><h1 class="ticket-headline">{{ __('app.ticket_create') }}</h1></center>
+    <center><h1 class="ticket-headline">{{ $wsobject->formtitle }}</h1></center>
 
     <div class="ticket-welcome-msg">{!! $infomessage !!}</div>
 
@@ -140,9 +140,11 @@
                 @endif
             </span>
 
+            @if ($wsobject->formactions)
             <span class="is-right">
                 <a class="is-green" href="javascript:void(0)" onclick="vue.bShowOpenTicket = true;">{{ __('app.open_ticket') }}</a> | <a href="javascript:void(0)" onclick="vue.bShowLogin = true;">{{ __('app.login_as_agent') }}</a>
             </span>
+            @endif
         </form>
     </div>
 @endsection

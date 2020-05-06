@@ -417,6 +417,9 @@ class MainController extends Controller
 
         $attr['apitoken'] = md5(random_bytes(55));
 
+        $attr['formtitle'] = __('app.ticket_create');
+        $attr['ticketcreatedmsg'] = __('app.ticket_created_customer_notconfirm');
+
         $workspace = WorkSpaceModel::create($attr);
         if ($workspace === null) {
             return back()->with('error', __('app.workspace_creation_failed'));

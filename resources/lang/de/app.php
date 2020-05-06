@@ -346,5 +346,8 @@
         'system_api_token' => 'API Token',
         'system_api_token_generate' => 'Generieren',
         'api_token_generated' => 'API Token erstellt',
-        'settings_signature' => 'Folgende Signatur an eine Ticketantwort anhängen'
+        'settings_signature' => 'Folgende Signatur an eine Ticketantwort anhängen',
+        'system_form_title' => 'Titel des Ticket Formulars',
+        'system_ticket_created_msg' => 'Text, welcher nach erfolgreichem Erstellen eines Tickets angezeigt werden soll',
+        'system_formactions' => 'Anzeigen der Links zu Ticket öffnen und Einloggen als Agent'
     ];

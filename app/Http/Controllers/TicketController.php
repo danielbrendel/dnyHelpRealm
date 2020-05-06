@@ -346,13 +346,7 @@ class TicketController extends Controller
                 }
             }
 
-            if ($ws->emailconfirm) {
-                $key = 'app.ticket_created_customer_confirm';
-            } else {
-                $key = 'app.ticket_created_customer_notconfirm';
-            }
-
-            return back()->with('success', __($key));
+            return back()->with('success', $ws->ticketcreatedmsg);
         } else {
             return back()->withInput()->with('error', __('app.ticket_creation_failed'));
         }
