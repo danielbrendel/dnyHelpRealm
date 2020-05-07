@@ -19,6 +19,9 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+
+//Global overwriting
+
 html {
     width: 100%;
     height: 100%;
@@ -35,6 +38,11 @@ body {
 
 pre {
     background-color: rgb(255, 255, 255) !important;
+}
+
+textarea {
+    line-height: 18px !important;
+    padding: 10px !important;
 }
 
 //Global area

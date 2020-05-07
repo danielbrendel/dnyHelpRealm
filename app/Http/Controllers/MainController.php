@@ -325,7 +325,7 @@ class MainController extends Controller
         $user->save();
 
         $htmlCode = view('mail.pwreset', ['name' => $entity->firstname . ' ' . $entity->lastname, 'hash' => $user->password_reset])->render();
-        @mail($user->email, '[' . env('APP_NAME') . '] ' . __('app.mail_password_reset_subject'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+        @mail($user->email, '[' . env('APP_NAME') . '] ' . __('app.mail_password_reset_subject'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
 
         return back()->with('success', __('app.pw_recovery_ok'));
     }
@@ -485,7 +485,7 @@ class MainController extends Controller
         $ttChange->save();
 
         $htmlCode = view('mail.workspace_created', ['name' => $attr['fullname'], 'hash' => $user->account_confirm])->render();
-        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70), Controller::getMailHeaders());
 
         return redirect('/')->with('success', __('app.signup_welcomemsg'));
     }

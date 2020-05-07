@@ -337,11 +337,17 @@
 
                     <div class="field">
                         <div class="control">
-                            <select name="agent" id="selStatus">
+                            <select name="status" id="selStatus" onchange="if (this.value === '3') { document.getElementById('fieldClosingNotification').classList.remove('is-hidden'); } else { document.getElementById('fieldClosingNotification').classList.add('is-hidden'); }">
                                 <option value="1">{{ __('app.ticket_status_open') }}</option>
                                 <option value="2">{{ __('app.ticket_status_waiting') }}</option>
                                 <option value="3">{{ __('app.ticket_status_closed') }}</option>
                             </select>
+                        </div>
+                    </div>
+
+                    <div class="field is-hidden" id="fieldClosingNotification">
+                        <div class="control">
+                            <input id="cbClosingNotification" type="checkbox" value="1" data-role="checkbox" data-style="2" data-caption="{{ __('app.ticket_closing_do_not_send_email') }}">
                         </div>
                     </div>
                 </form>
@@ -472,8 +478,13 @@
 
     function ajaxChangeStatus()
     {
+        let append = '';
+        if (document.getElementById('selStatus').value == '3' && document.getElementById('cbClosingNotification').checked) {
+            append = '?skipClosingNotification=1';
+        }
+
         ajaxRequest('patch',
-        '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/status/') }}/' + document.getElementById('selStatus').value,
+        '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/status/') }}/' + document.getElementById('selStatus').value + append,
         {},
         function(data){
             let prev = document.getElementsByClassName('dashboard-badge');

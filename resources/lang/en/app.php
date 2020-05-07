@@ -131,6 +131,7 @@
         'ticket_hint_email' => 'The E-Mail address must be valid',
         'ticket_hint_subject' => 'The subject must at least contain five characters',
         'ticket_hash' => 'Hash',
+        'ticket_closing_do_not_send_email' => 'Don\'t dispatch a notification e-mail',
         'ticket_not_confirmed' => 'You need to confirm your E-Mail address before you can view the ticket',
         'ticket_invalid_confirmation' => 'You have specified an invalid confirmation token',
         'ticket_creation_welcomemsg' => 'Welcome to our support service. Please fill out the form in order to contact us. After submitting the form you will need to validate your e-mail address. A support agent will then process your request. You will get notification e-mails when an agent has replied to your ticket. Note: If you don\'t know which type of ticket you need to choose then leave it as default.',

@@ -14,6 +14,7 @@
 
 namespace App;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use App\TicketThreadModel;
 use App\TicketModel;
@@ -115,7 +116,7 @@ class MailserviceModel extends Model
                                     $resultArrItem['_confirm'] = true;
                                     if ($ws !== null) {
                                         $htmlCode = view('mail.ticket_confirmed_email')->render();
-                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), Controller::getMailHeaders());
                                     }
                                     $resultArray[] = $resultArrItem;
                                     continue;
@@ -182,7 +183,7 @@ class MailserviceModel extends Model
                                         $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
                                         if ($assignee !== null) {
                                             $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
-                                            @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] Ticket reply', wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+                                            @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
                                         }
                                     }
                                 }

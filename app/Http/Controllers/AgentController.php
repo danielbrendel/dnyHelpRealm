@@ -125,7 +125,8 @@ class AgentController extends Controller
      * Create new agent
      *
      * @param string $workspace
-     * @return Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Throwable
      */
     public function createAgent($workspace)
     {
@@ -170,7 +171,7 @@ class AgentController extends Controller
         $userdata->email = $data->email;
         $userdata->user_id = $data->id;
         $userdata->password = password_hash($pw, PASSWORD_BCRYPT);
-        $userdata->account_confirm = '';
+        $userdata->account_confirm = '_confirmed';
         $userdata->avatar = 'default.png';
         $userdata->save();
 
@@ -179,7 +180,7 @@ class AgentController extends Controller
         $data->save();
 
         $htmlCode = view('mail.account_created', ['workspace' => $ws->name, 'name' => $userdata->name, 'password' => $pw])->render();
-        @mail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') . " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+        @mail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
 
         return back()->with('success', __('app.agent_created'));
     }

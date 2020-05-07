@@ -20,7 +20,7 @@ use Auth;
 class WorkSpaceModel extends Model
 {
     protected $fillable = [
-        'name', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg', 'apitoken'
+        'name', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg', 'formtitle', 'ticketcreatedmsg', 'apitoken'
     ];
 
     /**
