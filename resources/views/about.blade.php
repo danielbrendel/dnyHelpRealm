@@ -33,6 +33,14 @@
                     Visit the <a href="{{ url('/faq') }}">FAQ</a> in order to get the most frequent questions answered<br/>
                     Read the <a href="{{ url('/data/documentation.pdf') }}">documentation</a> in order to get to know how to use the service<br/>
                 </p>
+
+                @if ($donationCode !== null)
+                    <div>
+                        <br/>
+                        We accept donations for our service. This helps us to pay the server costs.<br/><br/>
+                        {!! $donationCode !!}
+                    </div>
+                @endif
             </div>
         </div>
     </div>

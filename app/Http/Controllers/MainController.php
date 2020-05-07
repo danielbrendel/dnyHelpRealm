@@ -178,7 +178,15 @@ class MainController extends Controller
     {
         $captchadata = CaptchaModel::createSum(session()->getId());
 
-        return view('about', ['captchadata' => $captchadata]);
+        $donationCode = null;
+
+        if (file_exists(public_path() . '/data/donation.txt')) {
+            $donationCode = Cache::remember('donation_code', 3600, function() {
+                return file_get_contents(public_path() . '/data/donation.txt');
+            });
+        }
+
+        return view('about', ['captchadata' => $captchadata, 'donationCode' => $donationCode]);
     }
 
     /**
