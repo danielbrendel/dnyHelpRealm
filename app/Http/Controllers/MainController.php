@@ -30,6 +30,7 @@ use App\HomeFaqModel;
 use App\TicketsHaveTypes;
 use App\MailserviceModel;
 use App\PushModel;
+use App\MailerModel;
 
 /**
  * Class MainController
@@ -64,7 +65,7 @@ class MainController extends Controller
             }
             $infomessage = strip_tags($infomessage, env('APP_ALLOWEDHTMLTAGS'));
 
-            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::where('workspace', '=', $ws->id)->get(), 'infomessage' => $infomessage]);
+            return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::where('workspace', '=', $ws->id)->get(), 'infomessage' => $infomessage, 'allowattachments' => $ws->allowattachments]);
         } else {
             $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
             $groups = array();
@@ -333,7 +334,7 @@ class MainController extends Controller
         $user->save();
 
         $htmlCode = view('mail.pwreset', ['name' => $entity->firstname . ' ' . $entity->lastname, 'hash' => $user->password_reset])->render();
-        @mail($user->email, '[' . env('APP_NAME') . '] ' . __('app.mail_password_reset_subject'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+        MailerModel::sendMail($user->email, '[' . env('APP_NAME') . '] ' . __('app.mail_password_reset_subject'), $htmlCode);
 
         return back()->with('success', __('app.pw_recovery_ok'));
     }
@@ -493,7 +494,7 @@ class MainController extends Controller
         $ttChange->save();
 
         $htmlCode = view('mail.workspace_created', ['name' => $attr['fullname'], 'hash' => $user->account_confirm])->render();
-        @mail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', wordwrap($htmlCode, 70), Controller::getMailHeaders());
+        MailerModel::sendMail($attr['email'], '[' . env('APP_NAME') . '] Your Workspace', $htmlCode);
 
         return redirect('/')->with('success', __('app.signup_welcomemsg'));
     }

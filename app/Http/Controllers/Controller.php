@@ -45,19 +45,4 @@ class Controller extends BaseController
             return $next($request);
         });
     }
-
-    /**
-     * Get headers for mail() function call
-     * @return string
-     */
-    public static function getMailHeaders()
-    {
-        return "Content-type: text/html; charset=utf-8\r\n"
-            . "From: " . env('APP_NAME') . " <" . env('MAILSERV_EMAILADDR') . ">\r\n"
-            . "Reply-To: " . env('APP_NAME') . " <" . env('MAILSERV_EMAILADDR') . ">\r\n"
-            . "Return-Path: " . env('APP_NAME') . " <" . env('MAILSERV_EMAILADDR') . ">\r\n"
-            . "Organization: " . env('APP_NAME') . "\r\n"
-            . "MIME-Version: 1.0\r\n"
-            . "X-Mailer: PHP". phpversion() . "\r\n";
-    }
 }

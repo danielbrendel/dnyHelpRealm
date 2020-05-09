@@ -150,6 +150,8 @@
         'ticket_type_min_one_type' => 'You must have at least one ticket type',
         'ticket_type_edit' => 'Edit',
         'ticket_type_edited' => 'Ticket type name has been changed',
+        'ticket_allow_attachments' => 'Allow attachments for tickets',
+        'workspace_attachments_disabled' => 'Attachment feature has been deactivated by the workspace administration',
         'name' => 'Name',
         'password' => 'Password',
         'enteremail' => 'Enter your E-Mail',

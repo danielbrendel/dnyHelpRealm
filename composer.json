@@ -12,6 +12,7 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
+        "phpmailer/phpmailer": "^6.1",
         "webklex/php-imap": "^1.4"
     },
     "require-dev": {

@@ -18,6 +18,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Model;
 use App\TicketThreadModel;
 use App\TicketModel;
+use App\MailerModel;
 use Webklex\PHPIMAP\ClientManager;
 use Webklex\PHPIMAP\Client;
 
@@ -116,7 +117,7 @@ class MailserviceModel extends Model
                                     $resultArrItem['_confirm'] = true;
                                     if ($ws !== null) {
                                         $htmlCode = view('mail.ticket_confirmed_email')->render();
-                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                                        MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), $htmlCode);
                                     }
                                     $resultArray[] = $resultArrItem;
                                     continue;
@@ -178,12 +179,12 @@ class MailserviceModel extends Model
                                 if ($ws !== null) {
                                     if ($isAgent !== null) {
                                         $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
-                                        @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), 'Content-type: text/html; charset=utf-8' . "\r\nFrom: " . env('APP_NAME') .  " " . env('MAILSERV_EMAILADDR') . "\r\nReply-To: " . env('MAILSERV_EMAILADDR') . "\r\n");
+                                        MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
                                     } else {
                                         $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
                                         if ($assignee !== null) {
                                             $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
-                                            @mail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                                            MailerModel::sendMail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
                                         }
                                     }
                                 }

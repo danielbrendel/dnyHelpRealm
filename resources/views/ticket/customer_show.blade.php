@@ -82,6 +82,7 @@
         <pre class="is-wordbreak">{{ $ticket->text }}</pre>
     </div>
 
+    @if ($allowattachments)
     <div class="attachments">
         @foreach ($files as $file)
         <div class="attachments-entry">
@@ -101,24 +102,25 @@
                 <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
             </div>
         </div>
-    @endforeach
+        @endforeach
 
-    <div class="attachments-add">
-        <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
-            @csrf
+        <div class="attachments-add">
+            <form method="POST" action="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/add') }}" enctype="multipart/form-data">
+                @csrf
 
-            <div class="attachments-add-file">
-                <input type="file" name="file" data-role="file" data-button-title="{{ __('app.choose_file') }}">
-            </div>
+                <div class="attachments-add-file">
+                    <input type="file" name="file" data-role="file" data-button-title="{{ __('app.choose_file') }}">
+                </div>
 
-            <input type="hidden" name="captcha" id="attachment-captcha" value="">
+                <input type="hidden" name="captcha" id="attachment-captcha" value="">
 
-            <div class="attachments-add-button">
-                <input type="submit" class="button" value="{{ __('app.upload_file') }}" <?php if ($isclosed === true) { echo 'title="' . __('app.ticket_closed') . '" disabled'; } ?>>
-            </div>
-        </form>
+                <div class="attachments-add-button">
+                    <input type="submit" class="button" value="{{ __('app.upload_file') }}" <?php if ($isclosed === true) { echo 'title="' . __('app.ticket_closed') . '" disabled'; } ?>>
+                </div>
+            </form>
+        </div>
     </div>
-    </div>
+    @endif
 
     <div class="form-wrapper">
             <div class="threadinput">

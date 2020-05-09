@@ -128,9 +128,11 @@
                 </div>
             </div>
 
+            @if ($allowattachments)
             <div class="ticketform-element-full" style="color: rgb(150, 150, 150)">
                 {{ __('app.files_upload_afterwards') }}
             </div>
+            @endif
 
             <span>
                 <input type="submit" id="createticketsubmit" class="button" value="{{ __('app.create') }}">&nbsp;&nbsp;

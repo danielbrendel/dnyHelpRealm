@@ -21,6 +21,7 @@ use Auth;
 use \App\AgentsHaveGroups;
 use \App\GroupsModel;
 use \App\WorkSpaceModel;
+use App\MailerModel;
 
 /**
  * Class AgentController
@@ -180,7 +181,7 @@ class AgentController extends Controller
         $data->save();
 
         $htmlCode = view('mail.account_created', ['workspace' => $ws->name, 'name' => $userdata->name, 'password' => $pw])->render();
-        @mail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+        MailerModel::sendMail($data->email, '[' . $ws->company . '] ' . __('app.account_created'), $htmlCode);
 
         return back()->with('success', __('app.agent_created'));
     }

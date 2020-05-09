@@ -30,6 +30,7 @@ use \App\CaptchaModel;
 use \App\BgImagesModel;
 use \App\WorkSpaceModel;
 use \App\TicketsHaveTypes;
+use App\MailerModel;
 
 /**
  * Class TicketController
@@ -140,7 +141,8 @@ class TicketController extends Controller
             'agents' => AgentModel::where('active', '=', true)->where('workspace', '=', $ws->id)->get(),
             'groups' => GroupsModel::where('workspace', '=', $ws->id)->get(),
             'files' => $ticketFileInfo,
-            'superadmin' => User::getAgent(auth()->id())->superadmin
+            'superadmin' => User::getAgent(auth()->id())->superadmin,
+            'allowattachments' => $ws->allowattachments
         ];
 
         $attr['threaddata'] = array();
@@ -234,6 +236,7 @@ class TicketController extends Controller
             'groups' => GroupsModel::all(),
             'files' => $ticketFileInfo,
             'isclosed' => $ticket->status === 3,
+            'allowattachments' => $ws->allowattachments,
             'captchadata' => $captchadata
         ];
 
@@ -333,14 +336,14 @@ class TicketController extends Controller
                 $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
 
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
-                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                    MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
 
                     PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
                 }
@@ -406,7 +409,7 @@ class TicketController extends Controller
                 $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
 
             return redirect('/' . $ws->name . '/ticket/' . $data->id . '/show/')->with('success', __('app.ticket_created'));
         } else {
@@ -577,7 +580,7 @@ class TicketController extends Controller
 
             if ($ag->user_id !== auth()->id()) {
                 $htmlCode = view('mail.ticket_assign', ['workspace' => $ws->name, 'name' => $ag->surname . ' ' . $ag->lastname, 'id' => $ticket])->render();
-                @mail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                MailerModel::sendMail($ag->email, '[' . $ws->company . '] ' . __('app.mail_ticket_assigned'), $htmlCode);
 
                 PushModel::addNotification(__('app.mail_ticket_assigned'), $record->subject, $ag->user_id);
             }
@@ -624,7 +627,7 @@ class TicketController extends Controller
                 if ($agentOfGroup !== null) {
                     $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $record->id, 'subject' => $record->subject, 'text' => $record->text])->render();
 
-                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                    MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
                 }
             }
 
@@ -667,7 +670,7 @@ class TicketController extends Controller
                 if ($doNotSend === 0) {
                     $htmlCode = view('mail.ticket_closed', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash])->render();
 
-                    @mail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_closed'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                    MailerModel::sendMail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_closed'), $htmlCode);
                 }
             }
 
@@ -804,7 +807,7 @@ class TicketController extends Controller
 
             $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $sender->surname . ' ' . $sender->lastname, 'message' => $attr['text']])->render();
 
-            @mail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+            MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
 
             return redirect('/' . $workspace . '/ticket/' . $id . '/show#thread-post-' . $data->id)->with('success', __('app.ticket_comment_added'));
         } else {
@@ -866,7 +869,7 @@ class TicketController extends Controller
             $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
             if ($assignee != null) {
                 $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id, 'message' => $attr['text'], 'customer' => $updTicket->name])->render();
-                @mail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                MailerModel::sendMail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
 
                 PushModel::addNotification(__('app.mail_ticket_customer_replied'), $attr['text'], $assignee->user_id);
             }
@@ -1017,6 +1020,10 @@ class TicketController extends Controller
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+        }
+
+        if (!$ws->allowattachments) {
+            return back()->with('error', __('app.workspace_attachments_disabled'));
         }
 
         if (Auth::guest()) {
@@ -1342,7 +1349,7 @@ class TicketController extends Controller
         $data = TicketModel::create($attr);
         if ($data) {
             $att = request()->file('attachment');
-            if ($att != null) {
+            if ($att != null && $ws->allowattachments) {
                 $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5(random_bytes(55));
                 $fext = $att->getClientOriginalExtension();
 
@@ -1369,14 +1376,14 @@ class TicketController extends Controller
                 $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            @mail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
 
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
                 if ($agentOfGroup !== null) {
-                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id])->render();
-                    @mail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), wordwrap($htmlCode, 70), Controller::getMailHeaders());
+                    $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                    MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
 
                     PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
                 }

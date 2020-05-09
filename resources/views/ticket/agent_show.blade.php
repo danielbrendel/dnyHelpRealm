@@ -95,6 +95,7 @@
 
                         <br/>
 
+                        @if ($allowattachments)
                         <div class="window-field">
                             <div class="window-field-inner">
                                 <div class="window-field-headline">{{ __('app.attachments') }}</div>
@@ -136,6 +137,7 @@
 
                             <br/>
                         </div>
+                        @endif
 
                         <div class="window-field">
                             <div class="window-field-inner">

@@ -290,6 +290,7 @@ class SettingsController extends Controller
             'infomessage' => $ws->welcomemsg,
             'formtitle' => $ws->formtitle,
             'ticketcreatedmsg' => $ws->ticketcreatedmsg,
+            'allowattachments' => $ws->allowattachments,
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'formactions' => $ws->formactions,
@@ -329,6 +330,7 @@ class SettingsController extends Controller
             'ticketcreatedmsg' => 'nullable',
             'emailconfirm' => 'numeric|nullable',
             'formactions' => 'numeric|nullable',
+            'allowattachments' => 'numeric|nullable',
             'extfilter' => 'nullable'
         ]);
 
@@ -338,6 +340,10 @@ class SettingsController extends Controller
 
         if (!isset($attr['emailconfirm'])) {
             $attr['emailconfirm'] = false;
+        }
+
+        if (!isset($attr['allowattachments'])) {
+            $attr['allowattachments'] = false;
         }
 
         if (!isset($attr['formactions'])) {
@@ -357,6 +363,7 @@ class SettingsController extends Controller
         if (isset($attr['infomessage'])) $ws->welcomemsg = $attr['infomessage'];
         if (isset($attr['formtitle'])) $ws->formtitle = $attr['formtitle'];
         if (isset($attr['ticketcreatedmsg'])) $ws->ticketcreatedmsg = $attr['ticketcreatedmsg'];
+        if (isset($attr['allowattachments'])) $ws->allowattachments = (bool)$attr['allowattachments'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 
         $ws->save();

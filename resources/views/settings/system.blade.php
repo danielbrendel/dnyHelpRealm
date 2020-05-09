@@ -77,6 +77,12 @@
 
                             <div class="field">
                                 <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.ticket_allow_attachments') }}" name="allowattachments" value="1" <?php if ((bool)$allowattachments === true) { echo 'checked'; } ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
                                     <label class="label">{{ __('app.system_extfilter') }}</label>
                                     <input type="text" class="input" name="extfilter" value="{{ $extfilter }}" placeholder="ext1 ext2 ext3"/>
                                 </div>
