@@ -29,13 +29,6 @@
                 font-family: "Nunito", sans-serif;
             }
 
-            .mail-header {
-                position: relative;
-                margin-bottom: 15px;
-                font-size: 1.5em;
-                color: rgb(74, 74, 74);
-            }
-
             .mail-title {
                 position: relative;
                 font-size: 1.5em;
@@ -89,12 +82,6 @@
     </head>
     <body>
         <div class="mail-wrapper">
-            <?php
-                $first = substr(env('APP_NAME'), 0, 4);
-                $second = substr(env('APP_NAME'), 4);
-            ?>
-
-            <div class="mail-header">{{ $first }}<strong>{{ $second }}</strong></div>
             <div class="mail-title">@yield('title')</div>
             <div class="mail-body">@yield('body')</div>
             <div class="mail-action">@yield('action')</div>
