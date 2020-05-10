@@ -13,12 +13,27 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
     <head>
-        <meta charset="utf-8">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
         <style>
+            @import url('https://fonts.googleapis.com/css?family=Nunito');
+
+            body {
+                background-color: rgb(246, 248, 242);
+            }
+
             .mail-wrapper {
                 position: relative;
-                width: 100%;
+                max-width: 420px;
+                font-family: "Nunito", sans-serif;
+            }
+
+            .mail-header {
+                position: relative;
+                margin-bottom: 15px;
+                font-size: 1.5em;
+                color: rgb(74, 74, 74);
             }
 
             .mail-title {
@@ -33,9 +48,20 @@
                 color: rgb(20, 20, 20);
             }
 
+            .mail-body pre {
+                white-space: pre-wrap;
+                white-space: -moz-pre-wrap;
+                white-space: -pre-wrap;
+                white-space: -o-pre-wrap;
+                word-wrap: break-word;
+            }
+
             .mail-action {
                 position: relative;
                 margin-top: 25px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
             }
 
             .mail-footer {
@@ -47,7 +73,7 @@
 
             .button {
                 display: block;
-                min-width: 115px;
+                width: 115px;
                 padding: 10px;
                 text-align: center;
                 text-decoration: none;
@@ -63,6 +89,12 @@
     </head>
     <body>
         <div class="mail-wrapper">
+            <?php
+                $first = substr(env('APP_NAME'), 0, 4);
+                $second = substr(env('APP_NAME'), 4);
+            ?>
+
+            <div class="mail-header">{{ $first }}<strong>{{ $second }}</strong></div>
             <div class="mail-title">@yield('title')</div>
             <div class="mail-body">@yield('body')</div>
             <div class="mail-action">@yield('action')</div>
