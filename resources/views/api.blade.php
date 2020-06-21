@@ -77,7 +77,7 @@
                             <tr>
                                 <td><code>type</code></td>
                                 <td>Ticket type</td>
-                                <td>Required, must match the IDof one of your created ticket types</td>
+                                <td>Required, must match the ID of one of your created ticket types</td>
                             </tr>
                             <tr>
                                 <td><code>prio</code></td>
