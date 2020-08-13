@@ -291,6 +291,8 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
+        putenv('TEMP_WORKSPACE=' . $ws->id);
+
         \App::setLocale($ws->lang);
 
         if ($attr['captcha'] != CaptchaModel::querySum(session()->getId())) {
@@ -338,6 +340,7 @@ class TicketController extends Controller
 
             MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
 
+            $agentInGroupIds = array();
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
@@ -346,6 +349,18 @@ class TicketController extends Controller
                     MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
 
                     PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
+
+                    $agentInGroupIds[] = $agentOfGroup->id;
+                }
+            }
+
+            if ($ws->inform_admin_new_ticket) {
+                $admins = AgentModel::where('workspace', '=', $ws->id)->where('superadmin', '=', true)->get();
+                foreach ($admins as $adminUser) {
+                    if (!in_array($adminUser->id, $agentInGroupIds)) {
+                        $htmlCode = view('mail.new_ticket_admin', ['workspace' => $ws->name, 'name' => $adminUser->surname . ' ' . $adminUser->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                        MailerModel::sendMail($adminUser->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
+                    }
                 }
             }
 
@@ -829,6 +844,8 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
+        putenv('TEMP_WORKSPACE=' . $ws->id);
+
         \App::setLocale($ws->lang);
 
         $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
@@ -1302,6 +1319,8 @@ class TicketController extends Controller
             return response()->json(array('code' => 404, 'workspace' => $workspace));
         }
 
+        putenv('TEMP_WORKSPACE=' . $ws->id);
+
         if ($ws->apitoken !== $_POST['apitoken']) {
             return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
         }
@@ -1378,6 +1397,7 @@ class TicketController extends Controller
 
             MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
 
+            $agentInGroupIds = array();
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
             foreach ($agentsInGroup as $entry) {
                 $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
@@ -1386,6 +1406,18 @@ class TicketController extends Controller
                     MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
 
                     PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
+
+                    $agentInGroupIds[] = $agentOfGroup->id;
+                }
+            }
+
+            if ($ws->inform_admin_new_ticket) {
+                $admins = AgentModel::where('workspace', '=', $ws->id)->where('superadmin', '=', true)->get();
+                foreach ($admins as $adminUser) {
+                    if (!in_array($adminUser->id, $agentInGroupIds)) {
+                        $htmlCode = view('mail.new_ticket_admin', ['workspace' => $ws->name, 'name' => $adminUser->surname . ' ' . $adminUser->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                        MailerModel::sendMail($adminUser->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
+                    }
                 }
             }
 

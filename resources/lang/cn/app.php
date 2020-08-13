@@ -392,5 +392,9 @@
         'mailer_username' => 'Username',
         'mailer_password' => 'Password',
         'mailer_address' => 'E-Mail address',
-        'mailer_fromname' => 'Sender name'
+        'mailer_fromname' => 'Sender name',
+        'system_inform_admin_new_ticket' => 'Inform admins on new tickets',
+        'mail_new_ticket_admin_title' => 'New ticket',
+        'mail_new_ticket_admin_body' => 'A new ticket has been created. Click the link down below to open it.',
+        'mail_new_ticket_admin_open' => 'Open'
     ];

@@ -37,6 +37,8 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->string('ticketcreatedmsg', 512);
             $table->boolean('emailconfirm')->default(false);
             $table->boolean('allowattachments')->default(true);
+            $table->boolean('inform_admin_new_ticket')->default(true);
+            $table->boolean('formactions')->default(false);
             $table->string('extfilter')->default('');
             $table->string('apitoken')->default('');
             $table->boolean('mailer_useown')->default(false);

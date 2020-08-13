@@ -330,6 +330,7 @@ class SettingsController extends Controller
             'formtitle' => 'nullable',
             'ticketcreatedmsg' => 'nullable',
             'emailconfirm' => 'numeric|nullable',
+            'inform_admin_new_ticket' => 'numeric|nullable',
             'formactions' => 'numeric|nullable',
             'allowattachments' => 'numeric|nullable',
             'extfilter' => 'nullable'
@@ -351,6 +352,10 @@ class SettingsController extends Controller
             $attr['formactions'] = false;
         }
 
+        if (!isset($attr['inform_admin_new_ticket'])) {
+            $attr['inform_admin_new_ticket'] = false;
+        }
+
         if (!isset($attr['bgcolorcode'])) {
             $attr['bgcolorcode'] = '#E5E5E6';
         }
@@ -365,6 +370,7 @@ class SettingsController extends Controller
         if (isset($attr['formtitle'])) $ws->formtitle = $attr['formtitle'];
         if (isset($attr['ticketcreatedmsg'])) $ws->ticketcreatedmsg = $attr['ticketcreatedmsg'];
         if (isset($attr['allowattachments'])) $ws->allowattachments = (bool)$attr['allowattachments'];
+        if (isset($attr['inform_admin_new_ticket'])) $ws->inform_admin_new_ticket = (bool)$attr['inform_admin_new_ticket'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 
         $ws->save();

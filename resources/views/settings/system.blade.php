@@ -96,6 +96,12 @@
 
                             <div class="field">
                                 <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_inform_admin_new_ticket') }}" name="inform_admin_new_ticket" value="1" <?php if ((bool)$ws->inform_admin_new_ticket === true) { echo 'checked'; } ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
                                     <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.system_formactions') }}" name="formactions" value="1" <?php if ((bool)$formactions === true) { echo 'checked'; } ?>/>
                                 </div>
                             </div>
