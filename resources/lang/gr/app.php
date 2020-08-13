@@ -376,5 +376,16 @@
         'settings_signature' => 'Υπογραφή που θα προσαρτηθεί στις απαντήσεις εισιτηρίων',
         'system_form_title' => 'Τίτλος φόρμας δημιουργίας εισιτηρίων',
         'system_ticket_created_msg' => 'Μήνυμα για να δείξει εάν ένα εισιτήριο έχει δημιουργηθεί με επιτυχία',
-        'system_formactions' => 'Εμφάνιση συνδέσμων για άνοιγμα εισιτηρίου και σύνδεση ως πράκτορας'
+        'system_formactions' => 'Εμφάνιση συνδέσμων για άνοιγμα εισιτηρίου και σύνδεση ως πράκτορας',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

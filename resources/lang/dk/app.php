@@ -367,7 +367,7 @@
         'confirm_delete' => 'Er du sikker på, at du vil slette denne fil?',
         'invalid_file' => 'Ugyldig fil specificeret',
         'ticket_id' => 'Ticket #: id',
-        'system_info_message' => "Infobeskeden, der vises i formularen til oprettelse af billet. Følgende HTML-tags er tilladt: ',
+        'system_info_message' => 'Infobeskeden, der vises i formularen til oprettelse af billet. Følgende HTML-tags er tilladt: ',
         'email_not_found' => 'Den specificerede e-mail-adresse findes ikke i vores database',
         'email_already_in_use' => 'Den specificerede e-mail-adresse er allerede tilknyttet et af vores arbejdsområder.',
         'system_welcomemsg' => 'Velkommen til vores supportkontaktformular. Beskriv dit problem så detaljeret som muligt. Vi vender tilbage til dig så hurtigt som muligt. ',
@@ -382,5 +382,16 @@
         'settings_signature' => 'Signatur, der skal føjes til billetsvar',
         'system_form_title' => 'Titel på formularen til oprettelse af billet',
         'system_ticket_created_msg' => 'Besked for at vise, om en billet er blevet oprettet',
-        'system_formactions' => 'Vis links til åben billet og log ind som agent'
+        'system_formactions' => 'Vis links til åben billet og log ind som agent',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

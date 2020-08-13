@@ -384,5 +384,16 @@
         'settings_signature' => 'Signature to be appended to ticket replies',
         'system_form_title' => 'Title of ticket creation form',
         'system_ticket_created_msg' => 'Message to show if a ticket has been successfully created',
-        'system_formactions' => 'Show links to open ticket and login as agent'
+        'system_formactions' => 'Show links to open ticket and login as agent',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

@@ -382,5 +382,16 @@
         'settings_signature' => 'टिकट उत्तरों में संलग्न होने के लिए हस्ताक्षर',
         'system_form_title' => 'टिकट निर्माण फॉर्म का शीर्षक',
         'system_ticket_created_msg' => 'यदि टिकट सफलतापूर्वक बनाया गया है तो दिखाने के लिए संदेश',
-        'system_formactions' => 'टिकट खोलने और एजेंट के रूप में लॉगिन करने के लिए लिंक दिखाएं'
+        'system_formactions' => 'टिकट खोलने और एजेंट के रूप में लॉगिन करने के लिए लिंक दिखाएं',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

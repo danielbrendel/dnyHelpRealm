@@ -381,5 +381,16 @@
         'settings_signature'=>'要附加到票证回复的签名',
         'system_form_title'=>'票证创建表格标题',
         'system_ticket_created_msg'=>'显示是否已成功创建票证的消息',
-        'system_formactions'=>'显示打开的票证链接并以代理身份登录'
+        'system_formactions'=>'显示打开的票证链接并以代理身份登录',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

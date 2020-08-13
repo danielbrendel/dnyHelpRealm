@@ -62,7 +62,7 @@ class MailerModel extends Model
             $mail->Username   = env('SMTP_USERNAME');                     // SMTP username
             $mail->Password   = env('SMTP_PASSWORD');                               // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = 587;                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port       = env('SMTP_PORT', 587);                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
             $mail->setFrom($this->fromAddress, $this->fromName);
@@ -92,6 +92,25 @@ class MailerModel extends Model
     public static function sendMail($to, $subject, $message)
     {
         try {
+            $user = User::where('id', '=', auth()->id())->first();
+            if ($user) {
+                $ws = WorkSpaceModel::where('id', '=', $user->workspace)->first();
+                if (($ws) && ($ws->mailer_useown)) {
+                    putenv('SMTP_HOST=' . $ws->mailer_host_smtp);
+                    putenv('SMTP_PORT=' . $ws->mailer_port_smtp);
+                    putenv('MAILSERV_HOST=' . $ws->mailer_host_imap);
+                    putenv('MAILSERV_PORT=' . $ws->mailer_port_imap);
+                    putenv('MAILSERV_INBOXNAME=' . $ws->mailer_inbox);
+                    putenv('SMTP_FROMADDRESS=' . $ws->mailer_address);
+                    putenv('MAILSERV_EMAILADDR=' . $ws->mailer_address);
+                    putenv('SMTP_FROMNAME=' . $ws->mailer_fromname);
+                    putenv('SMTP_USERNAME=' . $ws->mailer_username);
+                    putenv('MAILSERV_USERNAME=' . $ws->mailer_username);
+                    putenv('SMTP_PASSWORD=' . $ws->mailer_password);
+                    putenv('MAILSERV_PASSWORD=' . $ws->mailer_password);
+                }
+            }
+
             $mailer = new self(env('SMTP_FROMADDRESS'), env('SMTP_FROMNAME'));
             return $mailer->send($to, $subject, $message);
         } catch (\Exception $e) {

@@ -382,5 +382,16 @@
         'settings_signature' => 'Signature à ajouter aux réponses aux tickets',
         'system_form_title' => 'Titre du formulaire de création de ticket',
         'system_ticket_created_msg' => 'Message pour indiquer si un ticket a été créé avec succès',
-        'system_formactions' => 'Afficher les liens pour ouvrir le ticket et se connecter en tant qu\'agent.'
+        'system_formactions' => 'Afficher les liens pour ouvrir le ticket et se connecter en tant qu\'agent.',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

@@ -523,13 +523,30 @@ class MainController extends Controller
      * Perform mailservice operations
      *
      * @param string $password
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function mailservice($password)
     {
         if ($password === env('MAILSERV_CRONPW')) {
             $ms = new MailserviceModel;
             $result = $ms->processInbox();
+
+            return response()->json(['code' => 200, 'data' => $result]);
+        } else {
+            return response()->json(['code' => 403, 'data' => array()]);
+        }
+    }
+
+    /**
+     * Perform mailservice operations
+     *
+     * @param string $password
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function mailservice_custom($password)
+    {
+        if ($password === env('MAILSERV_CRONPW')) {
+            $result = MailserviceModel::processWorkspaceInboxes();
 
             return response()->json(['code' => 200, 'data' => $result]);
         } else {

@@ -197,4 +197,37 @@ class MailserviceModel extends Model
 
         return $resultArray;
     }
+
+    /**
+     * Process workspace inboxes.
+     *
+     * @return array The result of processed items
+     */
+    public static function processWorkspaceInboxes()
+    {
+        $resultArr = array();
+
+        $workspaces = WorkSpaceModel::where('mailer_useown', '=', true)->get();
+        foreach ($workspaces as $workspace) {
+            putenv('SMTP_HOST=' . $workspace->mailer_host_smtp);
+            putenv('SMTP_PORT=' . $workspace->mailer_port_smtp);
+            putenv('MAILSERV_HOST=' . $workspace->mailer_host_imap);
+            putenv('MAILSERV_PORT=' . $workspace->mailer_port_imap);
+            putenv('MAILSERV_INBOXNAME=' . $workspace->mailer_inbox);
+            putenv('SMTP_FROMADDRESS=' . $workspace->mailer_address);
+            putenv('MAILSERV_EMAILADDR=' . $workspace->mailer_address);
+            putenv('SMTP_FROMNAME=' . $workspace->mailer_fromname);
+            putenv('SMTP_USERNAME=' . $workspace->mailer_username);
+            putenv('MAILSERV_USERNAME=' . $workspace->mailer_username);
+            putenv('SMTP_PASSWORD=' . $workspace->mailer_password);
+            putenv('MAILSERV_PASSWORD=' . $workspace->mailer_password);
+
+            $mailer = new self();
+            $data = $mailer->processInbox();
+
+            $resultArr[] = array('workspace' => $workspace->id, 'data' => $data);
+        }
+
+        return $resultArr;
+    }
 }

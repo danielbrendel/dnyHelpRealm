@@ -92,12 +92,14 @@ Route::patch('/{workspace}/settings/locale', 'SettingsController@saveLocale');
 Route::patch('/{workspace}/settings/avatar', 'SettingsController@saveAvatar');
 Route::get('/{workspace}/settings/system', 'SettingsController@viewSystemSettings');
 Route::patch('/{workspace}/settings/system', 'SettingsController@saveSystemSettings');
+Route::post('/{workspace}/settings/system/mailer', 'SettingsController@mailer');
 Route::patch('/{workspace}/settings/system/apitoken', 'SettingsController@generateApiToken');
 Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@addBackgroundImage');
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
 Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');
 
 Route::any('/mailservice/{password}', 'MainController@mailservice');
+Route::any('/mailservice/custom/{password}', 'MainController@mailservice_custom');
 
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');

@@ -382,5 +382,16 @@
         'settings_signature' => 'Firma da aggiungere alle risposte dei biglietti',
         'system_form_title' => 'Titolo del modulo di creazione del ticket',
         'system_ticket_created_msg' => 'Messaggio per mostrare se un ticket è stato creato con successo',
-        'system_formactions' => 'Mostra collegamenti per aprire il ticket e accedere come agente'
+        'system_formactions' => 'Mostra collegamenti per aprire il ticket e accedere come agente',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

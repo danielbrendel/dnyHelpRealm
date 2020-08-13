@@ -382,5 +382,16 @@
         'system_form_title' => 'Titel van formulier voor het maken van tickets',
         'system_ticket_created_msg' => 'Bericht om te laten zien of een ticket succesvol is aangemaakt',
         'system_formactions' => 'Toon links om ticket te openen en log in als agent.',
-        'ticket_closing_do_not_send_email' => 'Verzend geen meldingse-mail'
+        'ticket_closing_do_not_send_email' => 'Verzend geen meldingse-mail',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

@@ -168,6 +168,89 @@
 
                         <hr/>
 
+                        <strong>{{ __('app.mailer_service') }}</strong><br/>
+
+                        <form method="POST" action="{{ url('/' . $workspace . '/settings/system/mailer') }}">
+                            @csrf
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="checkbox" name="mailer_useown" data-role="checkbox" data-style="2" data-caption="{{ __('app.use_own_mailer') }}" value="1" @if ($ws->mailer_useown) {{ 'checked' }} @endif>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_host_smtp') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_host_smtp" value="{{ $ws->mailer_host_smtp }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_port_smtp') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_port_smtp" value="{{ $ws->mailer_port_smtp }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_host_imap') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_host_imap" value="{{ $ws->mailer_host_imap }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_port_imap') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_port_imap" value="{{ $ws->mailer_port_imap }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_inbox') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_inbox" value="{{ $ws->mailer_inbox }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_username') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_username" value="{{ $ws->mailer_username }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_password') }}</label>
+                                <div class="control">
+                                    <input type="password" name="mailer_password" value="{{ $ws->mailer_password }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_address') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_address" value="{{ $ws->mailer_address }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <label class="label">{{ __('app.mailer_fromname') }}</label>
+                                <div class="control">
+                                    <input type="text" name="mailer_fromname" value="{{ $ws->mailer_fromname }}"/>
+                                </div>
+                            </div>
+
+                            <div class="field">
+                                <div class="control">
+                                    <input type="submit" value="{{ __('app.save') }}">
+                                </div>
+                            </div>
+                        </form>
+
+                        <hr/>
+
                         <strong>{{ __('app.system_api_token') }}</strong><br/>
                         <div class="field">
                             <div class="control">

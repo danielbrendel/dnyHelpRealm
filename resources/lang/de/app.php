@@ -388,5 +388,16 @@
         'settings_signature' => 'Folgende Signatur an eine Ticketantwort anhängen',
         'system_form_title' => 'Titel des Ticket Formulars',
         'system_ticket_created_msg' => 'Text, welcher nach erfolgreichem Erstellen eines Tickets angezeigt werden soll',
-        'system_formactions' => 'Anzeigen der Links zu Ticket öffnen und Einloggen als Agent'
+        'system_formactions' => 'Anzeigen der Links zu Ticket öffnen und Einloggen als Agent',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

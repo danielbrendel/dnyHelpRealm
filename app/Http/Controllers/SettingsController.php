@@ -294,6 +294,7 @@ class SettingsController extends Controller
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'formactions' => $ws->formactions,
+            'ws' => $ws,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId())
         ]);
@@ -658,5 +659,93 @@ class SettingsController extends Controller
         $ws->save();
 
         return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->apitoken));
+    }
+
+    /**
+     * Save mailer settings
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function mailer($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+            'mailer_useown' => 'nullable|numeric',
+            'mailer_host_smtp' => 'nullable',
+            'mailer_port_smtp' => 'nullable|numeric',
+            'mailer_host_imap' => 'nullable',
+            'mailer_port_imap' => 'nullable|numeric',
+            'mailer_inbox' => 'nullable',
+            'mailer_username' => 'nullable',
+            'mailer_password' => 'nullable',
+            'mailer_address' => 'nullable|email',
+            'mailer_fromname' => 'nullable'
+        ]);
+
+        if (!isset($attr['mailer_useown'])) {
+            $attr['mailer_useown'] = 0;
+        }
+
+        if (!isset($attr['mailer_host_smtp'])) {
+            $attr['mailer_host_smtp'] = '';
+        }
+
+        if (!isset($attr['mailer_port_smtp'])) {
+            $attr['mailer_port_smtp'] = 25;
+        }
+
+        if (!isset($attr['mailer_host_imap'])) {
+            $attr['mailer_host_imap'] = '';
+        }
+
+        if (!isset($attr['mailer_port_imap'])) {
+            $attr['mailer_port_imap'] =143 ;
+        }
+
+        if (!isset($attr['mailer_inbox'])) {
+            $attr['mailer_inbox'] = '';
+        }
+
+        if (!isset($attr['mailer_username'])) {
+            $attr['mailer_username'] = '';
+        }
+
+        if (!isset($attr['mailer_password'])) {
+            $attr['mailer_password'] = '';
+        }
+
+        if (!isset($attr['mailer_address'])) {
+            $attr['mailer_address'] = '';
+        }
+
+        if (!isset($attr['mailer_fromname'])) {
+            $attr['mailer_fromname'] = $ws->company;
+        }
+
+        $ws->mailer_useown = $attr['mailer_useown'];
+        $ws->mailer_host_smtp = $attr['mailer_host_smtp'];
+        $ws->mailer_port_smtp = $attr['mailer_port_smtp'];
+        $ws->mailer_host_imap = $attr['mailer_host_imap'];
+        $ws->mailer_port_imap = $attr['mailer_port_imap'];
+        $ws->mailer_inbox = $attr['mailer_inbox'];
+        $ws->mailer_username = $attr['mailer_username'];
+        $ws->mailer_password = $attr['mailer_password'];
+        $ws->mailer_address = $attr['mailer_address'];
+        $ws->mailer_fromname = $attr['mailer_fromname'];
+        $ws->save();
+
+        return back()->with('success', __('app.settings_saved'));
     }
 }

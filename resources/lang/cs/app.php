@@ -382,5 +382,16 @@
         'settings_signature' => 'Podpis, který bude připojen k odpovědím na lístky',
         'system_form_title' => 'Název formuláře pro vytvoření lístku',
         'system_ticket_created_msg' => 'Zpráva, která ukazuje, zda byl lístek úspěšně vytvořen',
-        'system_formactions' => 'Zobrazit odkazy na otevření lístku a přihlášení jako agent'
+        'system_formactions' => 'Zobrazit odkazy na otevření lístku a přihlášení jako agent',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

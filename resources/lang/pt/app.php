@@ -376,5 +376,16 @@
         'system_form_title' => 'Título do formulário de criação de ticket',
         'system_ticket_created_msg' => 'Mensagem para mostrar se um ticket foi criado com sucesso',
         'system_formactions' => 'Mostrar links para abrir o ticket e fazer login como agente.',
-        'ticket_closing_do_not_send_email' => 'Não envie um email de notificação'
+        'ticket_closing_do_not_send_email' => 'Não envie um email de notificação',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];

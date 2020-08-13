@@ -39,6 +39,16 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->boolean('allowattachments')->default(true);
             $table->string('extfilter')->default('');
             $table->string('apitoken')->default('');
+            $table->boolean('mailer_useown')->default(false);
+            $table->string('mailer_host_smtp')->nullable()->default(null);
+            $table->string('mailer_port_smtp')->nullable()->default('587');
+            $table->string('mailer_host_imap')->nullable()->default(null);
+            $table->string('mailer_port_imap')->nullable()->default('143');
+            $table->string('mailer_inbox')->nullable()->default('INBOX');
+            $table->string('mailer_username')->nullable()->default(null);
+            $table->string('mailer_password')->nullable()->default(null);
+            $table->string('mailer_address')->nullable()->default(null);
+            $table->string('mailer_fromname')->nullable()->default(null);
             $table->boolean('deactivated')->default(false);
             $table->timestamps();
         });

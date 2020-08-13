@@ -381,5 +381,16 @@
         'settings_signature' => 'Подпись, которая будет добавлена ​​к ответам на билеты',
         'system_form_title' => 'Название формы создания заявки',
         'system_ticket_created_msg' => 'Сообщение, показывающее, был ли билет успешно создан',
-        'system_formactions' => 'Показать ссылки, чтобы открыть тикет и войти как агент'
+        'system_formactions' => 'Показать ссылки, чтобы открыть тикет и войти как агент',
+        'mailer_service' => 'E-Mail service',
+        'use_own_mailer' => 'I want to use my own e-mail service',
+        'mailer_host_smtp' => 'SMTP host',
+        'mailer_port_smtp' => 'SMTP port',
+        'mailer_host_imap' => 'IMAP host',
+        'mailer_port_imap' => 'IMAP port',
+        'mailer_inbox' => 'Name of folder to scan',
+        'mailer_username' => 'Username',
+        'mailer_password' => 'Password',
+        'mailer_address' => 'E-Mail address',
+        'mailer_fromname' => 'Sender name'
     ];
