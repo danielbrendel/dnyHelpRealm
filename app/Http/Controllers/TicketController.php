@@ -73,7 +73,7 @@ class TicketController extends Controller
         foreach ($groupsofagent as $grp) {
             $gtcur = array();
             $gtcur['group'] = GroupsModel::where('id', '=', $grp->group_id)->first();
-            $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->get();
+            $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
             array_push($grouptickets, $gtcur);
         }
 

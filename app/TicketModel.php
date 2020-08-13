@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class TicketModel
- * 
+ *
  * Represents tickets
  */
 class TicketModel extends Model
@@ -27,13 +27,13 @@ class TicketModel extends Model
 
     /**
      * Query tickets of agent
-     * 
+     *
      * @param int $ag The assignee agent ID
      * @return mixed
      */
     public static function queryAgentTickets($ag)
     {
-        $tickets = TicketModel::where('assignee', '=', $ag)->orderBy('updated_at', 'desc')->get();
+        $tickets = TicketModel::where('assignee', '=', $ag)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
 
         return $tickets;
     }
