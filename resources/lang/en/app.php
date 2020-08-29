@@ -405,5 +405,5 @@
         'date_to' => 'To',
         'format' => 'Format',
         'export' => 'Export',
-        'invalid_export_type' => 'Invalid export type: :type'
+        'invalid_export_type' => 'Invalid export type: :type',
     ];

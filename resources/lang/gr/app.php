@@ -391,5 +391,11 @@
         'system_inform_admin_new_ticket' => 'Inform admins on new tickets',
         'mail_new_ticket_admin_title' => 'New ticket',
         'mail_new_ticket_admin_body' => 'A new ticket has been created. Click the link down below to open it.',
-        'mail_new_ticket_admin_open' => 'Open'
+        'mail_new_ticket_admin_open' => 'Open',
+        'ticket_export' => 'Export tickets',
+        'date_from' => 'From',
+        'date_to' => 'To',
+        'format' => 'Format',
+        'export' => 'Export',
+        'invalid_export_type' => 'Invalid export type: :type'
     ];

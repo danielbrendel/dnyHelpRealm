@@ -403,5 +403,11 @@
         'system_inform_admin_new_ticket' => 'Inform admins on new tickets',
         'mail_new_ticket_admin_title' => 'New ticket',
         'mail_new_ticket_admin_body' => 'A new ticket has been created. Click the link down below to open it.',
-        'mail_new_ticket_admin_open' => 'Open'
+        'mail_new_ticket_admin_open' => 'Open',
+        'ticket_export' => 'Tickets exportieren',
+        'date_from' => 'Von',
+        'date_to' => 'Bis',
+        'format' => 'Format',
+        'export' => 'Exportieren',
+        'invalid_export_type' => 'Unbekanntes Format: :type'
     ];
