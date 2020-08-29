@@ -75,7 +75,7 @@ class InstallerController extends Controller
         $envcontent .= 'APP_NAME="HelpRealm"' . PHP_EOL;
         $envcontent .= 'APP_CODENAME=dnyHelpRealm' . PHP_EOL;
         $envcontent .= 'APP_AUTHOR="Daniel Brendel"' . PHP_EOL;
-        $envcontent .= 'APP_VERSION=0.1' . PHP_EOL;
+        $envcontent .= 'APP_VERSION=1.0' . PHP_EOL;
         $envcontent .= 'APP_ENV=production' . PHP_EOL;
         $envcontent .= 'APP_KEY=base64:N9k56bfjG0lyIAApHCANywC5s5sVC3DX+Dp0vNbLGZY=' . PHP_EOL;
         $envcontent .= 'APP_DEBUG=false' . PHP_EOL;
