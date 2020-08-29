@@ -754,4 +754,40 @@ class SettingsController extends Controller
 
         return back()->with('success', __('app.settings_saved'));
     }
+
+    /**
+     * Export tickets to format
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function exportTickets($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+           'date_from' => 'required',
+           'date_to' => 'required',
+           'export_type' => 'required'
+        ]);
+
+        if ($attr['export_type'] === 'csv') {
+            TicketModel::exportTicketsAsCsv($ws->id, $attr['date_from'], $attr['date_to']);
+        } else if ($attr['export_type'] === 'json') {
+            TicketModel::exportTicketsAsJson($ws->id, $attr['date_from'], $attr['date_to']);
+        }
+
+        return back()->with('error', __('app.invalid_export_type', ['type' => $attr['export_type']]));
+    }
 }

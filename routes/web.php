@@ -96,6 +96,7 @@ Route::post('/{workspace}/settings/system/mailer', 'SettingsController@mailer');
 Route::patch('/{workspace}/settings/system/apitoken', 'SettingsController@generateApiToken');
 Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@addBackgroundImage');
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
+Route::post('/{workspace}/system/tickets/export', 'SettingsController@exportTickets');
 Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');
 
 Route::any('/mailservice/{password}', 'MainController@mailservice');

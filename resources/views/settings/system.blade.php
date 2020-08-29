@@ -300,6 +300,12 @@
 
                         <hr/>
 
+                        <div class="field">
+                            <a href="javascript:void(0);" onclick="vue.bShowTicketExport = true;">{{ __('app.ticket_export') }}</a>
+                        </div>
+
+                        <hr/>
+
                         <form id="frmcancel" method="POST" action="{{ url('/' . $workspace . '/settings/system/cancel') }}">
                             @csrf
 
@@ -320,6 +326,56 @@
                         <br/>
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="modal" :class="{'is-active': bShowTicketExport}">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head is-stretched">
+                    <p class="modal-card-title">{{ __('app.ticket_export') }}</p>
+                    <button class="delete" aria-label="close" onclick="vue.bShowTicketExport = false;"></button>
+                </header>
+                <section class="modal-card-body is-stretched">
+                    <form method="POST" action="{{ url('/' . $workspace . '/system/tickets/export') }}">
+                        @csrf
+
+                        <div class="field">
+                            <label class="label">{{ __('app.date_from') }}</label>
+                            <div class="control">
+                                <input type="date" class="input" name="date_from" value="{{ date('Y-m-d') }}">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{{ __('app.date_to') }}</label>
+                            <div class="control">
+                                <input type="date" class="input" name="date_to" value="{{ date('Y-m-d', strtotime(\App\TicketModel::getFirstTicket($ws->id)->created_at)) }}">
+                            </div>
+                        </div>
+
+                        <div class="field">
+                            <label class="label">{{ __('app.format') }}</label>
+                            <div class="control">
+                                <select name="export_type">
+                                    <option value="csv">CSV</option>
+                                    <option value="json">JSON</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <br/>
+
+                        <div class="field">
+                            <div class="control">
+                                <input type="submit" class="button is-success" value="{{ __('app.export') }}">
+                            </div>
+                        </div>
+                    </form>
+                </section>
+                <footer class="modal-card-foot is-stretched">
+                    <button class="button" onclick="vue.bShowTicketExport = false;">{{ __('app.close') }}</button>
+                </footer>
             </div>
         </div>
     </div>

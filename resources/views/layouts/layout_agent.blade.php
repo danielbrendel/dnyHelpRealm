@@ -193,6 +193,7 @@
                     bShowFileDelete: false,
                     currentDeleteFile: '',
                     bAddAgentToGroup: false,
+                    bShowTicketExport: false,
                 },
                 created: function() {
                     if (window.innerWidth <= 775) {
