@@ -13,16 +13,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
     <head>
-        @if (env('APP_ENV') === 'production')
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-            <script async src="https://www.googletagmanager.com/gtag/js?id=UA-160248599-1"></script>
-            <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'UA-160248599-1');
-            </script>
-        @endif
+        @include('layouts/layout_ga')
 
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
