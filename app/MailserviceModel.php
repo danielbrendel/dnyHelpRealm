@@ -102,8 +102,8 @@ class MailserviceModel extends Model
                                 $resultArrItem['ticket'] = $ticket->id;
 
                                 $sender = $message->getFrom()[0]->mail;
-                                $isAgent = AgentModel::where('email', '=', $sender)->first();
                                 $ws = WorkSpaceModel::where('id', '=', $ticket->workspace)->first();
+                                $isAgent = AgentModel::where('email', '=', $sender)->where('workspace', '=', $ws->id)->first();
 
                                 $resultArrItem['workspace'] = $ws->id;
                                 $resultArrItem['sender'] = $sender;
