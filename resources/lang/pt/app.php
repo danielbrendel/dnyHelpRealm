@@ -397,5 +397,12 @@
         'date_to' => 'To',
         'format' => 'Format',
         'export' => 'Export',
-        'invalid_export_type' => 'Invalid export type: :type'
+        'invalid_export_type' => 'Invalid export type: :type',
+        'buy_api_access_link' => 'Click here to buy API access',
+        'buy_api_access_title' => 'Buy API access',
+        'buy_api_access_info' => 'Enter your credit card data and submit the form to buy API access for <strong>:costs</strong>',
+        'credit_or_debit_card' => 'Credit or debit card',
+        'submit_payment' => 'Submit payment',
+        'payment_failed' => 'Payment failed',
+        'payment_succeeded' => 'Payment succeeded. You have now access to the API'
     ];

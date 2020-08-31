@@ -409,5 +409,12 @@
         'date_to' => 'Bis',
         'format' => 'Format',
         'export' => 'Exportieren',
-        'invalid_export_type' => 'Unbekanntes Format: :type'
+        'invalid_export_type' => 'Unbekanntes Format: :type',
+        'buy_api_access_link' => 'Hier klicken, um API Zugang zu kaufen',
+        'buy_api_access_title' => 'API Zugang kaufen',
+        'buy_api_access_info' => 'Bitte geben Sie Ihre erforderlichen Kreditkartendaten an, um <strong>:costs</strong> zu zahlen.',
+        'credit_or_debit_card' => 'Kredit-oder Debitkarte',
+        'submit_payment' => 'Kaufen',
+        'payment_failed' => 'Kauf fehlgeschlagen',
+        'payment_succeeded' => 'Kauf erfolgreich. Sie haben nun Zugang zur API.'
     ];

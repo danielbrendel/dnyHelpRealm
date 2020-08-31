@@ -33,7 +33,7 @@ class PaymentController extends Controller
      */
     public function __construct()
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_TOKEN'));
+        \Stripe\Stripe::setApiKey(env('STRIPE_TOKEN_SECRET'));
     }
 
     /**
@@ -62,11 +62,14 @@ class PaymentController extends Controller
                'stripeToken' => 'required'
             ]);
 
+            $agent = User::getAgent(auth()->id());
+
             $charge = \Stripe\Charge::create([
                 'amount' => env('STRIPE_COSTS_VALUE'),
                 'currency' => 'usd',
-                'description' => $workspace . '/' . User::getAgent(auth()->id())->email,
-                'source' => $attr['stripeToken']
+                'description' => 'API access for "' . $workspace . '/' . $ws->company . '". Purchased by: ' . $agent->email,
+                'source' => $attr['stripeToken'],
+                'receipt_email' => $agent->email
             ]);
 
             if ((!$charge instanceof \Stripe\Charge) || (!isset($charge->status) || ($charge->status !== 'succeeded'))) {

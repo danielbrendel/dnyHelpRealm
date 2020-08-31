@@ -434,7 +434,7 @@
     @endif
 
     document.addEventListener('DOMContentLoaded', function() {
-        var stripe = Stripe('pk_test_51HMDWuDnz22p64gNZ2Bu1tQalHtz9EyKgNxEyHXlBzB55hajND74HglmziQhgBBQ2glfzQQW8BS50Mp3LOLdi2xK00hM6nzZai');
+        var stripe = Stripe('{{ env('STRIPE_TOKEN_PUBLIC') }}');
         var elements = stripe.elements();
 
         const style = {
