@@ -19,6 +19,13 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        '/api/*/ticket/create'
+        '/api/*/ticket/create',
+        '/api/*/ticket/info',
+        '/api/*/ticket/thread',
+        '/api/*/ticket/attachments',
+        '/api/*/ticket/comment/add/customer',
+        '/api/*/ticket/comment/edit/customer',
+        '/api/*/ticket/attachment/add',
+        '/api/*/ticket/attachment/delete',
     ];
 }

@@ -106,6 +106,13 @@ Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');
 
 Route::post('/api/{workspace}/ticket/create', 'ApiController@createTicket');
+Route::post('/api/{workspace}/ticket/info', 'ApiController@getTicketInfo');
+Route::post('/api/{workspace}/ticket/thread', 'ApiController@getTicketThread');
+Route::post('/api/{workspace}/ticket/attachments', 'ApiController@getTicketAttachments');
+Route::post('/api/{workspace}/ticket/comment/add/customer', 'ApiController@addCustomerComment');
+Route::post('/api/{workspace}/ticket/comment/edit/customer', 'ApiController@editCommentCustomer');
+Route::post('/api/{workspace}/ticket/attachment/add', 'ApiController@addFile');
+Route::post('/api/{workspace}/ticket/attachment/delete', 'ApiController@deleteFile');
 
 Route::any('/{workspace}/payment/charge', 'PaymentController@charge');
 

@@ -22,6 +22,8 @@ use App\PushModel;
 use App\TicketModel;
 use App\TicketsHaveFiles;
 use App\TicketsHaveTypes;
+use App\TicketThreadModel;
+use App\User;
 use App\WorkSpaceModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -190,5 +192,408 @@ class ApiController extends Controller
         } else {
             return response()->json(array('code' => 500, 'workspace' => $workspace, 'data' => $attr));
         }
+    }
+
+    /**
+     * Get ticket info
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTicketInfo($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $ticket->assignee = AgentModel::queryAgent($ticket->assignee);
+        $ticket->group = GroupsModel::get($ticket->group);
+
+        return response()->json(array('code' => 200, 'data' => $ticket->toArray()));
+    }
+
+    /**
+     * Get ticket thread
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTicketThread($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        if (!isset($_POST['limit'])) {
+            $_POST['limit'] = 10;
+        }
+
+        $thread = TicketThreadModel::where('ticket_id', '=', $ticket->id);
+        if (isset($_POST['paginate'])) {
+            $thread->where('id', '<', $_POST['paginate']);
+        }
+        $thread->orderBy('id', 'desc')->limit($_POST['limit']);
+        $thread = $thread->get()->toArray();
+
+        foreach ($thread as &$item) {
+            if ($item['user_id'] === 0) {
+                $item['user_name'] = $ticket->name;
+                $item['user_avatar'] = 'https://www.gravatar.com/avatar/' . md5($ticket->email) . '?d=identicon';
+            } else {
+                $user = User::get($item['user_id']);
+                $entity = User::getAgent($user->id);
+                $item['user_name'] = $entity->surname . ' ' . $entity->lastname;
+                $item['user_avatar'] = asset('/gfx/avatars/' . $user->avatar);
+            }
+        }
+
+        return response()->json(array('code' => 200, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'data' => $thread));
+    }
+
+    /**
+     * Get ticket attachments
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getTicketAttachments($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $ticketFileInfo = array();
+        $ticketFiles = TicketsHaveFiles::where('ticket_hash', '=', $ticket->hash)->get();
+        foreach ($ticketFiles as $tf) {
+            if (file_exists(base_path() . '/public/uploads/' . $tf->file)) {
+                $entry['item'] = $tf;
+                $entry['size'] = filesize(base_path() . '/public/uploads/' . $tf->file);
+                $entry['ext'] = pathinfo(base_path() . '/public/uploads/' . $tf->file, PATHINFO_EXTENSION);
+                $entry['url'] = asset('uploads/' . $tf->file);
+                array_push($ticketFileInfo, $entry);
+            }
+        }
+
+        return response()->json(array('code' => 200, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'data' => $ticketFileInfo));
+    }
+
+    /**
+     * Add customer comment
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function addCustomerComment($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (!isset($_POST['text'])) {
+            $invalidFields[] = array('name' => 'text', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $comment = new TicketThreadModel();
+        $comment->ticket_id = $ticket->id;
+        $comment->user_id = 0;
+        $comment->text = $_POST['text'];
+        $comment->save();
+
+        return response()->json(array('code' => 201, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'cmt_id' => $comment->id));
+    }
+
+    /**
+     * Edit customer comment
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function editCommentCustomer($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (!isset($_POST['text'])) {
+            $invalidFields[] = array('name' => 'text', 'value' => null);
+        }
+
+        if (!isset($_POST['cmt_id'])) {
+            $invalidFields[] = array('name' => 'cmt_id', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $comment = TicketThreadModel::where('ticket_id', '=', $ticket->id)->where('id', '=', $_POST['cmt_id'])->where('user_id', '=', 0)->first();
+        if (!$comment) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash'], 'cmt_id' => $_POST['cmt_id']));
+        }
+
+        $comment->text = $_POST['text'];
+        $comment->save();
+        $ticket->touch();
+
+        return response()->json(array('code' => 200, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'cmt_id' => $comment->id));
+    }
+
+    /**
+     * Add ticket attachment
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function addFile($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $att = request()->file('attachment');
+        if ($att != null && $ws->allowattachments) {
+            $fname = $att->getClientOriginalName() . '_' . uniqid('', true) . '_' . md5(random_bytes(55));
+            $fext = $att->getClientOriginalExtension();
+
+            if (strlen($ws->extfilter) > 0) {
+                foreach (explode(' ', $ws->extfilter) as $fileext) {
+                    $fileext = str_replace('.', '', trim($fileext));
+                    if ($fext === $fileext) {
+                        return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => array('name' => 'attachment', 'value' => $fext)));
+                    }
+                }
+            }
+
+            $att->move(public_path() . '/uploads', $fname . '.' . $fext);
+
+            $dbstor = new TicketsHaveFiles();
+            $dbstor->ticket_hash = $ticket->hash;
+            $dbstor->file = $fname . '.' . $fext;
+            $dbstor->save();
+
+            return response()->json(array('code' => 201, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'file' => array('name' => $dbstor->file, 'id' => $dbstor->id)));
+        }
+
+        return response()->json(array('code' => 500, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'allowattachments' => $ws->allowattachments));
+    }
+
+    /**
+     * Delete ticket attachment
+     *
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteFile($workspace)
+    {
+        $invalidFields = array();
+
+        if (!isset($_POST['apitoken'])) {
+            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        }
+
+        if (!isset($_POST['hash'])) {
+            $invalidFields[] = array('name' => 'hash', 'value' => null);
+        }
+
+        if (!isset($_POST['file_id'])) {
+            $invalidFields[] = array('name' => 'file_id', 'value' => null);
+        }
+
+        if (count($invalidFields) > 0) {
+            return response()->json(array('code' => 500, 'workspace' => $workspace, 'invalid_fields' => $invalidFields));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace));
+        }
+
+        if (!$ws->paidforapi) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
+        }
+
+        if ($ws->apitoken !== $_POST['apitoken']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        }
+
+        $ticket = TicketModel::where('hash', '=', $_POST['hash'])->where('workspace', '=', $ws->id)->first();
+        if ($ticket === null) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash']));
+        }
+
+        $attachment = TicketsHaveFiles::where('ticket_hash', '=', $ticket->hash)->where('id', '=', $_POST['file_id'])->first();
+        if (!$attachment) {
+            return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket' => $_POST['hash'], 'file' => $_POST['file_id']));
+        }
+
+        unlink(base_path() . '/public/uploads/' . $attachment->file);
+        $attachment->delete();
+
+        return response()->json(array('code' => 200, 'workspace' => $workspace, 'ticket' => $ticket->hash, 'success' => true));
     }
 }

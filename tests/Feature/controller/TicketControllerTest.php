@@ -393,34 +393,4 @@ class TicketControllerTest extends TestCase
         $ticket = TicketModel::where('id', '=', env('DATA_TICKETID'))->first();
         $this->assertEquals($notes, $ticket->notes);
     }
-
-    /**
-     * Test for API ticket creation
-     *
-     * @return void
-     */
-    public function testApiCreateTicket()
-    {
-        $this->markTestSkipped('Currently only for single test');
-
-        $token = md5(random_bytes(55));
-        $_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-
-        $response = $this->post('/api/' . env('DATA_WORKSPACENAME') . '/ticket/create', [
-            'apitoken' => env('DATA_WORKSPACEAPITOKEN'),
-            'subject' => $token,
-            'text' => $token,
-            'name' => $token . ' ' . $token,
-            'email' => $token . '@test.de',
-            'type' => '1',
-            'prio' => '1',
-            'attachment' => null
-        ]);
-
-        $response->assertStatus(200);
-        $operationResult = $response->getOriginalContent();
-
-        $this->assertTrue(isset($operationResult->code));
-        $this->assertEquals(201, $operationResult->code);
-    }
 }

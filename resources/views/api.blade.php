@@ -15,7 +15,7 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <div class="home-padding">
+            <p class="home-padding">
                 <div class="home-headline">
                     <center><h1>{{ __('app.home_api') }}</h1></center>
                 </div>
@@ -185,6 +185,350 @@
                     <code>&nbsp;&nbsp;}</code><br/>
                     <code>}</code><br/>
                 </p>
+
+                <br/>
+
+                <h2>Further API requests</h2>
+
+                <br/>
+
+                <h3>Get ticket information</h3>
+
+                <p>
+                    In order to query specific ticket information you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/info</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                    <table>
+                        <thead>
+                            <th>Field</th>
+                            <th>Description</th>
+                            <th>Required</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><code>apitoken</code></td>
+                                <td>The workspace API token</td>
+                                <td>Required</td>
+                            </tr>
+                            <tr>
+                                <td><code>hash</code></td>
+                                <td>The hash of a ticket of your workspace</td>
+                                <td>Required</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"data": {</code><br/>
+                    <code>&nbsp;&nbsp;&nbsp;&nbsp;(Ticket information data)</code><br/>
+                    <code>&nbsp;&nbsp;}</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Get ticket thread</h3>
+
+                <p>
+                    To retrieve ticket thread posts you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/thread</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>paginate</code></td>
+                        <td>Thread posts below this ID will be returned</td>
+                        <td>Optional</td>
+                    </tr>
+                    <tr>
+                        <td><code>limit</code></td>
+                        <td>Maximum amount of returned thread posts</td>
+                        <td>Optional, default 10</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"data": {</code><br/>
+                    <code>&nbsp;&nbsp;&nbsp;&nbsp;(Ticket thread data)</code><br/>
+                    <code>&nbsp;&nbsp;}</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Get ticket attachments</h3>
+
+                <p>
+                    In order to get a list of attachments you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/attachments</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"data": {</code><br/>
+                    <code>&nbsp;&nbsp;&nbsp;&nbsp;(Ticket attachment data)</code><br/>
+                    <code>&nbsp;&nbsp;}</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Add customer comment</h3>
+
+                <p>
+                    In order to add a customer comment you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/comment/add/customer</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>text</code></td>
+                        <td>The text content</td>
+                        <td>Required</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"cmt_id": "(ID of the added comment)"</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Edit customer comment</h3>
+
+                <p>
+                    In order to edit a customer comment you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/comment/edit/customer</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>cmt_id</code></td>
+                        <td>The ID of the comment</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>text</code></td>
+                        <td>The new text content to be stored</td>
+                        <td>Required</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"cmt_id": "(ID of the edited comment)"</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Add ticket attachment</h3>
+
+                <p>
+                    In order to add a ticket attachment you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/attachment/add</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>attachment</code></td>
+                        <td>File to be added</td>
+                        <td>Required</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"file": {</code><br/>
+                    <code>&nbsp;&nbsp;&nbsp;&nbsp;(Attachment info)</code><br/>
+                    <code>&nbsp;&nbsp;}</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <h3>Delete ticket attachment</h3>
+
+                <p>
+                    In order to delete a ticket attachment you can call:<br/>
+                    <code>{{ env('APP_URL') }}/api/<strong>{workspace}</strong>/ticket/attachment/delete</code>
+                </p>
+
+                <p>
+                    Arguments:<br/>
+                <table>
+                    <thead>
+                    <th>Field</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td><code>apitoken</code></td>
+                        <td>The workspace API token</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>hash</code></td>
+                        <td>The hash of a ticket of your workspace</td>
+                        <td>Required</td>
+                    </tr>
+                    <tr>
+                        <td><code>file_id</code></td>
+                        <td>The ID of the attachment</td>
+                        <td>Required</td>
+                    </tr>
+                    </tbody>
+                </table>
+                </p>
+
+                <p>
+                    Response:<br/>
+                    <code>{</code><br/>
+                    <code>&nbsp;&nbsp;"code": "200",</code><br/>
+                    <code>&nbsp;&nbsp;"workspace": "(A workspace hash name)",</code><br/>
+                    <code>&nbsp;&nbsp;"ticket": "(The associated ticket hash)",</code><br/>
+                    <code>&nbsp;&nbsp;"success": "(true on success)"</code><br/>
+                    <code>}</code><br/>
+                </p>
+
+                <hr/>
+
+                <br/><br/><br/>
             </div>
         </div>
     </div>
