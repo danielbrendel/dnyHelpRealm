@@ -257,14 +257,20 @@
 
                         <hr/>
 
-                        <strong>{{ __('app.system_api_token') }}</strong><br/>
-                        <div class="field">
-                            <div class="control">
-                                <input type="text" id="apitoken" value="{{ $apitoken }}"/>
+                        @if ($ws->paidforapi)
+                            <strong>{{ __('app.system_api_token') }}</strong><br/>
+                            <div class="field">
+                                <div class="control">
+                                    <input type="text" id="apitoken" value="{{ $apitoken }}"/>
+                                </div>
                             </div>
-                        </div>
 
-                        <input type="button" class="button" onclick="generateApiToken()" value="{{ __('app.system_api_token_generate') }}">
+                            <input type="button" class="button" onclick="generateApiToken()" value="{{ __('app.system_api_token_generate') }}">
+                        @else
+                            <strong>{{ __('app.system_api_token') }}</strong><br/>
+
+                            <a href="javascript:void(0);" onclick="vue.bShowOrderAPIAccess = true;">{{ __('app.buy_api_access_link') }}</a>
+                        @endif
 
                         <hr/>
 
@@ -329,6 +335,39 @@
             </div>
         </div>
 
+        <div class="modal" :class="{'is-active': bShowOrderAPIAccess}">
+            <div class="modal-background"></div>
+            <div class="modal-card">
+                <header class="modal-card-head is-stretched">
+                    <p class="modal-card-title">{{ __('app.buy_api_access_title') }}</p>
+                    <button class="delete" aria-label="close" onclick="vue.bShowOrderAPIAccess = false;"></button>
+                </header>
+                <section class="modal-card-body is-stretched">
+                    <div class="field">
+                        <label class="label">{!! __('app.buy_api_access_info', ['costs' => env('STRIPE_COSTS_LABEL')]) !!}</label>
+                    </div>
+
+                    <form action="{{ url('/' . $workspace . '/payment/charge') }}" method="post" id="payment-form" class="stripe">
+                        @csrf
+
+                        <div class="form-row">
+                            <label for="card-element">
+                                {{ __('app.credit_or_debit_card') }}
+                            </label>
+                            <div id="card-element"></div>
+
+                            <div id="card-errors" role="alert"></div>
+                        </div>
+
+                        <button>{{ __('app.submit_payment') }}</button>
+                    </form>
+                </section>
+                <footer class="modal-card-foot is-stretched">
+                    <button class="button" onclick="vue.bShowOrderAPIAccess = false;">{{ __('app.close') }}</button>
+                </footer>
+            </div>
+        </div>
+
         <div class="modal" :class="{'is-active': bShowTicketExport}">
             <div class="modal-background"></div>
             <div class="modal-card">
@@ -382,13 +421,54 @@
 @endsection
 
 @section('javascript')
-    function generateApiToken()
-    {
-        ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/apitoken') }}', {},
-            function(data){
-                document.getElementById('apitoken').value = data.token;
+    @if ($ws->paidforapi)
+        function generateApiToken()
+        {
+            ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/apitoken') }}', {},
+                function(data){
+                    document.getElementById('apitoken').value = data.token;
+                },
+                function(){}
+            );
+        }
+    @endif
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var stripe = Stripe('pk_test_51HMDWuDnz22p64gNZ2Bu1tQalHtz9EyKgNxEyHXlBzB55hajND74HglmziQhgBBQ2glfzQQW8BS50Mp3LOLdi2xK00hM6nzZai');
+        var elements = stripe.elements();
+
+        const style = {
+            base: {
+                fontSize: '16px',
+                color: '#32325d',
             },
-            function(){}
-        );
+        };
+
+        const card = elements.create('card', {style});
+        card.mount('#card-element');
+
+        const form = document.getElementById('payment-form');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const {token, error} = await stripe.createToken(card);
+
+            if (error) {
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+            } else {
+                stripeTokenHandler(token);
+            }
+        });
+    });
+
+    const stripeTokenHandler = (token) => {
+        const form = document.getElementById('payment-form');
+        const hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+        form.submit();
     }
 @endsection

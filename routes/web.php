@@ -105,6 +105,8 @@ Route::any('/mailservice/custom/{password}', 'MainController@mailservice_custom'
 Route::get('/install', 'InstallerController@viewInstall');
 Route::post('/install', 'InstallerController@install');
 
-Route::post('/api/{workspace}/ticket/create', 'TicketController@apiCreateTicket');
+Route::post('/api/{workspace}/ticket/create', 'ApiController@createTicket');
+
+Route::any('/{workspace}/payment/charge', 'PaymentController@charge');
 
 Route::get('/{workspace}', 'MainController@workspaceIndex');

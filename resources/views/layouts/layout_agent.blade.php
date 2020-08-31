@@ -31,12 +31,14 @@
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro.datatables.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/stripe.css') }}">
 
         @if (env('APP_ENV') == 'local')
         <script src="{{ asset('js/vue.js') }}"></script>
         @elseif (env('APP_ENV') == 'production')
         <script src="{{ asset('js/vue.min.js') }}"></script>
         @endif
+        <script src="https://js.stripe.com/v3/"></script>
         <script src="{{ asset('js/fontawesome.js') }}"></script>
         <script src="{{ asset('js/metro.min.js') }}"></script>
         <script src="{{ asset('js/push.min.js') }}"></script>
@@ -196,6 +198,7 @@
                     currentDeleteFile: '',
                     bAddAgentToGroup: false,
                     bShowTicketExport: false,
+                    bShowOrderAPIAccess: false
                 },
                 created: function() {
                     if (window.innerWidth <= 775) {

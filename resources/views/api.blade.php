@@ -27,6 +27,14 @@
                 </p>
 
                 <p>
+                    <strong>
+                        Note: API access is granted by paying a small fee. This fee is only paid once and
+                        grants you unlimited API access. The current fee is {{ env('STRIPE_COSTS_LABEL') }}.
+                        You can buy access via the system settings panel.
+                    </strong>
+                </p>
+
+                <p>
                     In order to create a ticket call the following API route as POST request:
                 </p>
 
@@ -126,10 +134,16 @@
                         <tr>
                             <td><code>403 Forbidden</code></td>
                             <td>
-                                The request API token is invalid
+                                <ul>
+                                    <li>The API access has not yet been purchased</li>
+                                    <li>The request API token is invalid</li>
+                                </ul>
                             </td>
                             <td>
-                                A field 'apitoken' with the invalid token
+                                <ul>
+                                    <li>A field 'paidforapi' with value <i>false</i></li>
+                                    <li>A field 'apitoken' with the invalid token</li>
+                                </ul>
                             </td>
                         </tr>
                         <tr>

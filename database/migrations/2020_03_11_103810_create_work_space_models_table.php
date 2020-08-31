@@ -40,6 +40,7 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->boolean('inform_admin_new_ticket')->default(true);
             $table->boolean('formactions')->default(false);
             $table->string('extfilter')->default('');
+            $table->boolean('paidforapi')->default(false);
             $table->string('apitoken')->default('');
             $table->boolean('mailer_useown')->default(false);
             $table->string('mailer_host_smtp')->nullable()->default(null);
