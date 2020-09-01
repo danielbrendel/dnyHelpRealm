@@ -46,6 +46,7 @@ and small teams.
 + SaaS solution
 + API Endpoint
 + Endpoint for client apps
++ Stripe payment
 + Ajax requests
 + Documentation
 
