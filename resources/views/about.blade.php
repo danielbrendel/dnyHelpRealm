@@ -35,11 +35,7 @@
                 </p>
 
                 @if ($donationCode !== null)
-                    <div>
-                        <br/>
-                        We accept donations for our service. This helps us to pay the server costs.<br/><br/>
-                        {!! $donationCode !!}
-                    </div>
+                    {!! $donationCode !!}
                 @endif
             </div>
         </div>
