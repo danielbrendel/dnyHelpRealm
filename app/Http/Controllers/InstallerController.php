@@ -79,7 +79,7 @@ class InstallerController extends Controller
         $envcontent .= 'APP_ENV=production' . PHP_EOL;
         $envcontent .= 'APP_KEY=base64:N9k56bfjG0lyIAApHCANywC5s5sVC3DX+Dp0vNbLGZY=' . PHP_EOL;
         $envcontent .= 'APP_DEBUG=false' . PHP_EOL;
-        $envcontent .= 'APP_URL=' . (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]" . PHP_EOL;
+        $envcontent .= 'APP_URL=' . url('/') . PHP_EOL;
         $envcontent .= 'APP_DESCRIPTION="The lightweight support ticket system"' . PHP_EOL;
         $envcontent .= 'APP_METADESC="Sign up now and get access to a personal customer support workspace"' . PHP_EOL;
         $envcontent .= 'APP_LANG=' . $attr['lang'] . PHP_EOL;
