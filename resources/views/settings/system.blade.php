@@ -389,7 +389,7 @@
                         <div class="field">
                             <label class="label">{{ __('app.date_to') }}</label>
                             <div class="control">
-                                <input type="date" class="input" name="date_to" value="{{ date('Y-m-d', strtotime(\App\TicketModel::getFirstTicket($ws->id)->created_at)) }}">
+                                <input type="date" class="input" name="date_to" value="{{ date('Y-m-d', strtotime($export_to_date)) }}">
                             </div>
                         </div>
 

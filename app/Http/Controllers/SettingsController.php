@@ -273,6 +273,13 @@ class SettingsController extends Controller
         if ($infomessage === '') {
             $infomessage = __('app.ticket_creation_welcomemsg');
         }
+		
+		$firstTicketCreatedAt = \App\TicketModel::getFirstTicket($ws->id);
+		if ($firstTicketCreatedAt === null) {
+			$firstTicketCreatedAt = date('Y-m-d');
+		} else {
+			$firstTicketCreatedAt = $firstTicketCreatedAt->created_at;
+		}
 
         return view('settings.system', [
             'workspace' => $ws->name,
@@ -296,7 +303,8 @@ class SettingsController extends Controller
             'formactions' => $ws->formactions,
             'ws' => $ws,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
-            'captchadata' => CaptchaModel::createSum(session()->getId())
+            'captchadata' => CaptchaModel::createSum(session()->getId()),
+			'export_to_date' => $firstTicketCreatedAt
         ]);
     }
 
