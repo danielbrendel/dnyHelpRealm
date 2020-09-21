@@ -100,18 +100,19 @@ class MailerModel extends Model
             }
 
             if (($ws) && ($ws->mailer_useown)) {
-                putenv('SMTP_HOST=' . $ws->mailer_host_smtp);
-                putenv('SMTP_PORT=' . $ws->mailer_port_smtp);
-                putenv('MAILSERV_HOST=' . $ws->mailer_host_imap);
-                putenv('MAILSERV_PORT=' . $ws->mailer_port_imap);
-                putenv('MAILSERV_INBOXNAME=' . $ws->mailer_inbox);
-                putenv('SMTP_FROMADDRESS=' . $ws->mailer_address);
-                putenv('MAILSERV_EMAILADDR=' . $ws->mailer_address);
-                putenv('SMTP_FROMNAME=' . $ws->mailer_fromname);
-                putenv('SMTP_USERNAME=' . $ws->mailer_username);
-                putenv('MAILSERV_USERNAME=' . $ws->mailer_username);
-                putenv('SMTP_PASSWORD=' . $ws->mailer_password);
-                putenv('MAILSERV_PASSWORD=' . $ws->mailer_password);
+                $_ENV['SMTP_HOST'] = $ws->mailer_host_smtp;
+                $_ENV['SMTP_PORT'] = $ws->mailer_port_smtp;
+                $_ENV['MAILSERV_HOST'] = $ws->mailer_host_imap;
+                $_ENV['MAILSERV_PORT'] = $ws->mailer_port_imap;
+                $_ENV['MAILSERV_INBOXNAME'] = $ws->mailer_inbox;
+                $_ENV['SMTP_FROMADDRESS'] = $ws->mailer_address;
+                $_ENV['MAILSERV_EMAILADDR'] = $ws->mailer_address;
+                $_ENV['SMTP_FROMNAME'] = $ws->mailer_fromname;
+                $_ENV['SMTP_USERNAME'] = $ws->mailer_username;
+                $_ENV['MAILSERV_USERNAME'] = $ws->mailer_username;
+                $_ENV['SMTP_PASSWORD'] = $ws->mailer_password;
+                $_ENV['MAILSERV_PASSWORD'] = $ws->mailer_password;
+                $_ENV['APP_NAME'] = $ws->company;
             }
 
             $mailer = new self(env('SMTP_FROMADDRESS'), env('SMTP_FROMNAME'));
