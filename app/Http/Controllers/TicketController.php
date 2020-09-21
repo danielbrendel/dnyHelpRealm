@@ -156,9 +156,19 @@ class TicketController extends Controller
                 $entry['avatar'] = 'https://www.gravatar.com/avatar/' . md5($ticket->email) . '?d=identicon';
             } else {
                 $user = User::get($th->user_id);
-                $entity = User::getAgent($user->id);
-                $entry['name'] = $entity->surname . ' ' . $entity->lastname;
-                $entry['avatar'] = asset('/gfx/avatars/' . $user->avatar);
+                $entity = ($user) ? User::getAgent($user->id) : null;
+
+                if ($user) {
+                    $entry['avatar'] = asset('/gfx/avatars/' . $user->avatar);
+                } else {
+                    $entry['avatar'] = 'https://www.gravatar.com/avatar/' . md5($ticket->email) . '?d=identicon';
+                }
+
+                if ($entity) {
+                    $entry['name'] = $entity->surname . ' ' . $entity->lastname;
+                } else {
+                    $entry['name'] = __('app.account_deleted');
+                }
             }
             array_push($attr['threaddata'], $entry);
         }
@@ -251,9 +261,19 @@ class TicketController extends Controller
                 $entry['avatar'] = 'https://www.gravatar.com/avatar/' . md5($ticket->email) . '?d=identicon';
             } else {
                 $user = User::get($th->user_id);
-                $entity = User::getAgent($user->id);
-                $entry['name'] = $entity->surname . ' ' . $entity->lastname;
-                $entry['avatar'] = asset('/gfx/avatars/' . $user->avatar);
+                $entity = ($user) ? User::getAgent($user->id) : null;
+
+                if ($user) {
+                    $entry['avatar'] = asset('/gfx/avatars/' . $user->avatar);
+                } else {
+                    $entry['avatar'] = 'https://www.gravatar.com/avatar/' . md5($ticket->email) . '?d=identicon';
+                }
+
+                if ($entity) {
+                    $entry['name'] = $entity->surname . ' ' . $entity->lastname;
+                } else {
+                    $entry['name'] = __('app.account_deleted');
+                }
             }
             array_push($attr['threaddata'], $entry);
         }

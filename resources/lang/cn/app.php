@@ -409,5 +409,6 @@
         'credit_or_debit_card' => 'Credit or debit card',
         'submit_payment' => 'Submit payment',
         'payment_failed' => 'Payment failed',
-        'payment_succeeded' => 'Payment succeeded. You have now access to the API'
+        'payment_succeeded' => 'Payment succeeded. You have now access to the API',
+        'account_deleted' => 'Account deleted'
     ];

@@ -416,5 +416,6 @@
         'credit_or_debit_card' => 'Kredit-oder Debitkarte',
         'submit_payment' => 'Kaufen',
         'payment_failed' => 'Kauf fehlgeschlagen',
-        'payment_succeeded' => 'Kauf erfolgreich. Sie haben nun Zugang zur API.'
+        'payment_succeeded' => 'Kauf erfolgreich. Sie haben nun Zugang zur API.',
+        'account_deleted' => 'Konto gelöscht'
     ];
