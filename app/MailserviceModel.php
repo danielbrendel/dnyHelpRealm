@@ -209,24 +209,28 @@ class MailserviceModel extends Model
 
         $workspaces = WorkSpaceModel::where('mailer_useown', '=', true)->get();
         foreach ($workspaces as $workspace) {
-            $_ENV['SMTP_HOST'] = $workspace->mailer_host_smtp;
-            $_ENV['SMTP_PORT'] = $workspace->mailer_port_smtp;
-            $_ENV['MAILSERV_HOST'] = $workspace->mailer_host_imap;
-            $_ENV['MAILSERV_PORT'] = $workspace->mailer_port_imap;
-            $_ENV['MAILSERV_INBOXNAME'] = $workspace->mailer_inbox;
-            $_ENV['SMTP_FROMADDRESS'] = $workspace->mailer_address;
-            $_ENV['MAILSERV_EMAILADDR'] = $workspace->mailer_address;
-            $_ENV['SMTP_FROMNAME'] = $workspace->mailer_fromname;
-            $_ENV['SMTP_USERNAME'] = $workspace->mailer_username;
-            $_ENV['MAILSERV_USERNAME'] = $workspace->mailer_username;
-            $_ENV['SMTP_PASSWORD'] = $workspace->mailer_password;
-            $_ENV['MAILSERV_PASSWORD'] = $workspace->mailer_password;
-            $_ENV['APP_NAME'] = $workspace->company;
+            try {
+                $_ENV['SMTP_HOST'] = $workspace->mailer_host_smtp;
+                $_ENV['SMTP_PORT'] = $workspace->mailer_port_smtp;
+                $_ENV['MAILSERV_HOST'] = $workspace->mailer_host_imap;
+                $_ENV['MAILSERV_PORT'] = $workspace->mailer_port_imap;
+                $_ENV['MAILSERV_INBOXNAME'] = $workspace->mailer_inbox;
+                $_ENV['SMTP_FROMADDRESS'] = $workspace->mailer_address;
+                $_ENV['MAILSERV_EMAILADDR'] = $workspace->mailer_address;
+                $_ENV['SMTP_FROMNAME'] = $workspace->mailer_fromname;
+                $_ENV['SMTP_USERNAME'] = $workspace->mailer_username;
+                $_ENV['MAILSERV_USERNAME'] = $workspace->mailer_username;
+                $_ENV['SMTP_PASSWORD'] = $workspace->mailer_password;
+                $_ENV['MAILSERV_PASSWORD'] = $workspace->mailer_password;
+                $_ENV['APP_NAME'] = $workspace->company;
 
-            $mailer = new self();
-            $data = $mailer->processInbox();
+                $mailer = new self();
+                $data = $mailer->processInbox();
 
-            $resultArr[] = array('workspace' => $workspace->id, 'data' => $data);
+                $resultArr[] = array('workspace' => $workspace->id, 'data' => $data);
+            } catch (\Exception $e) {
+                $resultArr[] = array('workspace' => $workspace->id, 'error' => $e->getCode(), 'data' => $e->getMessage());
+            }
         }
 
         return $resultArr;
