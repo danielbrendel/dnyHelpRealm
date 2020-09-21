@@ -311,7 +311,7 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
-        putenv('TEMP_WORKSPACE=' . $ws->id);
+        $_ENV['TEMP_WORKSPACE'] = $ws->id;
 
         \App::setLocale($ws->lang);
 
@@ -864,7 +864,7 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
-        putenv('TEMP_WORKSPACE=' . $ws->id);
+        $_ENV['TEMP_WORKSPACE'] = $ws->id;
 
         \App::setLocale($ws->lang);
 

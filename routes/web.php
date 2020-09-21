@@ -99,7 +99,7 @@ Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsCo
 Route::post('/{workspace}/system/tickets/export', 'SettingsController@exportTickets');
 Route::post('/{workspace}/settings/system/cancel', 'SettingsController@cancelWorkspace');
 
-Route::any('/mailservice/{password}', 'MainController@mailservice');
+Route::any('/mailservice/self/{password}', 'MainController@mailservice');
 Route::any('/mailservice/custom/{password}', 'MainController@mailservice_custom');
 
 Route::get('/install', 'InstallerController@viewInstall');

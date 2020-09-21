@@ -209,18 +209,19 @@ class MailserviceModel extends Model
 
         $workspaces = WorkSpaceModel::where('mailer_useown', '=', true)->get();
         foreach ($workspaces as $workspace) {
-            putenv('SMTP_HOST=' . $workspace->mailer_host_smtp);
-            putenv('SMTP_PORT=' . $workspace->mailer_port_smtp);
-            putenv('MAILSERV_HOST=' . $workspace->mailer_host_imap);
-            putenv('MAILSERV_PORT=' . $workspace->mailer_port_imap);
-            putenv('MAILSERV_INBOXNAME=' . $workspace->mailer_inbox);
-            putenv('SMTP_FROMADDRESS=' . $workspace->mailer_address);
-            putenv('MAILSERV_EMAILADDR=' . $workspace->mailer_address);
-            putenv('SMTP_FROMNAME=' . $workspace->mailer_fromname);
-            putenv('SMTP_USERNAME=' . $workspace->mailer_username);
-            putenv('MAILSERV_USERNAME=' . $workspace->mailer_username);
-            putenv('SMTP_PASSWORD=' . $workspace->mailer_password);
-            putenv('MAILSERV_PASSWORD=' . $workspace->mailer_password);
+            $_ENV['SMTP_HOST'] = $workspace->mailer_host_smtp;
+            $_ENV['SMTP_PORT'] = $workspace->mailer_port_smtp;
+            $_ENV['MAILSERV_HOST'] = $workspace->mailer_host_imap;
+            $_ENV['MAILSERV_PORT'] = $workspace->mailer_port_imap;
+            $_ENV['MAILSERV_INBOXNAME'] = $workspace->mailer_inbox;
+            $_ENV['SMTP_FROMADDRESS'] = $workspace->mailer_address;
+            $_ENV['MAILSERV_EMAILADDR'] = $workspace->mailer_address;
+            $_ENV['SMTP_FROMNAME'] = $workspace->mailer_fromname;
+            $_ENV['SMTP_USERNAME'] = $workspace->mailer_username;
+            $_ENV['MAILSERV_USERNAME'] = $workspace->mailer_username;
+            $_ENV['SMTP_PASSWORD'] = $workspace->mailer_password;
+            $_ENV['MAILSERV_PASSWORD'] = $workspace->mailer_password;
+            $_ENV['APP_NAME'] = $workspace->company;
 
             $mailer = new self();
             $data = $mailer->processInbox();

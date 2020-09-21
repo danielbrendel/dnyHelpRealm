@@ -86,7 +86,7 @@ class ApiController extends Controller
             return response()->json(array('code' => 403, 'workspace' => $workspace, 'paidforapi' => false));
         }
 
-        putenv('TEMP_WORKSPACE=' . $ws->id);
+        $_ENV['TEMP_WORKSPACE'] = $ws->id;
 
         if ($ws->apitoken !== $_POST['apitoken']) {
             return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
