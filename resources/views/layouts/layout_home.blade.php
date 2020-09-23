@@ -173,7 +173,13 @@
                     <div class="cookie-consent-outer">
                         <div id="cookie-consent" class="cookie-consent-inner">
                             <div class="cookie-consent-text">
-                                {{ __('app.cookie_consent') }}
+                                {!! __('app.cookie_consent') !!}
+
+                                @if (env('GA_TOKEN') !== null)
+                                    <br/>
+
+                                    {!! __('app.cookie_tracking') !!}
+                                @endif
                             </div>
 
                             <div class="cookie-consent-button">
@@ -394,8 +400,8 @@
                 clickedCookieConsentButton: function() {
                     //Client clicked on Ok-button so set cookie to not show consent anymore
 
-                    var curDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
-                    document.cookie = 'cookieconsent=1; expires=' + curDate.toUTCString() + ';';
+                    let futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
+                    document.cookie = 'cookieconsent=1; expires=' + futureDate.toUTCString() + ';';
 
                     document.getElementById('cookie-consent').style.display = 'none';
                 }
