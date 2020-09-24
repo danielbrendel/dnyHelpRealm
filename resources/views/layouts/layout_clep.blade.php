@@ -43,6 +43,24 @@
     </head>
 
     <body class="clep-outer">
+        <div class="cookie-consent-bottombox-outer" id="cookie-consent">
+            <div class="cookie-consent-bottombox-inner">
+                <div class="cookie-consent-text">
+                    {!! __('app.cookie_consent') !!}
+
+                    @if (env('GA_TOKEN') !== null)
+                        <br/>
+
+                        {!! __('app.cookie_tracking') !!}
+                    @endif
+                </div>
+
+                <div class="cookie-consent-button">
+                    <button type="button" onclick="vue.clickedCookieConsentButton()">{{ __('app.ok') }}</button>
+                </div>
+            </div>
+        </div>
+
         <div id="clep">
         <div class="clep-content">
             @if ($errors->any())
@@ -234,12 +252,39 @@
                 setclepFlag: function() {
                     let futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
                     document.cookie = 'clep=1; expires=' + futureDate.toUTCString() + '; path=/;';
-                }
+                },
+
+                clickedCookieConsentButton: function() {
+                    //Client clicked on Ok-button so set cookie to not show consent anymore
+
+                    let futureDate = new Date(Date.now() + 1000 * 60 * 60 * 24 * 365);
+                    document.cookie = 'cookieconsent=1; expires=' + futureDate.toUTCString() + ';';
+
+                    document.getElementById('cookie-consent').style.display = 'none';
+                },
+
+                handleCookieConsent: function() {
+                    //Show cookie consent if not already for this client
+
+                    var cookies = document.cookie.split(';');
+                    var foundCookie = false;
+                    for (i = 0; i < cookies.length; i++) {
+                        if (cookies[i].indexOf('cookieconsent') !== -1) {
+                            foundCookie = true;
+                            break;
+                        }
+                    }
+
+                    if (foundCookie === false) {
+                        document.getElementById('cookie-consent').style.display = 'unset';
+                    }
+                },
             }
         });
 
         document.addEventListener('DOMContentLoaded', () => {
             vue.setclepFlag();
+            vue.handleCookieConsent();
         });
     </script>
 </html>

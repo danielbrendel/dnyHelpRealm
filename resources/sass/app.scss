@@ -815,7 +815,13 @@ textarea {
 .cookie-consent-inner {
     position: fixed;
     display: none;
-    bottom: 0;
+    bottom: -29px;
+    @media screen and (max-width: 690px) {
+        bottom: 10px;
+    }
+    @media screen and (max-width: 620px) {
+        bottom: -2px;
+    }
     width: 100%;
     float: left;
     -ms-transform: translateX(-50%) translateY(-50%);
@@ -858,6 +864,23 @@ textarea {
     background-color: rgb(255, 255, 255);
     -webkit-appearance: none;
 	font-weight: bold;
+}
+.cookie-consent-bottombox-outer {
+    position: absolute;
+    bottom: 0;
+    left: 14px;
+    width: 300px;
+    height: auto;
+    z-index: 4;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: rgb(240, 240, 240);
+    display: none;
+}
+.cookie-consent-bottombox-inner {
+    margin: 15px;
+    font-size: 0.8em;
+    background-color: rgb(240, 240, 240);
 }
 
 //Homepage

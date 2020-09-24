@@ -11857,13 +11857,25 @@ textarea {
 .cookie-consent-inner {
   position: fixed;
   display: none;
-  bottom: 0;
+  bottom: -29px;
   width: 100%;
   float: left;
   transform: translateX(-50%) translateY(-50%);
   height: auto;
   margin-bottom: 15px;
   background-color: #c8c8c8;
+}
+
+@media screen and (max-width: 690px) {
+  .cookie-consent-inner {
+    bottom: 10px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .cookie-consent-inner {
+    bottom: -2px;
+  }
 }
 
 @media screen and (max-width: 765px) {
@@ -11903,6 +11915,25 @@ textarea {
   background-color: white;
   -webkit-appearance: none;
   font-weight: bold;
+}
+
+.cookie-consent-bottombox-outer {
+  position: absolute;
+  bottom: 0;
+  left: 14px;
+  width: 300px;
+  height: auto;
+  z-index: 4;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f0f0f0;
+  display: none;
+}
+
+.cookie-consent-bottombox-inner {
+  margin: 15px;
+  font-size: 0.8em;
+  background-color: #f0f0f0;
 }
 
 .home-headline {
