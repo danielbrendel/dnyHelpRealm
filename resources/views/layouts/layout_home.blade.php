@@ -25,7 +25,7 @@
         <meta name="description" content="{{ env('APP_METADESC') }}">
         <meta name="tags" content="{{ env('APP_METATAGS') }}">
 
-        <link rel="shortcut icon" href="{{ asset('gfx/logo.png') }}">
+        <link rel="icon" type="image/png" href="{{ asset('gfx/logo.png') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}">

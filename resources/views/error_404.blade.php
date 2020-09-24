@@ -11,7 +11,7 @@
         <meta name="description" content="{{ env('APP_DESCRIPTION') }}">
         <meta name="tags" content="dnyHelpRealm, HelpRealm, ticket, ticket system, support ticket system, support, system, agent, client, helpdesk">
 
-        <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}">
+        <link rel="shortcut icon" href="{{ asset('gfx/logo.png') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma.css') }}">
@@ -26,7 +26,7 @@
                     {{ __('app.error_404') }}<br/><br/>
                     <a href="{{ url('/') }}">Home</a>
                 </div>
-            </article>    
+            </article>
         </div>
     </body>
 </html>
