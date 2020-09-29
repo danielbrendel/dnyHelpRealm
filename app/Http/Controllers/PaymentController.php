@@ -66,7 +66,7 @@ class PaymentController extends Controller
 
             $charge = \Stripe\Charge::create([
                 'amount' => env('STRIPE_COSTS_VALUE'),
-                'currency' => 'usd',
+                'currency' => env('STRIPE_CURRENCY'),
                 'description' => 'API access for "' . $workspace . '/' . $ws->company . '". Purchased by: ' . $agent->email,
                 'source' => $attr['stripeToken'],
                 'receipt_email' => $agent->email
