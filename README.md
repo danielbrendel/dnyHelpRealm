@@ -40,6 +40,7 @@ and small teams.
 + Gravatar support
 + E-Mail notifications
 + E-Mail replies
++ E-Mail tickets
 + Friendly installer
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
 + Responsive layout

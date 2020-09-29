@@ -21,6 +21,7 @@ use App\TicketModel;
 use App\MailerModel;
 use Webklex\PHPIMAP\ClientManager;
 use Webklex\PHPIMAP\Client;
+use Illuminate\Support\Carbon;
 
 /**
  * Class MailserviceModel
@@ -141,50 +142,192 @@ class MailserviceModel extends Model
                                 $resultArrItem['user_id'] = $thread->user_id;
                                 $resultArrItem['attachments'] = array();
 
-                                $attachments = $message->getAttachments();
-                                foreach ($attachments as $file) {
-                                    if ($file->getSize() <= $this->iniFileSize()) {
-                                        $bIgnoreFile = false;
+                                $bContinue = true;
 
-                                        if (strlen($ws->extfilter) > 0) {
-                                            foreach (explode(' ', $ws->extfilter) as $fileext) {
-                                                $fileext = str_replace('.', '', trim($fileext));
-                                                if ($file->getExtension() === $fileext) {
-                                                    $bIgnoreFile = true;
-                                                    break;
+                                $attachments = $message->getAttachments();
+                                if (count($attachments) > env('APP_ATTACHMENTS_MAX')) {
+                                    $resultArrItem['error'] = 'Attachment count';
+                                    $resultArrItem['data'] = count($attachments);
+                                    $resultArray[] = $resultArrItem;
+                                    $bContinue = false;
+                                    $message->delete();
+                                }
+
+                                if ($bContinue) {
+                                    $attachments = $message->getAttachments();
+                                    foreach ($attachments as $file) {
+                                        if ($file->getSize() <= $this->iniFileSize()) {
+                                            $bIgnoreFile = false;
+
+                                            if (strlen($ws->extfilter) > 0) {
+                                                foreach (explode(' ', $ws->extfilter) as $fileext) {
+                                                    $fileext = str_replace('.', '', trim($fileext));
+                                                    if ($file->getExtension() === $fileext) {
+                                                        $bIgnoreFile = true;
+                                                        break;
+                                                    }
                                                 }
                                             }
+
+                                            if ($bIgnoreFile) {
+                                                continue;
+                                            }
+
+                                            $newName = $file->getName() . md5(random_bytes(55)) . '.' . $file->getExtension();
+                                            $file->save(public_path() . '/uploads', $newName);
+
+                                            $ticketFile = new TicketsHaveFiles();
+                                            $ticketFile->ticket_hash = $ticket->hash;
+                                            $ticketFile->file = $newName;
+                                            $ticketFile->save();
+
+                                            $resultArrItem['attachments'][] = $newName;
                                         }
+                                    }
 
-                                        if ($bIgnoreFile) {
-                                            continue;
+                                    $message->delete();
+
+                                    $resultArray[] = $resultArrItem;
+
+                                    if ($ws !== null) {
+                                        if ($isAgent !== null) {
+                                            $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
+                                            MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
+                                        } else {
+                                            $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
+                                            if ($assignee !== null) {
+                                                $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
+                                                MailerModel::sendMail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
+                                            }
                                         }
+                                    }
+                                }
+                            }
+                        } else {
+                            $ws = WorkSpaceModel::where('id', '=', $_ENV['TEMP_WORKSPACE'])->first();
+                            if ($ws !== null) {
+                                $attr['subject'] = $message->getSubject();
+                                $attr['text'] = $message->getTextBody();
+                                $sender = $message->getSender();
+                                $attr['email'] = $sender[0]->mail;
+                                $attr['name'] = $sender[0]->personal;
+                                $attr['workspace'] = $ws->id;
+                                $attr['assignee'] = 0;
+                                $attr['group'] = GroupsModel::getPrimaryGroup($ws->id)->id;
+                                $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(55));
+                                $attr['address'] = $_SERVER['REMOTE_ADDR'];
+                                $attr['type'] = TicketsHaveTypes::where('workspace', '=', $ws->id)->first()->id;
+                                $attr['prio'] = 1;
+                                $attr['status'] = 1;
 
-                                        $newName = $file->getName() . md5(random_bytes(55)) . '.' . $file->getExtension();
-                                        $file->save(public_path() . '/uploads', $newName);
+                                $resultArrItem['workspace'] = $ws->id;
+                                $resultArrItem['sender'] = $attr['email'];
+                                $resultArrItem['subject'] = $attr['subject'];
+                                $resultArrItem['message'] = $attr['text'];
+                                $resultArrItem['user_id'] = 0;
+                                $resultArrItem['attachments'] = array();
 
-                                        $ticketFile = new TicketsHaveFiles();
-                                        $ticketFile->ticket_hash = $ticket->hash;
-                                        $ticketFile->file = $newName;
-                                        $ticketFile->save();
+                                if ($ws->emailconfirm) {
+                                    $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
+                                    $attr['status'] = 0;
+                                } else {
+                                    $attr['confirmation'] = '_confirmed';
+                                    $attr['status'] = 1;
+                                }
 
-                                        $resultArrItem['attachments'][] = $newName;
+                                $bContinue = true;
+
+                                $attachments = $message->getAttachments();
+                                if (count($attachments) > env('APP_ATTACHMENTS_MAX')) {
+                                    $resultArrItem['error'] = 'Attachment count';
+                                    $resultArrItem['data'] = count($attachments);
+                                    $resultArray[] = $resultArrItem;
+                                    $bContinue = false;
+                                    $message->delete();
+                                }
+
+                                if ($bContinue) {
+                                    foreach ($attachments as $file) {
+                                        if ($file->getSize() <= $this->iniFileSize()) {
+                                            $bIgnoreFile = false;
+
+                                            if (strlen($ws->extfilter) > 0) {
+                                                foreach (explode(' ', $ws->extfilter) as $fileext) {
+                                                    $fileext = str_replace('.', '', trim($fileext));
+                                                    if ($file->getExtension() === $fileext) {
+                                                        $bIgnoreFile = true;
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if ($bIgnoreFile) {
+                                                continue;
+                                            }
+
+                                            $newName = $file->getName() . md5(random_bytes(55)) . '.' . $file->getExtension();
+                                            $file->save(public_path() . '/uploads', $newName);
+
+                                            $ticketFile = new TicketsHaveFiles();
+                                            $ticketFile->ticket_hash = $attr['hash'];
+                                            $ticketFile->file = $newName;
+                                            $ticketFile->save();
+
+                                            $resultArrItem['attachments'][] = $newName;
+                                        }
                                     }
                                 }
 
-                                $message->delete();
+                                $ticketOfAddress = TicketModel::where('address', '=', $attr['address'])->orderBy('created_at', 'desc')->first();
+                                if ($ticketOfAddress !== null) {
+                                    $tmNow = Carbon::now();
+                                    $tmLast = Carbon::createFromFormat('Y-m-d H:i:s', $ticketOfAddress->created_at);
+                                    $diff = $tmLast->diffInSeconds($tmNow);
+                                    if ($diff < env('APP_TICKET_CREATION_WAITTIME')) {
+                                        $resultArrItem['error'] = 'Spam protection';
+                                        $resultArrItem['data'] = $diff;
+                                        $resultArray[] = $resultArrItem;
+                                        $bContinue = false;
+                                        $message->delete();
+                                    }
+                                }
 
-                                $resultArray[] = $resultArrItem;
+                                if ($bContinue) {
+                                    $data = TicketModel::create($attr);
+                                    if ($data) {
+                                        $resultArray[] = $resultArrItem;
+                                        $message->delete();
 
-                                if ($ws !== null) {
-                                    if ($isAgent !== null) {
-                                        $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
-                                        MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
-                                    } else {
-                                        $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
-                                        if ($assignee !== null) {
-                                            $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
-                                            MailerModel::sendMail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
+                                        if ($ws->emailconfirm) {
+                                            $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
+                                        } else {
+                                            $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
+                                        }
+
+                                        MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
+
+                                        $agentInGroupIds = array();
+                                        $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
+                                        foreach ($agentsInGroup as $entry) {
+                                            $agentOfGroup = AgentModel::where('id', '=', $entry->agent_id)->where('workspace', '=', $ws->id)->where('mailonticketingroup', '=', true)->first();
+                                            if ($agentOfGroup !== null) {
+                                                $htmlCode = view('mail.ticket_in_group', ['workspace' => $ws->name, 'name' => $agentOfGroup->surname . ' ' . $agentOfGroup->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                                                MailerModel::sendMail($agentOfGroup->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
+
+                                                PushModel::addNotification(__('app.mail_ticket_in_group'), $data->subject, $agentOfGroup->user_id);
+
+                                                $agentInGroupIds[] = $agentOfGroup->id;
+                                            }
+                                        }
+
+                                        if ($ws->inform_admin_new_ticket) {
+                                            $admins = AgentModel::where('workspace', '=', $ws->id)->where('superadmin', '=', true)->get();
+                                            foreach ($admins as $adminUser) {
+                                                if (!in_array($adminUser->id, $agentInGroupIds)) {
+                                                    $htmlCode = view('mail.new_ticket_admin', ['workspace' => $ws->name, 'name' => $adminUser->surname . ' ' . $adminUser->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                                                    MailerModel::sendMail($adminUser->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -210,6 +353,7 @@ class MailserviceModel extends Model
         $workspaces = WorkSpaceModel::where('mailer_useown', '=', true)->get();
         foreach ($workspaces as $workspace) {
             try {
+                $_ENV['TEMP_WORKSPACE'] = $workspace->id;
                 $_ENV['SMTP_HOST'] = $workspace->mailer_host_smtp;
                 $_ENV['SMTP_PORT'] = $workspace->mailer_port_smtp;
                 $_ENV['MAILSERV_HOST'] = $workspace->mailer_host_imap;

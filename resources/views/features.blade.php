@@ -35,6 +35,7 @@
                     <li>Route tickets through groups</li>
                     <li>Different agent roles (superadmin and agent)</li>
                     <li>Customize ticket contact form</li>
+                    <li>Ticket creation by E-Mail</li>
                     <li>E-Mails on different events</li>
                     <li>E-Mail replies</li>
                     <li>Ticket comments, attachments and notes</li>
