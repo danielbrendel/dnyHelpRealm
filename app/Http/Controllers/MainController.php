@@ -528,6 +528,8 @@ class MainController extends Controller
     public function mailservice($password)
     {
         if ($password === env('MAILSERV_CRONPW')) {
+            $_ENV['TEMP_WORKSPACE'] = -1;
+
             $ms = new MailserviceModel;
             $result = $ms->processInbox();
 
