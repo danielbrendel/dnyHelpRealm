@@ -22,6 +22,8 @@ use App\MailerModel;
 use Webklex\PHPIMAP\ClientManager;
 use Webklex\PHPIMAP\Client;
 use Illuminate\Support\Carbon;
+use App\MailTimeoutModel;
+use Webklex\PHPIMAP\Exceptions\ConnectionFailedException;
 
 /**
  * Class MailserviceModel
@@ -371,9 +373,18 @@ class MailserviceModel extends Model
                 $mailer = new self();
                 $data = $mailer->processInbox();
 
+                MailTimeoutModel::clear($_ENV['TEMP_WORKSPACE']);
+
                 $resultArr[] = array('workspace' => $workspace->id, 'data' => $data);
+            } catch (ConnectionFailedException $e) {
+                $_ENV['APP_NAME'] = 'HelpRealm';
+
+                MailTimeoutModel::add($_ENV['TEMP_WORKSPACE']);
+                MailTimeoutModel::handleIfFull($_ENV['TEMP_WORKSPACE']);
+
+                $resultArr[] = array('workspace' => $workspace->id, 'error' => $e->getCode(), 'type' => 'ConnectionFailedException', 'data' => $e->getMessage());
             } catch (\Exception $e) {
-                $resultArr[] = array('workspace' => $workspace->id, 'error' => $e->getCode(), 'data' => $e->getMessage());
+                $resultArr[] = array('workspace' => $workspace->id, 'error' => $e->getCode(), 'type' => 'Exception', 'data' => $e->getMessage());
             }
         }
 
