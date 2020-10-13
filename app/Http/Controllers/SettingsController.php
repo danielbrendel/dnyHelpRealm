@@ -304,7 +304,7 @@ class SettingsController extends Controller
             'ws' => $ws,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId()),
-			'export_to_date' => $firstTicketCreatedAt
+			'export_from_date' => $firstTicketCreatedAt
         ]);
     }
 

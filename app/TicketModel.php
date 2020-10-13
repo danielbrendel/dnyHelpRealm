@@ -61,7 +61,7 @@ class TicketModel extends Model
      */
     private static function getPreparedExportTickets($ws, $date_from, $date_to)
     {
-        $tickets = TicketModel::where('workspace', '=', $ws)->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($date_from)))->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($date_to)))->orderBy('created_at', 'asc')->get();
+        $tickets = TicketModel::where('workspace', '=', $ws)->where('created_at', '>=', date('Y-m-d 00:00:00', strtotime($date_from)))->where('created_at', '<=', date('Y-m-d 23:59:59', strtotime($date_to)))->orderBy('created_at', 'asc')->get();
         foreach ($tickets as &$ticket) {
             switch ($ticket->status) {
                 case 0:

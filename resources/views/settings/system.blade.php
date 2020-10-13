@@ -382,14 +382,14 @@
                         <div class="field">
                             <label class="label">{{ __('app.date_from') }}</label>
                             <div class="control">
-                                <input type="date" class="input" name="date_from" value="{{ date('Y-m-d') }}">
+                                <input type="date" class="input" name="date_from" value="{{ date('Y-m-d', strtotime($export_from_date)) }}">
                             </div>
                         </div>
 
                         <div class="field">
                             <label class="label">{{ __('app.date_to') }}</label>
                             <div class="control">
-                                <input type="date" class="input" name="date_to" value="{{ date('Y-m-d', strtotime($export_to_date)) }}">
+                                <input type="date" class="input" name="date_to" value="{{ date('Y-m-d') }}">
                             </div>
                         </div>
 
