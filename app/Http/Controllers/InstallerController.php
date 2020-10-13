@@ -72,7 +72,7 @@ class InstallerController extends Controller
         }
 
         $envcontent = '# dnyHelpRealm environment configuration file' . PHP_EOL;
-        $envcontent .= 'APP_NAME="HelpRealm"' . PHP_EOL;
+        $envcontent .= 'APP_NAME=HelpRealm' . PHP_EOL;
         $envcontent .= 'APP_CODENAME=dnyHelpRealm' . PHP_EOL;
         $envcontent .= 'APP_AUTHOR="Daniel Brendel"' . PHP_EOL;
         $envcontent .= 'APP_VERSION=1.0' . PHP_EOL;
