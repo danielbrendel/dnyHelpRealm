@@ -82,6 +82,7 @@ class InstallerController extends Controller
         $envcontent .= 'APP_URL=' . url('/') . PHP_EOL;
         $envcontent .= 'APP_DESCRIPTION="The lightweight support ticket system"' . PHP_EOL;
         $envcontent .= 'APP_METADESC="Sign up now and get access to a personal customer support workspace"' . PHP_EOL;
+		$envcontent .= 'APP_METATAGS="dnyHelpRealm, HelpRealm, daniel brendel, ticket, ticket system, support ticket system, support, system, agent, client, helpdesk"' . PHP_EOL;
         $envcontent .= 'APP_LANG=' . $attr['lang'] . PHP_EOL;
         $envcontent .= 'APP_DESCRIPTION="The free SaaS support ticket system"' . PHP_EOL;
         $envcontent .= 'APP_ALLOWEDHTMLTAGS="<b><i><u><strong><small><ol><ul><li><div><span><a><p><br><code><blockquote>"' . PHP_EOL;
