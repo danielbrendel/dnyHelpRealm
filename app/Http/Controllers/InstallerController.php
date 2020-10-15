@@ -88,6 +88,8 @@ class InstallerController extends Controller
         $envcontent .= 'APP_ALLOWEDHTMLTAGS="<b><i><u><strong><small><ol><ul><li><div><span><a><p><br><code><blockquote>"' . PHP_EOL;
         $envcontent .= 'APP_SUPPORT=null' . PHP_EOL;
         $envcontent .= 'APP_SHOWSTATISTICS=true' . PHP_EOL;
+		$envcontent .= 'APP_CAPTCHAFORCUSTOMERREPLIES=false' . PHP_EOL;
+		$envcontent .= 'APP_TICKET_CREATION_WAITTIME=10' . PHP_EOL;
 		$envcontent .= 'APP_ATTACHMENTS_MAX=10' . PHP_EOL;
         $envcontent .= 'LOG_CHANNEL=stack' . PHP_EOL;
         $envcontent .= 'DB_CONNECTION=mysql' . PHP_EOL;
