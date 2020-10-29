@@ -78,7 +78,7 @@
                                     {{ $ticketType->name }}
                                 </p>
                                 <p>
-                                    <a href="mailto:{{ $ticket->email }}">{{ __('app.ticket_created_for', ['clientname' => $ticket->name]) }}</a>
+                                    <a href="mailto:{{ $ticket->email }}">{{ __('app.ticket_created_for', ['clientname' => $ticket->name]) }}</a><br/>{{ $ticket->email }}
                                 </p>
                             </div>
 
