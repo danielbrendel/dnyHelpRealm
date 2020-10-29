@@ -10,6 +10,7 @@
     {{ __('app.mail_ticket_create_body_notconfirm') }}
     <br/><br/>
     <hr/>
+    {{ $name }} / {{ $email }}<br/>
     <strong>{{ $subject }}:</strong><br/>
     <pre>{{ $text }}</pre>
     <hr/>

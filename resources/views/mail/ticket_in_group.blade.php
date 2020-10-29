@@ -10,6 +10,7 @@
     {{ __('app.mail_ticket_in_group_body') }}
     <br/><br/>
     <hr/>
+    {{ $custname }} / {{ $email }}<br/>
     <strong>{{ $subject }}:</strong><br/>
     <pre>{{ $text }}</pre>
     <hr/>

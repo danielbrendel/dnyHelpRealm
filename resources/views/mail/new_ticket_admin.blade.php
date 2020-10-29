@@ -10,6 +10,7 @@
     {{ __('app.mail_new_ticket_admin_body') }}
     <br/><br/>
     <hr/>
+    {{ $custname }} / {{ $email }}<br/>
     <strong>{{ $subject }}:</strong><br/>
     <pre>{{ $text }}</pre>
     <hr/>
