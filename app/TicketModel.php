@@ -171,4 +171,33 @@ class TicketModel extends Model
         echo $streamContent;
         exit();
     }
+
+    /**
+     * Delete a ticket and its associated data
+     * 
+     * @param $id
+     * @return bool
+     */
+    public static function deleteTicket($id)
+    {
+        $ticket = TicketModel::where('id', '=', $id)->first();
+        if (!$ticket) {
+            return false;
+        }
+
+        $ticket_files = TicketsHaveFiles::where('ticket_hash', '=', $ticket->hash)->get();
+        foreach ($ticket_files as $file) {
+            unlink(public_path() . '/uploads/' . $file->file);
+            $file->delete();
+        }
+
+        $ticket_posts = TicketThreadModel::where('ticket_id', '=', $ticket->id)->get();
+        foreach ($ticket_posts as $post) {
+            $post->delete();
+        }
+
+        $ticket->delete();
+
+        return true;
+    }
 }

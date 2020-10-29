@@ -50,7 +50,7 @@ Route::get('/{workspace}/ticket/list', 'TicketController@viewTicketList');
 Route::get('/{workspace}/ticket/{id}/show', 'TicketController@viewShowTicketAgent');
 Route::get('/{workspace}/ticket/show/{hash}', 'TicketController@viewShowTicketClient');
 Route::patch('/{workspace}/ticket/{id}/edit', 'TicketController@editTicket');
-Route::delete('/{workspace}/ticket/{id}/delete', 'TicketController@deleteTicket');
+Route::any('/{workspace}/ticket/{id}/delete', 'TicketController@deleteTicket');
 Route::patch('/{workspace}/ticket/{ticket}/assign/agent/{agent}', 'TicketController@assignToAgent');
 Route::patch('/{workspace}/ticket/{ticket}/assign/group/{group}', 'TicketController@assignToGroup');
 Route::patch('/{workspace}/ticket/{id}/status/{status}', 'TicketController@setStatus');

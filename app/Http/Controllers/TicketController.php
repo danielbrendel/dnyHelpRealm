@@ -500,25 +500,16 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
-        if (!$agent->superadmin) {
+        /*if (!$agent->superadmin) {
             $ingroup = AgentsHaveGroups::where('agent_id', '=', $agent->id)->where('group_id', '=', $ticket->group)->first();
             if (!$ingroup) {
                 return back()->with('error', __('app.ticket_not_group_member'));
             }
-        }
+        }*/
 
-        $ticket = TicketModel::where('id', '=', $id)->where('workspace', '=', $ws->id)->first();
-        if ($ticket) {
-            $files = TicketsHaveFiles::where('ticket_id', '=', $ticket->id)->get();
-
-            foreach ($files as $file) {
-                unlink('public/uploads/' . $file->file);
-                $file->delete();
-            }
-
-            $ticket->delete();
-
-            return back()->with('success', __('app.ticket_deleted'));
+        $result = TicketModel::deleteTicket($id);
+        if ($result) {
+            return redirect('/' . $workspace . '/ticket/list')->with('success', __('app.ticket_deleted'));
         } else {
             return back()->with('error', __('app.ticket_not_found'));
         }

@@ -45,6 +45,10 @@
                                 <a href="javascript:void(0)" onclick="vue.bShowChangeType = true;"><i class="fas fa-i-cursor" title="{{ __('app.ticket_change_type') }}"></i></a>
                             </div>
 
+                            <div class="ticket-agent-menu-item">
+                                <a href="javascript:void(0);" onclick="if (confirm('{{ __('app.delete_confirm') }}')) location.href = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/delete') }}';"><i class="fas fa-trash-alt" title="{{ __('app.delete') }}"></i></a>
+                            </div>
+
                             <div class="ticket-agent-menu-item is-right2" style="color: rgb(150, 150, 150);" title="{{ $ticket->created_at }}">
                                 <i title="{{ __('app.created_at', ['date' => $ticket->created_at]) }}" class="far fa-calendar-alt"></i>&nbsp;{{ $ticket->created_at->diffForHumans() }}
                             </div>
