@@ -45,7 +45,7 @@
                                 <a href="javascript:void(0)" onclick="vue.bShowChangeType = true;"><i class="fas fa-i-cursor" title="{{ __('app.ticket_change_type') }}"></i></a>
                             </div>
 
-                            <div class="ticket-agent-menu-item">
+                            <div class="ticket-agent-menu-item @if ($ticket->status !== 3) is-hidden @endif" id="delete-ticket-link">
                                 <a href="javascript:void(0);" onclick="if (confirm('{{ __('app.delete_confirm') }}')) location.href = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/delete') }}';"><i class="fas fa-trash-alt" title="{{ __('app.delete') }}"></i></a>
                             </div>
 
@@ -504,6 +504,7 @@
                 document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-grey">{{ __('app.ticket_status_waiting') }}</div>';
             } else if (document.getElementById('selStatus').value == 3) {
                 document.getElementById('view-status').innerHTML = '<div class="dashboard-badge dashboard-badge-is-brown">{{ __('app.ticket_status_closed') }}</div>';
+                document.getElementById('delete-ticket-link').classList.remove('is-hidden');
             }
         },
         function(){

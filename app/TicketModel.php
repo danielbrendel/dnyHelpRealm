@@ -180,7 +180,7 @@ class TicketModel extends Model
      */
     public static function deleteTicket($id)
     {
-        $ticket = TicketModel::where('id', '=', $id)->first();
+        $ticket = TicketModel::where('id', '=', $id)->where('status', '=', 3)->first();
         if (!$ticket) {
             return false;
         }
