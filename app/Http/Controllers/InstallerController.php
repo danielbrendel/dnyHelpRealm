@@ -93,11 +93,11 @@ class InstallerController extends Controller
 		$envcontent .= 'APP_ATTACHMENTS_MAX=10' . PHP_EOL;
         $envcontent .= 'LOG_CHANNEL=stack' . PHP_EOL;
         $envcontent .= 'DB_CONNECTION=mysql' . PHP_EOL;
-        $envcontent .= 'DB_HOST=' . $attr['dbhost'] . PHP_EOL;
+        $envcontent .= 'DB_HOST="' . $attr['dbhost'] . '"' . PHP_EOL;
         $envcontent .= 'DB_PORT=' . $attr['dbport'] . PHP_EOL;
-        $envcontent .= 'DB_DATABASE=' . $attr['database'] . PHP_EOL;
-        $envcontent .= 'DB_USERNAME=' . $attr['dbuser'] . PHP_EOL;
-        $envcontent .= 'DB_PASSWORD=' . $attr['dbpw'] . PHP_EOL;
+        $envcontent .= 'DB_DATABASE="' . $attr['database'] . '"' . PHP_EOL;
+        $envcontent .= 'DB_USERNAME="' . $attr['dbuser'] . '"' . PHP_EOL;
+        $envcontent .= 'DB_PASSWORD="' . $attr['dbpw'] . '"' . PHP_EOL;
         $envcontent .= 'BROADCAST_DRIVER=log' . PHP_EOL;
         $envcontent .= 'CACHE_DRIVER=file' . PHP_EOL;
         $envcontent .= 'QUEUE_CONNECTION=sync' . PHP_EOL;
