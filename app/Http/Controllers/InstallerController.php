@@ -77,7 +77,7 @@ class InstallerController extends Controller
         $envcontent .= 'APP_AUTHOR="Daniel Brendel"' . PHP_EOL;
         $envcontent .= 'APP_VERSION=1.0' . PHP_EOL;
         $envcontent .= 'APP_ENV=production' . PHP_EOL;
-        $envcontent .= 'APP_KEY=base64:N9k56bfjG0lyIAApHCANywC5s5sVC3DX+Dp0vNbLGZY=' . PHP_EOL;
+        $envcontent .= 'APP_KEY=' . PHP_EOL;
         $envcontent .= 'APP_DEBUG=false' . PHP_EOL;
         $envcontent .= 'APP_URL=' . url('/') . PHP_EOL;
         $envcontent .= 'APP_DESCRIPTION="The lightweight support ticket system"' . PHP_EOL;
@@ -127,6 +127,7 @@ class InstallerController extends Controller
         }
 
         \Artisan::call('config:clear');
+		\Artisan::call('key:generate');
 
         try {
             $dbobj = new PDO('mysql:host=' . $attr['dbhost'], $attr['dbuser'], $attr['dbpw']);
