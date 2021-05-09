@@ -56,7 +56,7 @@ The documentation is located in the /doc directory. A generated PDF needs to be 
 
 ## System requirements
 The product is being developed with the following engine versions:
-+ PHP 7.4.1 
++ PHP ^7.4|^8.0 
 + MySQL 10.4.11-MariaDB
 + Default PHP extensions
 
