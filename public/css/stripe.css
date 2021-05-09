@@ -1,5 +1,4 @@
 /* Variables */
-
 * {
   box-sizing: border-box;
 }
@@ -61,7 +60,6 @@
 }
 
 /* Buttons and links */
-
 .stripe button {
   background: #5469d4;
   color: #ffffff;
@@ -79,8 +77,7 @@
 }
 
 .stripe button:hover {
-  -webkit-filter: contrast(115%);
-          filter: contrast(115%);
+  filter: contrast(115%);
 }
 
 .stripe button:disabled {
@@ -89,7 +86,6 @@
 }
 
 /* spinner/processing state, errors */
-
 .spinner,
 .spinner:before,
 .spinner:after {
@@ -142,25 +138,20 @@
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
-
 @keyframes loading {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
 }
-
 @media only screen and (max-width: 600px) {
   .stripe form {
     width: 80vw;
   }
 }
-
