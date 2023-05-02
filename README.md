@@ -86,8 +86,10 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 ## Mailservice
 Agents and customers can post to a ticket thread by replying to the notification emails.
 In order for this to work the environment variables MAILSERV_* must be set. Also a cronjob
-must be activated on the server system which calls /mailservice/{password} (any request type).
-The password must match the one specified in the MAILSERV_CRONPW variable.
+must be activated on the server system which calls /mailservice/{what}/{password} (any request type).
+'what' refers to either 'self' (to handle the mailbox associated with the host support) or 
+'custom' (to handle all custom mailboxes of workspaces that use a custom mailbox). The password 
+must match the one specified in the MAILSERV_CRONPW variable.
 
 ## Twitter news
 By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 
