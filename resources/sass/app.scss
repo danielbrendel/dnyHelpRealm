@@ -949,6 +949,20 @@ textarea {
     margin-right: 15px;
     margin-bottom: 90px;
 }
+.button-signup {
+    width: 230px;
+    height: 53px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(76, 183, 255);
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1.3em;
+}
+.button-signup:hover {
+    background-color: rgb(12, 155, 255);
+}
 
 //Imprint
 .imprint {
@@ -956,16 +970,16 @@ textarea {
 }
 .imprint-image {
     position: relative;
-    margin-right: 35px;
+    margin-right: 20px;
     display: inline-block;
 }
 .imprint-image img {
-    border-radius: 4px;
+    border-radius: 50%;
 }
 .imprint-info {
     position: relative;
     display: inline-block;
-    top: 20px;
+    top: 25px;
 }
 
 //Navbar
@@ -1011,11 +1025,11 @@ a.navbar-item:hover {
 
 //Fade in
 .fade-in {
-    -webkit-animation: fadein 4s;
-    -moz-animation: fadein 4s;
-    -ms-animation: fadein 4s;
-    -o-animation: fadein 4s;
-    animation: fadein 4s;
+    -webkit-animation: fadein 3s;
+    -moz-animation: fadein 3s;
+    -ms-animation: fadein 3s;
+    -o-animation: fadein 3s;
+    animation: fadein 3s;
 }
 @keyframes fadein {
     from { opacity: 0; }

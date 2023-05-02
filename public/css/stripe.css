@@ -29,7 +29,7 @@
 }
 
 .result-message a {
-  color: #596fd6;
+  color: rgb(89, 111, 214);
   font-weight: 600;
   text-decoration: none;
 }
@@ -39,7 +39,7 @@
 }
 
 #card-error {
-  color: #697386;
+  color: rgb(105, 115, 134);
   text-align: left;
   font-size: 13px;
   line-height: 17px;
@@ -118,7 +118,6 @@
   top: -0.2px;
   left: -0.2px;
   transform-origin: 10.4px 10.2px;
-  -webkit-animation: loading 2s infinite ease 1.5s;
   animation: loading 2s infinite ease 1.5s;
 }
 
@@ -130,17 +129,7 @@
   top: -0.1px;
   left: 10.2px;
   transform-origin: 0px 10.2px;
-  -webkit-animation: loading 2s infinite ease;
   animation: loading 2s infinite ease;
-}
-
-@-webkit-keyframes loading {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 @keyframes loading {
   0% {

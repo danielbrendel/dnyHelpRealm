@@ -1,4 +1,4 @@
-<!--
+{{--
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
     (C) 2019 - 2023 by Daniel Brendel
@@ -8,7 +8,7 @@
     GitHub: https://github.com/danielbrendel/
 
     Released under the MIT license
--->
+--}}
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
@@ -334,7 +334,7 @@
 
         <nav class="navbar is-fixed-bottom">
             <div class="home-copyright has-text-centered">
-                Copyright &copy; 2019 - {{ date('Y') }} by Daniel Brendel
+                Copyright &copy; 2019 - {{ date('Y') }} by {{ env('APP_AUTHOR') }}
             </div>
         </nav>
     </body>

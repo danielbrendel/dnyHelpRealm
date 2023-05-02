@@ -1,4 +1,4 @@
-<!--
+{{--
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
     (C) 2019 - 2023 by Daniel Brendel
@@ -8,7 +8,7 @@
     GitHub: https://github.com/danielbrendel/
 
     Released under the MIT license
--->
+--}}
 
 @if (env('APP_ENV') === 'production')
     @if (env('GA_TOKEN', null) !== null)
