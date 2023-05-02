@@ -89,12 +89,12 @@
                         {{ __('app.home_api') }}
                     </a>
 
-                    <a class="navbar-item" href="{{ url('/imprint') }}">
-                        {{ __('app.home_imprint') }}
-                    </a>
-
                     <a class="navbar-item" href="{{ url('/tac') }}">
                         {{ __('app.home_tac') }}
+                    </a>
+
+                    <a class="navbar-item" href="{{ url('/imprint') }}">
+                        {{ __('app.home_imprint') }}
                     </a>
 
                     @if (env('APP_SUPPORT', null) !== null)
