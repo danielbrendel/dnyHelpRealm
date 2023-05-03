@@ -996,11 +996,14 @@ a.navbar-item:hover {
     position: relative;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 .clep-outer {
     width: 100%;
     height: 100%;
     padding: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .clep-content {
     margin: 0;
@@ -1014,6 +1017,10 @@ a.navbar-item:hover {
     font-size: 1.5em;
     margin-bottom: 45px;
 }
+.clep-input-transparent {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgb(150, 150, 150) !important;
+}
 .clep-recover-top {
     position: relative;
     top: 12px;
@@ -1025,6 +1032,13 @@ a.navbar-item:hover {
 }
 .clep-signup {
     font-size: 1.4em;
+}
+.clep-signup a, .clep-recover-top a {
+    color: rgb(34, 100, 155);
+}
+.clep-signup a:hover, .clep-recover-top a:hover {
+    color: rgb(34, 100, 155);
+    text-decoration: underline;
 }
 
 //Fade in
