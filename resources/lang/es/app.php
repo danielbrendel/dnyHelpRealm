@@ -311,7 +311,7 @@
         'system_usebgcolor' => 'Usar un color de fondo plano en lugar de imágenes de fondo',
         'system_colorcode' => 'El código de color si la opción anterior está activada',
         'mail_salutation' => 'Estimado: nombre,',
-        'mail_footer' => 'Saludos cordiales',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Restablecer contraseña',
         'mail_password_reset' => 'Restablecer contraseña',
         'mail_password_reset_title' => 'Restablecer contraseña',
