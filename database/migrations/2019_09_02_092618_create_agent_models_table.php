@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -36,6 +36,7 @@ class CreateAgentModelsTable extends Migration
             $table->integer('user_id')->unsigned()->references('id')->on('users');
             $table->boolean('superadmin')->default(false);
             $table->boolean('mailonticketingroup')->default(false);
+            $table->boolean('hideclosedtickets')->default(false);
             $table->string('signature', 4096)->default('');
             $table->timestamps();
         });

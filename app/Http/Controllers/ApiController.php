@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -162,7 +162,7 @@ class ApiController extends Controller
                 $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
+            MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
 
             $agentInGroupIds = array();
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();

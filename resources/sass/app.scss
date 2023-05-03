@@ -1,7 +1,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -43,6 +43,10 @@ pre {
 textarea {
     line-height: 18px !important;
     padding: 10px !important;
+}
+
+.is-padding-wrapper {
+    padding: 12px;
 }
 
 //Global area
@@ -491,6 +495,11 @@ textarea {
     color: rgb(200, 200, 200);
     font-size: 0.8em;
 }
+.attachments-embed {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
 .attachments-delete {
     position: relative;
     display: inline-block;
@@ -657,7 +666,7 @@ textarea {
     border-radius: 25px;
 }
 .recover-pw {
-    font-size: 0.6em;
+    font-size: 1.0em;
 }
 .is-stretched {
     width: 100% !important;
@@ -949,6 +958,20 @@ textarea {
     margin-right: 15px;
     margin-bottom: 90px;
 }
+.button-signup {
+    width: 230px;
+    height: 53px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(76, 183, 255);
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 1.3em;
+}
+.button-signup:hover {
+    background-color: rgb(12, 155, 255);
+}
 
 //Imprint
 .imprint {
@@ -956,16 +979,16 @@ textarea {
 }
 .imprint-image {
     position: relative;
-    margin-right: 35px;
+    margin-right: 20px;
     display: inline-block;
 }
 .imprint-image img {
-    border-radius: 4px;
+    border-radius: 50%;
 }
 .imprint-info {
     position: relative;
     display: inline-block;
-    top: 20px;
+    top: 25px;
 }
 
 //Navbar
@@ -978,11 +1001,14 @@ a.navbar-item:hover {
     position: relative;
     width: 100%;
     height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
 }
 .clep-outer {
     width: 100%;
     height: 100%;
     padding: 0;
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 .clep-content {
     margin: 0;
@@ -996,6 +1022,10 @@ a.navbar-item:hover {
     font-size: 1.5em;
     margin-bottom: 45px;
 }
+.clep-input-transparent {
+    background-color: rgba(255, 255, 255, 0.3) !important;
+    border: 1px solid rgb(150, 150, 150) !important;
+}
 .clep-recover-top {
     position: relative;
     top: 12px;
@@ -1008,14 +1038,21 @@ a.navbar-item:hover {
 .clep-signup {
     font-size: 1.4em;
 }
+.clep-signup a, .clep-recover-top a {
+    color: rgb(34, 100, 155);
+}
+.clep-signup a:hover, .clep-recover-top a:hover {
+    color: rgb(34, 100, 155);
+    text-decoration: underline;
+}
 
 //Fade in
 .fade-in {
-    -webkit-animation: fadein 4s;
-    -moz-animation: fadein 4s;
-    -ms-animation: fadein 4s;
-    -o-animation: fadein 4s;
-    animation: fadein 4s;
+    -webkit-animation: fadein 3s;
+    -moz-animation: fadein 3s;
+    -ms-animation: fadein 3s;
+    -o-animation: fadein 3s;
+    animation: fadein 3s;
 }
 @keyframes fadein {
     from { opacity: 0; }

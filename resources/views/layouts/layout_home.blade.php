@@ -1,14 +1,14 @@
-<!--
+{{--
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
     Released under the MIT license
--->
+--}}
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
@@ -89,12 +89,12 @@
                         {{ __('app.home_api') }}
                     </a>
 
-                    <a class="navbar-item" href="{{ url('/imprint') }}">
-                        {{ __('app.home_imprint') }}
-                    </a>
-
                     <a class="navbar-item" href="{{ url('/tac') }}">
                         {{ __('app.home_tac') }}
+                    </a>
+
+                    <a class="navbar-item" href="{{ url('/imprint') }}">
+                        {{ __('app.home_imprint') }}
                     </a>
 
                     @if (env('APP_SUPPORT', null) !== null)
@@ -334,7 +334,7 @@
 
         <nav class="navbar is-fixed-bottom">
             <div class="home-copyright has-text-centered">
-                Copyright &copy; 2019 - {{ date('Y') }} by Daniel Brendel
+                Copyright &copy; 2019 - {{ date('Y') }} by {{ env('APP_AUTHOR') }}
             </div>
         </nav>
     </body>

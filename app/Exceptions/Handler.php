@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -39,32 +39,12 @@ class Handler extends ExceptionHandler
     ];
 
     /**
-     * Report or log an exception.
+     * Register the exception handling callbacks for the application.
      *
-     * @param  \Exception  $exception
      * @return void
      */
-    public function report(Exception $exception)
+    public function register()
     {
-        parent::report($exception);
-    }
-
-    /**
-     * Render an exception into an HTTP response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $exception
-     * @return \Illuminate\Http\Response
-     */
-    public function render($request, Exception $exception)
-    {
-        //Catch 404 error and load own view
-        if ($this->isHttpException($exception)) {
-            if ($exception->getStatusCode() == 404) {
-                return response()->view('error_404', [], 404);
-            }
-        }
-
-        return parent::render($request, $exception);
+        //
     }
 }

@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -20,7 +20,7 @@ use Auth;
 class WorkSpaceModel extends Model
 {
     protected $fillable = [
-        'name', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg', 'formtitle', 'ticketcreatedmsg', 'apitoken'
+        'name', 'slug', 'company', 'lang', 'usebgcolor', 'bgcolorcode', 'welcomemsg', 'formtitle', 'ticketcreatedmsg', 'apitoken'
     ];
 
     /**

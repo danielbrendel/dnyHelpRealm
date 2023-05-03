@@ -1,6 +1,6 @@
 # HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-(C) 2019 - 2021 by Daniel Brendel
+(C) 2019 - 2023 by Daniel Brendel
 
 **Version**: 1.0\
 **Contact**: dbrendel1988(at)gmail(dot)com\
@@ -10,12 +10,12 @@ Released under the MIT license
 
 ## Description:
 HelpRealm is a lightweight SaaS service support system for customers of entities. Customers can create support requests 
-via a personal workspace contact form, specifying text content and attachments. For each support request there is 
-a ticket created which is then handled by a registered agent. Tickets can be routed into different groups where initial 
-tickets are routed to a defined index group. Superadmins can manage agents, groups, FAQ and system settings. Customers and
-agents get notified about ticket events by e-mail. Communication is possible via e-mail or a secret ticket thread form. 
-The support system is especially suitable for freelancers and small teams. The system is specifically suited for freelancers
-and small teams.
+via a personal workspace contact form, specifying text content and attachments, or via E-Mail. For each support request 
+there is a ticket created which is then handled by a registered agent. Tickets can be routed into different groups where 
+initial tickets are routed to a defined index group. Superadmins can manage agents, groups, FAQ and system settings. 
+Customers and agents get notified about ticket events by e-mail. Communication is possible via e-mail or a secret ticket 
+thread form. There is also the possibility to create tickets via API. The support system is especially suitable for 
+freelancers and small teams.
 
 ## Feature overview:
 + Tickets
@@ -86,8 +86,10 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 ## Mailservice
 Agents and customers can post to a ticket thread by replying to the notification emails.
 In order for this to work the environment variables MAILSERV_* must be set. Also a cronjob
-must be activated on the server system which calls /mailservice/{password} (any request type).
-The password must match the one specified in the MAILSERV_CRONPW variable.
+must be activated on the server system which calls /mailservice/{what}/{password} (any request type).
+'what' refers to either 'self' (to handle the mailbox associated with the host support) or 
+'custom' (to handle all custom mailboxes of workspaces that use a custom mailbox). The password 
+must match the one specified in the MAILSERV_CRONPW variable.
 
 ## Twitter news
 By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 

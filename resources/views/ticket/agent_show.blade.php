@@ -1,14 +1,14 @@
-<!--
+{{--
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
     Released under the MIT license
--->
+--}}
 
 @extends('layouts.layout_agent', ['user' => $user, 'superadmin' => $superadmin])
 
@@ -111,15 +111,19 @@
                                         </div>
 
                                         <div class="attachments-link">
-                                            <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
+                                            <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>&nbsp;
                                         </div>
 
                                         <div class="attachments-info">
                                             {{ $file['size'] / 1000}}kb &#9679; {{ $file['ext'] }}
                                         </div>
 
+                                        <div class="attachments-embed">
+                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';" title="{{ __('app.embed_attachment') }}"></i>&nbsp;
+                                        </div>
+
                                         <div class="attachments-delete">
-                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
+                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;" title="{{ __('app.delete') }}"></i>
                                         </div>
                                     </div>
                                 @endforeach
@@ -185,7 +189,7 @@
                                 @csrf
 
                                 <div class="threadinput-text">
-                                    <textarea class="textarea" name="text" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;"></textarea>
+                                    <textarea class="textarea" name="text" id="threadinput-textarea" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;"></textarea>
                                 </div>
 
                                 <div class="threadinput-button">

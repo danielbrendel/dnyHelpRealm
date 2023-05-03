@@ -1,14 +1,14 @@
-<!--
+{{--
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
     GitHub: https://github.com/danielbrendel/
 
     Released under the MIT license
--->
+--}}
 
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
@@ -85,7 +85,7 @@
             <div class="mail-title">@yield('title')</div>
             <div class="mail-body">@yield('body')</div>
             <div class="mail-action">@yield('action')</div>
-            <div class="mail-footer">{{ __('app.mail_footer') }}<br/>{{ env('APP_NAME') }}</div>
+            <div class="mail-footer">{!! __('app.mail_footer', ['provider' => env('APP_NAME'), 'url' => url('/')]) !!}</div>
         </div>
     </body>
 </html>

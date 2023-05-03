@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -56,7 +56,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
-        $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
+        $agentUser = User::getAgent(auth()->id());
+
+        $tickets = TicketModel::queryAgentTickets($agentUser->id, $agentUser->hideclosedtickets);
 
         $groups = array();
         foreach ($tickets as $ticket)
@@ -68,12 +70,17 @@ class TicketController extends Controller
             array_push($groups, $item);
         }
 
-        $groupsofagent = AgentsHaveGroups::where('agent_id', '=', User::getAgent(auth()->id())->id)->get();
+        $groupsofagent = AgentsHaveGroups::where('agent_id', '=', $agentUser->id)->get();
         $grouptickets = array();
         foreach ($groupsofagent as $grp) {
             $gtcur = array();
             $gtcur['group'] = GroupsModel::where('id', '=', $grp->group_id)->first();
-            $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            if (!$agentUser->hideclosedtickets) {
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            } else {
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->where('status', '<>', 3)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            }
+            
             array_push($grouptickets, $gtcur);
         }
 
@@ -84,7 +91,7 @@ class TicketController extends Controller
             'tickets' => $tickets,
             'grouptickets' => $grouptickets,
             'groups' => $groups,
-            'superadmin' => User::getAgent(auth()->id())->superadmin
+            'superadmin' => $agentUser->superadmin
         ];
 
         return view('ticket.list', $attr);
@@ -358,7 +365,7 @@ class TicketController extends Controller
                 $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
+            MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
 
             $agentInGroupIds = array();
             $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
@@ -439,12 +446,12 @@ class TicketController extends Controller
         $data = TicketModel::create($attr);
         if ($data) {
             if ($ws->emailconfirm) {
-                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
             } else {
-                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
-            MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
+            MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
 
             return redirect('/' . $ws->name . '/ticket/' . $data->id . '/show/')->with('success', __('app.ticket_created'));
         } else {
@@ -833,7 +840,7 @@ class TicketController extends Controller
 
             $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $sender->surname . ' ' . $sender->lastname, 'message' => $attr['text']])->render();
 
-            MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
+            MailerModel::sendMail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_agent_replied') . ' [ID:' . $ticket->hash .  ']', $htmlCode);
 
             return redirect('/' . $workspace . '/ticket/' . $id . '/show#thread-post-' . $data->id)->with('success', __('app.ticket_comment_added'));
         } else {
@@ -897,7 +904,7 @@ class TicketController extends Controller
             $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
             if ($assignee != null) {
                 $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $updTicket->id, 'message' => $attr['text'], 'customer' => $updTicket->name])->render();
-                MailerModel::sendMail($assignee->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
+                MailerModel::sendMail($assignee->email, '[' . $ws->company . '] ' . __('app.mail_ticket_customer_replied') . ' [ID:' . $ticket->hash .  ']', $htmlCode);
 
                 PushModel::addNotification(__('app.mail_ticket_customer_replied'), $attr['text'], $assignee->user_id);
             }

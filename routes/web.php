@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -32,6 +32,7 @@ Route::get('/confirm', 'MainController@confirm');
 Route::get('/clep/index', 'MainController@clep_index');
 Route::get('/clep/notifications', 'MainController@clep_notifications');
 Route::get('/clep/statistics', 'MainController@clep_statistics');
+Route::any('/clep/device/token', 'MainController@clep_devicetoken');
 
 Route::get('/{workspace}/agent/list', 'AgentController@viewList');
 Route::get('/{workspace}/agent/{id}/show', 'AgentController@viewShow');

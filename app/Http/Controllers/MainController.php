@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -49,7 +49,10 @@ class MainController extends Controller
     {
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
+            $ws = WorkSpaceModel::where('slug', '=', $workspace)->where('deactivated', '=', false)->first();
+            if ($ws === null) {
+                return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
+            }
         }
 
         if ((Auth::guest()) || (request('v') === 'c')) {
@@ -118,12 +121,12 @@ class MainController extends Controller
         $captchadata = CaptchaModel::createSum(session()->getId());
 
 		if (env('APP_SHOWSTATISTICS')) {
-		    $oneDay = 60 * 60 * 24;
+		    $timeToKeepCache = (int)env('APP_STATSCACHETIME', 60 * 24) * 60;
 
-			$count_workspaces = Cache::remember('count_workspaces', $oneDay, function() { return WorkSpaceModel::count(); });
-			$count_tickets = Cache::remember('count_tickets', $oneDay, function() { return TicketModel::count(); });
-			$count_agents = Cache::remember('count_agents', $oneDay, function() { return AgentModel::count(); });
-			$count_clients = Cache::remember('count_clients', $oneDay, function() { return TicketModel::distinct('email')->count('email'); });
+			$count_workspaces = Cache::remember('count_workspaces', $timeToKeepCache, function() { return WorkSpaceModel::count(); });
+			$count_tickets = Cache::remember('count_tickets', $timeToKeepCache, function() { return TicketModel::count(); });
+			$count_agents = Cache::remember('count_agents', $timeToKeepCache, function() { return AgentModel::count(); });
+			$count_clients = Cache::remember('count_clients', $timeToKeepCache, function() { return TicketModel::distinct('email')->count('email'); });
 		} else {
             $count_workspaces = null;
             $count_tickets = null;
@@ -429,10 +432,15 @@ class MainController extends Controller
         $attr['formtitle'] = __('app.ticket_create');
         $attr['ticketcreatedmsg'] = __('app.ticket_created_customer_notconfirm');
 
+        $attr['slug'] = $attr['name'];
+
         $workspace = WorkSpaceModel::create($attr);
         if ($workspace === null) {
             return back()->with('error', __('app.workspace_creation_failed'));
         }
+
+        $workspace->slug = \Str::slug($attr['company'] . '-' . strval($workspace->id) . strval(rand(10, 100)));
+        $workspace->save();
 
         $user = new \App\User;
         $user->workspace = $workspace->id;
@@ -445,7 +453,7 @@ class MainController extends Controller
         $user->language = 'en';
         $user->save();
 
-        if (strpos($attr['name'], ' ') !== false) {
+        if (strpos($attr['fullname'], ' ') !== false) {
             $surname = substr($attr['fullname'], 0, strpos($attr['fullname'], ' '));
             $lastname = substr($attr['fullname'], strpos($attr['fullname'], ' ') + 1);
         } else {
@@ -621,5 +629,32 @@ class MainController extends Controller
         );
 
         return response()->json(array('code' => 200, 'data' => $data));
+    }
+
+    /**
+     * Client endpoint: statistics
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clep_devicetoken()
+    {
+        if (Auth::guest()) {
+            return response()->json(array('code' => 403));
+        }
+
+        $device_token = request('token', null);
+        if ((!is_string($device_token)) || (strlen($device_token) == 0)) {
+            return response()->json(array('code' => 500));
+        }
+
+        $user = User::where('id', '=', auth()->id())->first();
+        if (!$user) {
+            return response()->json(array('code' => 500));
+        }
+
+        $user->device_token = $device_token;
+        $user->save();
+
+        return response()->json(array('code' => 200));
     }
 }

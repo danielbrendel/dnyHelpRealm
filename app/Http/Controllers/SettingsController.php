@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -108,6 +108,7 @@ class SettingsController extends Controller
             'password' => 'nullable',
             'password_confirm' => 'nullable',
             'mailonticketingroup' => 'nullable|numeric',
+            'hideclosedtickets' => 'nullable|numeric',
             'signature' => 'nullable|max:4096'
         ]);
 
@@ -125,6 +126,7 @@ class SettingsController extends Controller
             $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         }
         if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
+        if (isset($attr['hideclosedtickets'])) $agent->hideclosedtickets = $attr['hideclosedtickets']; else $agent->hideclosedtickets = false;
         if (isset($attr['signature'])) $agent->signature = $attr['signature']; else $agent->signature = '';
 
         $user->save();
@@ -366,6 +368,10 @@ class SettingsController extends Controller
 
         if (!isset($attr['bgcolorcode'])) {
             $attr['bgcolorcode'] = '#E5E5E6';
+        }
+
+        if ((isset($attr['company'])) && (trim(strtolower($attr['company'])) !== trim(strtolower($ws->company)))) {
+            $ws->slug = \Str::slug($attr['company'] . '-' . strval($ws->id) . strval(rand(10, 100)));
         }
 
         if (isset($attr['company'])) $ws->company = $attr['company'];

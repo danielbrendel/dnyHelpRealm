@@ -3,7 +3,7 @@
 /*
     HelpRealm (dnyHelpRealm) developed by Daniel Brendel
 
-    (C) 2019 - 2021 by Daniel Brendel
+    (C) 2019 - 2023 by Daniel Brendel
 
      Version: 1.0
     Contact: dbrendel1988<at>gmail<dot>com
@@ -92,13 +92,13 @@ class MailserviceModel extends Model
                         if ($idPos !== false) {
                             $ticketHash = '';
                             for ($i = $idPos + 4; $i < strlen($subject); $i++) {
-                                if ($subject[$i] === ']') {
+                                if (substr($subject, $i, 1) === ']') {
                                     break;
                                 }
 
-                                $ticketHash .= $subject[$i];
+                                $ticketHash .= substr($subject, $i, 1);
                             }
-
+                            
                             $ticket = TicketModel::where('hash', '=', $ticketHash)->where('status', '<>', 3)->first();
                             if ($ticket !== null) {
                                 $resultArrItem = array();
@@ -120,7 +120,7 @@ class MailserviceModel extends Model
                                     $resultArrItem['_confirm'] = true;
                                     if ($ws !== null) {
                                         $htmlCode = view('mail.ticket_confirmed_email')->render();
-                                        MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success'), 0, 15), $htmlCode);
+                                        MailerModel::sendMail($ticket->email, '[' . $ws->company . '] ' . substr(__('app.ticket_customer_confirm_success') . ' [ID:' . $ticket->hash .  ']', 0, 15), $htmlCode);
                                     }
                                     $resultArray[] = $resultArrItem;
                                     continue;
@@ -194,12 +194,12 @@ class MailserviceModel extends Model
                                     if ($ws !== null) {
                                         if ($isAgent !== null) {
                                             $htmlCode = view('mail.ticket_reply_agent', ['workspace' => $ws->name, 'name' => $ticket->name, 'hash' => $ticket->hash, 'agent' => $isAgent->surname . ' ' . $isAgent->lastname, 'message' => $message->getTextBody()])->render();
-                                            MailerModel::sendMail($ticket->email, '[ID:' . $ticket->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_agent_replied'), $htmlCode);
+                                            MailerModel::sendMail($ticket->email, '[' . $ws->company . '] ' . __('app.mail_ticket_agent_replied') . ' [ID:' . $ticket->hash .  ']', $htmlCode);
                                         } else {
                                             $assignee = AgentModel::where('id', '=', $ticket->assignee)->first();
                                             if ($assignee !== null) {
                                                 $htmlCode = view('mail.ticket_reply_customer', ['workspace' => $ws->name, 'name' => $assignee->surname . ' ' . $assignee->lastname, 'id' => $ticket->id, 'customer' => $ticket->name, 'message' => $message->getTextBody()])->render();
-                                                MailerModel::sendMail($assignee->email, '[ID:' . $ticketHash . '][' . $ws->company . '] ' . __('app.mail_ticket_customer_replied'), $htmlCode);
+                                                MailerModel::sendMail($assignee->email, '[' . $ws->company . '] ' . __('app.mail_ticket_customer_replied') . ' [ID:' . $ticketHash . ']', $htmlCode);
                                             }
                                         }
                                     }
@@ -306,7 +306,7 @@ class MailserviceModel extends Model
                                             $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
                                         }
 
-                                        MailerModel::sendMail($attr['email'], '[ID:' . $data->hash .  '][' . $ws->company . '] ' . __('app.mail_ticket_creation'), $htmlCode);
+                                        MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
 
                                         $agentInGroupIds = array();
                                         $agentsInGroup = AgentsHaveGroups::where('group_id', '=', $attr['group'])->get();
