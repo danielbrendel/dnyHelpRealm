@@ -311,7 +311,7 @@
         'system_usebgcolor' => 'Использовать простой цвет фона вместо фоновых изображений',
         'system_colorcode' => 'Код цвета, если опция выше активирована',
         'mail_salutation' => 'Dear: name,',
-        'mail_footer' => 'С уважением,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Сброс пароля',
         'mail_password_reset' => 'Сбросить пароль',
         'mail_password_reset_title' => 'Сброс пароля',
