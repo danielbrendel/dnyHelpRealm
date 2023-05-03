@@ -111,7 +111,7 @@
                                         </div>
 
                                         <div class="attachments-link">
-                                            <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>
+                                            <a class="is-breakall" href="{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}" title="{{ $file['item']->file }}"><?php if (strlen($file['item']->file) > 15) { echo substr($file['item']->file, 0, 15) . '...'; } else { echo $file['item']->file;} ?></a>&nbsp;
                                         </div>
 
                                         <div class="attachments-info">
@@ -119,7 +119,7 @@
                                         </div>
 
                                         <div class="attachments-embed">
-                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';" title="{{ __('app.embed_attachment') }}"></i>
+                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';" title="{{ __('app.embed_attachment') }}"></i>&nbsp;
                                         </div>
 
                                         <div class="attachments-delete">
