@@ -118,12 +118,12 @@ class MainController extends Controller
         $captchadata = CaptchaModel::createSum(session()->getId());
 
 		if (env('APP_SHOWSTATISTICS')) {
-		    $oneDay = 60 * 60 * 24;
+		    $timeToKeepCache = (int)env('APP_STATSCACHETIME', 60 * 24) * 60;
 
-			$count_workspaces = Cache::remember('count_workspaces', $oneDay, function() { return WorkSpaceModel::count(); });
-			$count_tickets = Cache::remember('count_tickets', $oneDay, function() { return TicketModel::count(); });
-			$count_agents = Cache::remember('count_agents', $oneDay, function() { return AgentModel::count(); });
-			$count_clients = Cache::remember('count_clients', $oneDay, function() { return TicketModel::distinct('email')->count('email'); });
+			$count_workspaces = Cache::remember('count_workspaces', $timeToKeepCache, function() { return WorkSpaceModel::count(); });
+			$count_tickets = Cache::remember('count_tickets', $timeToKeepCache, function() { return TicketModel::count(); });
+			$count_agents = Cache::remember('count_agents', $timeToKeepCache, function() { return AgentModel::count(); });
+			$count_clients = Cache::remember('count_clients', $timeToKeepCache, function() { return TicketModel::distinct('email')->count('email'); });
 		} else {
             $count_workspaces = null;
             $count_tickets = null;
