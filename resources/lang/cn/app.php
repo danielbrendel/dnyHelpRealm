@@ -311,7 +311,7 @@
         'system_usebgcolor'=>'使用纯背景色代替背景图片',
         'system_colorcode'=>'如果上面的选项被激活,则颜色代码',
         'mail_salutation'=>'亲爱的：名字,',
-        'mail_footer'=>'亲切的问候',
+        'mail_footer'=>'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject'=>'密码重置',
         'mail_password_reset'=>'重置密码',
         'mail_password_reset_title'=>'密码重置',
