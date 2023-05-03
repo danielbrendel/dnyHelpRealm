@@ -9275,6 +9275,10 @@ textarea {
   padding: 10px !important;
 }
 
+.is-padding-wrapper {
+  padding: 12px;
+}
+
 .feedback-error {
   position: fixed;
   left: 20%;

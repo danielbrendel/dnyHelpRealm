@@ -417,5 +417,8 @@
         'account_deleted' => 'Account deleted',
         'mailservice_timeout_subject' => 'Mailservice usage deactivated',
         'mail_mailservice_timeout_title' => 'Mailservice usage deactivated for :company',
-        'mail_mailservice_timeout_body' => 'Your usage of your custom mailservice has been deactivated after :count times trying to connect. Please check if host :hostname is actually reachable and check if it works with ' . env('MAILSERV_PROTOCOL') . ' on port ' . env('MAILSERV_PORT') . ' using encryption type ' . env('MAILSERV_ENCRYPTION') . '. After that go to your system settings and reactivate the mailservice usage.'
+        'mail_mailservice_timeout_body' => 'Your usage of your custom mailservice has been deactivated after :count times trying to connect. Please check if host :hostname is actually reachable and check if it works with ' . env('MAILSERV_PROTOCOL') . ' on port ' . env('MAILSERV_PORT') . ' using encryption type ' . env('MAILSERV_ENCRYPTION') . '. After that go to your system settings and reactivate the mailservice usage.',
+        'general' => 'General',
+        'membership' => 'Membership',
+        'tickets' => 'Tickets'
     ];
