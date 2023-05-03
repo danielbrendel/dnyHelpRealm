@@ -56,6 +56,12 @@
                             </div>
 
                             <div class="field">
+                                <div class="control">
+                                    <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.settings_hideclosedtickets') }}" name="hideclosedtickets" value="1" <?php if ((bool)$agent->hideclosedtickets === true) echo 'checked'; ?>/>
+                                </div>
+                            </div>
+
+                            <div class="field">
                                 <label class="label">{{ __('app.settings_signature') }}</label>
                                 <div class="control">
                                     <textarea name="signature" class="textarea">{{ $agent->signature }}</textarea>

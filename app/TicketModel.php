@@ -29,13 +29,18 @@ class TicketModel extends Model
      * Query tickets of agent
      *
      * @param int $ag The assignee agent ID
+     * @param bool $filter_closed If closed tickets shall not be included
      * @return mixed
      */
-    public static function queryAgentTickets($ag)
+    public static function queryAgentTickets($ag, $filter_closed = false)
     {
-        $tickets = TicketModel::where('assignee', '=', $ag)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+        $tickets = TicketModel::where('assignee', '=', $ag);
 
-        return $tickets;
+        if ($filter_closed) {
+            $tickets->where('status', '<>', 3);
+        }
+
+        return $tickets->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
     }
 
     /**

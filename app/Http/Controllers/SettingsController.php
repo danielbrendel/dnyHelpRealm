@@ -108,6 +108,7 @@ class SettingsController extends Controller
             'password' => 'nullable',
             'password_confirm' => 'nullable',
             'mailonticketingroup' => 'nullable|numeric',
+            'hideclosedtickets' => 'nullable|numeric',
             'signature' => 'nullable|max:4096'
         ]);
 
@@ -125,6 +126,7 @@ class SettingsController extends Controller
             $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         }
         if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
+        if (isset($attr['hideclosedtickets'])) $agent->hideclosedtickets = $attr['hideclosedtickets']; else $agent->hideclosedtickets = false;
         if (isset($attr['signature'])) $agent->signature = $attr['signature']; else $agent->signature = '';
 
         $user->save();

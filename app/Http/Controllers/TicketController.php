@@ -56,7 +56,9 @@ class TicketController extends Controller
             return back()->with('error', __('app.workspace_not_found_or_deactivated'));
         }
 
-        $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
+        $agentUser = User::getAgent(auth()->id());
+
+        $tickets = TicketModel::queryAgentTickets($agentUser->id, $agentUser->hideclosedtickets);
 
         $groups = array();
         foreach ($tickets as $ticket)
@@ -68,12 +70,17 @@ class TicketController extends Controller
             array_push($groups, $item);
         }
 
-        $groupsofagent = AgentsHaveGroups::where('agent_id', '=', User::getAgent(auth()->id())->id)->get();
+        $groupsofagent = AgentsHaveGroups::where('agent_id', '=', $agentUser->id)->get();
         $grouptickets = array();
         foreach ($groupsofagent as $grp) {
             $gtcur = array();
             $gtcur['group'] = GroupsModel::where('id', '=', $grp->group_id)->first();
-            $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            if (!$agentUser->hideclosedtickets) {
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            } else {
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->where('status', '<>', 3)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+            }
+            
             array_push($grouptickets, $gtcur);
         }
 
@@ -84,7 +91,7 @@ class TicketController extends Controller
             'tickets' => $tickets,
             'grouptickets' => $grouptickets,
             'groups' => $groups,
-            'superadmin' => User::getAgent(auth()->id())->superadmin
+            'superadmin' => $agentUser->superadmin
         ];
 
         return view('ticket.list', $attr);
