@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'Użyj zwykłego koloru tła zamiast obrazów tła',
         'system_colorcode' => 'Kod koloru, jeśli aktywowano powyższą opcję',
         'mail_salutation' => 'Drogi: imię',
-        'mail_footer' => 'Z poważaniem',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Resetowanie hasła',
         'mail_password_reset' => 'Resetuj hasło',
         'mail_password_reset_title' => 'Resetowanie hasła',
