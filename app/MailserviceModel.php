@@ -92,13 +92,13 @@ class MailserviceModel extends Model
                         if ($idPos !== false) {
                             $ticketHash = '';
                             for ($i = $idPos + 4; $i < strlen($subject); $i++) {
-                                if ($subject[$i] === ']') {
+                                if (substr($subject, $i, 1) === ']') {
                                     break;
                                 }
 
-                                $ticketHash .= $subject[$i];
+                                $ticketHash .= substr($subject, $i, 1);
                             }
-
+                            
                             $ticket = TicketModel::where('hash', '=', $ticketHash)->where('status', '<>', 3)->first();
                             if ($ticket !== null) {
                                 $resultArrItem = array();
