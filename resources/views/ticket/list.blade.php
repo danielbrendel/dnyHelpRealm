@@ -20,8 +20,8 @@
                     <div class="window-item-header-body">
                         <div class="tabs">
                             <ul>
-                                <li id="tabGroupTickets" class="is-active"><a href="javascript:void(0);" onclick="window.showTabMenu('tabGroupTickets');">{{ __('app.tickets_group') }}</a></li>
-                                <li id="tabAgentTickets"><a href="javascript:void(0);" onclick="window.showTabMenu('tabAgentTickets');">{{ __('app.your_tickets') }}</a></li>
+                                <li id="tabGroupTickets" class="is-active"><a href="javascript:void(0);" onclick="window.showTabMenu('tabGroupTickets'); window.currentTicketTab = 'tabGroupTickets';">{{ __('app.tickets_group') }}</a></li>
+                                <li id="tabAgentTickets"><a href="javascript:void(0);" onclick="window.showTabMenu('tabAgentTickets'); window.currentTicketTab = 'tabAgentTickets';">{{ __('app.your_tickets') }}</a></li>
                             </ul>
                         </div>
                     </div>
@@ -168,6 +168,8 @@
 @endsection
 
 @section('javascript')
+    window.currentTicketTab = '{{ ((isset($_GET['tab'])) ? $_GET['tab'] : 'tabGroupTickets') }}';
+
     window.showTabMenu = function(target) {
         let tabItems = ['tabGroupTickets', 'tabAgentTickets'];
 
@@ -184,7 +186,18 @@
 
     const refresh_timeout = 1000 * 60 * 5;
 
-    function autoRefresh() { location.reload(); setTimeout('autoRefresh()', refresh_timeout); }
+    function autoRefresh()
+    { 
+        location.href = '{{ url('/' . $workspace . '/ticket/list') }}?tab=' + window.currentTicketTab;
+        
+        setTimeout('autoRefresh()', refresh_timeout); 
+    }
 
     setTimeout('autoRefresh()', refresh_timeout);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        @if (isset($_GET['tab']))
+            window.showTabMenu('{{ $_GET['tab'] }}');
+        @endif
+    });
 @endsection
