@@ -453,7 +453,7 @@ class MainController extends Controller
         $user->language = 'en';
         $user->save();
 
-        if (strpos($attr['name'], ' ') !== false) {
+        if (strpos($attr['fullname'], ' ') !== false) {
             $surname = substr($attr['fullname'], 0, strpos($attr['fullname'], ' '));
             $lastname = substr($attr['fullname'], strpos($attr['fullname'], ' ') + 1);
         } else {
