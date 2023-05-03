@@ -306,7 +306,7 @@
         'system_usebgcolor' => 'Χρησιμοποιήστε ένα απλό χρώμα φόντου αντί για εικόνες φόντου',
         'system_colorcode' => 'Ο κωδικός χρώματος εάν είναι ενεργοποιημένη η παραπάνω επιλογή',
         'mail_salutation' => 'Αγαπητέ: όνομα,',
-        'mail_footer' => 'Ευγενικά,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Επαναφορά κωδικού πρόσβασης',
         'mail_password_reset' => 'Επαναφορά κωδικού πρόσβασης',
         'mail_password_reset_title' => 'Επαναφορά κωδικού πρόσβασης',
