@@ -85,7 +85,7 @@
             <div class="mail-title">@yield('title')</div>
             <div class="mail-body">@yield('body')</div>
             <div class="mail-action">@yield('action')</div>
-            <div class="mail-footer">{{ __('app.mail_footer') }}<br/>{{ env('APP_NAME') }}</div>
+            <div class="mail-footer">{!! __('app.mail_footer', ['provider' => env('APP_NAME'), 'url' => url('/')]) !!}</div>
         </div>
     </body>
 </html>
