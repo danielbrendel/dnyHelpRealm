@@ -311,7 +311,7 @@
         'system_usebgcolor' => 'Utiliser une couleur d\'arrière-plan simple au lieu d\'images d\'arrière-plan',
         'system_colorcode' => 'Le code couleur si l\'option ci-dessus est activée',
         'mail_salutation' => 'Cher :name,',
-        'mail_footer' => 'Cordialement,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Réinitialisation du mot de passe',
         'mail_password_reset' => 'Réinitialiser le mot de passe',
         'mail_password_reset_title' => 'Réinitialisation du mot de passe',
