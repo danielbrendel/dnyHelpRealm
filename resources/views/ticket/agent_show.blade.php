@@ -119,11 +119,11 @@
                                         </div>
 
                                         <div class="attachments-embed">
-                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';"></i>
+                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';" title="{{ __('app.embed_attachment') }}"></i>
                                         </div>
 
                                         <div class="attachments-delete">
-                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
+                                            <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;" title="{{ __('app.delete') }}"></i>
                                         </div>
                                     </div>
                                 @endforeach
