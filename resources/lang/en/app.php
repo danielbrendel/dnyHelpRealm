@@ -421,5 +421,6 @@
         'general' => 'General',
         'membership' => 'Membership',
         'tickets' => 'Tickets',
-        'embed_attachment' => 'Embed'
+        'embed_attachment' => 'Embed',
+        'settings_hideclosedtickets' => 'Hide closed tickets in lists'
     ];
