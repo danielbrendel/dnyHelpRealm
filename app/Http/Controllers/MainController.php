@@ -49,7 +49,10 @@ class MainController extends Controller
     {
         $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
         if ($ws === null) {
-            return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
+            $ws = WorkSpaceModel::where('slug', '=', $workspace)->where('deactivated', '=', false)->first();
+            if ($ws === null) {
+                return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
+            }
         }
 
         if ((Auth::guest()) || (request('v') === 'c')) {
@@ -429,10 +432,15 @@ class MainController extends Controller
         $attr['formtitle'] = __('app.ticket_create');
         $attr['ticketcreatedmsg'] = __('app.ticket_created_customer_notconfirm');
 
+        $attr['slug'] = $attr['name'];
+
         $workspace = WorkSpaceModel::create($attr);
         if ($workspace === null) {
             return back()->with('error', __('app.workspace_creation_failed'));
         }
+
+        $workspace->slug = \Str::slug($attr['company'] . '-' . strval($workspace->id) . strval(rand(10, 100)));
+        $workspace->save();
 
         $user = new \App\User;
         $user->workspace = $workspace->id;

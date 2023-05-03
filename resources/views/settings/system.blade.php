@@ -36,7 +36,7 @@
                         </div>
 
                         <div id="tabGeneral-form">
-                            <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $workspace . '?v=c') }}" class="is-wordbreak" target="_blank">{{ url('/' . $workspace) }}</a>
+                            <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $ws->slug . '?v=c') }}" class="is-wordbreak" target="_blank">{{ url('/' . $ws->slug) }}</a>
                             <br/><br/>
 
                             <span><i class="far fa-file-pdf"></i> <a href="{{ url('/data/documentation.pdf') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>

@@ -28,6 +28,7 @@ class CreateWorkSpaceModelsTable extends Migration
         Schema::create('work_space_models', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('slug');
             $table->string('company');
             $table->string('lang');
             $table->boolean('usebgcolor');

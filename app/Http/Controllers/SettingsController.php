@@ -368,6 +368,10 @@ class SettingsController extends Controller
             $attr['bgcolorcode'] = '#E5E5E6';
         }
 
+        if ((isset($attr['company'])) && (trim(strtolower($attr['company'])) !== trim(strtolower($ws->company)))) {
+            $ws->slug = \Str::slug($attr['company'] . '-' . strval($ws->id) . strval(rand(10, 100)));
+        }
+
         if (isset($attr['company'])) $ws->company = $attr['company'];
         if (isset($attr['lang'])) $ws->lang = $attr['lang'];
         if (isset($attr['usebgcolor'])) $ws->usebgcolor = (bool)$attr['usebgcolor'];
