@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'पृष्ठभूमि चित्रों के बजाय सादे पृष्ठभूमि रंग का उपयोग करें',
         'system_colorcode' => 'उपरोक्त विकल्प सक्रिय होने पर रंग कोड',
         'mail_salutation' => 'प्रिय: नाम,',
-        'mail_footer' => 'का संबंध है,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'पासवर्ड रीसेट',
         'mail_password_reset' => 'पासवर्ड रीसेट करें',
         'mail_password_reset_title' => 'पासवर्ड रीसेट',
