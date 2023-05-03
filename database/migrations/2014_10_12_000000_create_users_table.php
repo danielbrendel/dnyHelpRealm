@@ -38,6 +38,7 @@ class CreateUsersTable extends Migration
             $table->integer('workspace');
             $table->string('language')->default('en');
             $table->string('avatar');
+            $table->string('device_token')->nullable();
             $table->boolean('deactivated')->default(false);
             $table->timestamps();
         });

@@ -630,4 +630,31 @@ class MainController extends Controller
 
         return response()->json(array('code' => 200, 'data' => $data));
     }
+
+    /**
+     * Client endpoint: statistics
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function clep_devicetoken()
+    {
+        if (Auth::guest()) {
+            return response()->json(array('code' => 403));
+        }
+
+        $device_token = request('token', null);
+        if ((!is_string($device_token)) || (strlen($device_token) == 0)) {
+            return response()->json(array('code' => 500));
+        }
+
+        $user = User::where('id', '=', auth()->id())->first();
+        if (!$user) {
+            return response()->json(array('code' => 500));
+        }
+
+        $user->device_token = $device_token;
+        $user->save();
+
+        return response()->json(array('code' => 200));
+    }
 }
