@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'Použít jasnou barvu pozadí namísto obrázků na pozadí',
         'system_colorcode' => 'Barevný kód, pokud je aktivována výše uvedená možnost',
         'mail_salutation' => 'Vážení: jméno,',
-        'mail_footer' => 'S pozdravem,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Reset hesla',
         'mail_password_reset' => 'Resetovat heslo',
         'mail_password_reset_title' => 'Reset hesla',
