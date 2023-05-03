@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'Brug en almindelig baggrundsfarve i stedet for baggrundsbilleder',
         'system_colorcode' => 'Farvekoden, hvis ovenstående mulighed er aktiveret',
         'mail_salutation' => 'Kære: navn,',
-        'mail_footer' => 'Venlig hilsen',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Nulstil adgangskode',
         'mail_password_reset' => 'Nulstil adgangskode',
         'mail_password_reset_title' => 'Nulstilling af adgangskode',
