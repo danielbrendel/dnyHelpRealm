@@ -9801,6 +9801,12 @@ textarea {
   font-size: 0.8em;
 }
 
+.attachments-embed {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
 .attachments-delete {
   position: relative;
   display: inline-block;

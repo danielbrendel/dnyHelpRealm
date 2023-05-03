@@ -118,6 +118,10 @@
                                             {{ $file['size'] / 1000}}kb &#9679; {{ $file['ext'] }}
                                         </div>
 
+                                        <div class="attachments-embed">
+                                            <i class="fas fa-file-import" onclick="document.getElementById('threadinput-textarea').value += '\r\n{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/get') }}\r\n';"></i>
+                                        </div>
+
                                         <div class="attachments-delete">
                                             <i class="fas fa-trash-alt" onclick="vue.currentDeleteFile = '{{ url('/' . $workspace . '/ticket/' . $ticket->hash . '/file/' . $file['item']->id . '/delete') }}'; vue.bShowFileDelete = true;"></i>
                                         </div>
@@ -185,7 +189,7 @@
                                 @csrf
 
                                 <div class="threadinput-text">
-                                    <textarea class="textarea" name="text" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;"></textarea>
+                                    <textarea class="textarea" name="text" id="threadinput-textarea" placeholder="{{ __('app.input_your_text') }}" onkeyup="document.getElementById('rc').innerHTML = 4096 - this.value.length;"></textarea>
                                 </div>
 
                                 <div class="threadinput-button">
