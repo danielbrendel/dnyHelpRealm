@@ -305,7 +305,7 @@
         'system_usebgcolor' => 'Use uma cor de plano de fundo simples em vez de imagens de plano de fundo',
         'system_colorcode' => 'O código de cor se a opção acima estiver ativada',
         'mail_salutation' => 'Prezado: nome,',
-        'mail_footer' => 'Atenciosamente',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Redefinição de senha',
         'mail_password_reset' => 'Redefinir senha',
         'mail_password_reset_title' => 'Redefinição de senha',
