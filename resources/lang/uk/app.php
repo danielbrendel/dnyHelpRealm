@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'Використовувати звичайний колір фону замість фонових зображень',
         'system_colorcode' => 'Код кольору, якщо активовано вище варіант',
         'mail_salutation' => 'Шановний: ім\'я,',
-        'mail_footer' => 'З повагою,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Скидання пароля',
         'mail_password_reset' => 'Скинути пароль',
         'mail_password_reset_title' => 'Скидання пароля',
