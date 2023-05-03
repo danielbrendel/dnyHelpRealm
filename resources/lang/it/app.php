@@ -312,7 +312,7 @@
         'system_usebgcolor' => 'Usa un colore di sfondo semplice invece delle immagini di sfondo',
         'system_colorcode' => 'Il codice colore se l\'opzione sopra è attivata',
         'mail_salutation' => 'Gentile: nome,',
-        'mail_footer' => 'Kind regards,',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Reimpostazione password',
         'mail_password_reset' => 'Reimposta password',
         'mail_password_reset_title' => 'Reimpostazione password',
