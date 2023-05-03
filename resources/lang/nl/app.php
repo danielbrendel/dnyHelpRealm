@@ -311,7 +311,7 @@
         'system_usebgcolor' => 'Gebruik een effen achtergrondkleur in plaats van achtergrondafbeeldingen',
         'system_colorcode' => 'De kleurcode als bovenstaande optie is geactiveerd',
         'mail_salutation' => 'Beste: naam',
-        'mail_footer' => 'Vriendelijke groeten',
+        'mail_footer' => 'Powered by <a href=":url">:provider</a>',
         'mail_password_reset_subject' => 'Wachtwoord opnieuw instellen',
         'mail_password_reset' => 'Reset wachtwoord',
         'mail_password_reset_title' => 'Wachtwoord opnieuw instellen',
