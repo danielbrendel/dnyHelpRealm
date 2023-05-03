@@ -439,9 +439,9 @@ class TicketController extends Controller
         $data = TicketModel::create($attr);
         if ($data) {
             if ($ws->emailconfirm) {
-                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
+                $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
             } else {
-                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
+                $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
             }
 
             MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
