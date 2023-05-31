@@ -875,12 +875,12 @@ textarea {
 	font-weight: bold;
 }
 .cookie-consent-bottombox-outer {
-    position: absolute;
-    bottom: 0;
+    position: fixed;
+    bottom: 15px;
     left: 14px;
     width: 300px;
     height: auto;
-    z-index: 4;
+    z-index: 100;
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: rgb(240, 240, 240);

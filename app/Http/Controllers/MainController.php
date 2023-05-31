@@ -51,7 +51,7 @@ class MainController extends Controller
         if ($ws === null) {
             $ws = WorkSpaceModel::where('slug', '=', $workspace)->where('deactivated', '=', false)->first();
             if ($ws === null) {
-                return redirect('/')->with('error', __('app.workspace_not_found_or_deactivated'));
+                return redirect('/')/*->with('error', __('app.workspace_not_found_or_deactivated'))*/;
             }
         }
 

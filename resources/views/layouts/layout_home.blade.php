@@ -119,6 +119,24 @@
                 </div>
             </nav>
 
+            <div class="cookie-consent-bottombox-outer" id="cookie-consent">
+                <div class="cookie-consent-bottombox-inner">
+                    <div class="cookie-consent-text">
+                        {!! __('app.cookie_consent') !!}
+
+                        @if (env('GA_TOKEN') !== null)
+                            <br/>
+
+                            {!! __('app.cookie_tracking') !!}
+                        @endif
+                    </div>
+
+                    <div class="cookie-consent-button">
+                        <button type="button" onclick="vue.clickedCookieConsentButton()">{{ __('app.ok') }}</button>
+                    </div>
+                </div>
+            </div>
+
             <div class="home-content">
                 <div class="container">
                     @if ($errors->any())
@@ -169,24 +187,6 @@
                     @endif
 
                     @yield('content')
-
-                    <div class="cookie-consent-outer">
-                        <div id="cookie-consent" class="cookie-consent-inner">
-                            <div class="cookie-consent-text">
-                                {!! __('app.cookie_consent') !!}
-
-                                @if (env('GA_TOKEN') !== null)
-                                    <br/>
-
-                                    {!! __('app.cookie_tracking') !!}
-                                @endif
-                            </div>
-
-                            <div class="cookie-consent-button">
-                                <button type="button" onclick="vue.clickedCookieConsentButton()">{{ __('app.ok') }}</button>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
