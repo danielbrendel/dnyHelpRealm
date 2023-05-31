@@ -28,6 +28,7 @@
         'home_news' => 'News',
         'home_welcomemsg' => 'Sign up and start supporting your customers',
         'imprint_headline' => 'This service is brought to you by:',
+        'workspace' => 'Workspace',
         'register' => 'Sign up',
         'register_company' => 'Your company name',
         'register_name' => 'Your full name',

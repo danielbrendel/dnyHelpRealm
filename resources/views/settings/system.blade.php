@@ -279,7 +279,14 @@
                                 <strong>{{ __('app.system_api_token') }}</strong><br/>
                                 <div class="field">
                                     <div class="control">
-                                        <input type="text" id="apitoken" value="{{ $apitoken }}"/>
+                                        <input type="text" id="apitoken" value="{{ $apitoken }}" readonly/>
+                                    </div>
+                                </div>
+
+                                <strong>{{ __('app.workspace') }}</strong><br/>
+                                <div class="field">
+                                    <div class="control">
+                                        <input type="text" value="{{ $workspace }}" readonly/>
                                     </div>
                                 </div>
 

@@ -27,6 +27,7 @@
         'home_support' => 'Support',
         'home_news' => 'News',
         'imprint_headline' => 'This service is brought to you by:',
+        'workspace' => 'Workspace',
         'register' => 'Sign up',
         'register_company' => 'Your company name',
         'register_name' => 'Your full name',
