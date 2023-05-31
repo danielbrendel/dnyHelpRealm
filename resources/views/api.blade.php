@@ -15,7 +15,7 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <p class="home-padding">
+            <div class="home-padding">
                 <div class="home-headline">
                     <center><h1>{{ __('app.home_api') }}</h1></center>
                 </div>
