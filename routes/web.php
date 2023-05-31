@@ -90,6 +90,7 @@ Route::get('/{workspace}/settings', 'SettingsController@show');
 Route::get('/{workspace}/settings/agent', 'SettingsController@showAgent');
 Route::patch('/{workspace}/settings/save', 'SettingsController@save');
 Route::patch('/{workspace}/settings/locale', 'SettingsController@saveLocale');
+Route::patch('/{workspace}/settings/tickets', 'SettingsController@saveTicketSettings');
 Route::patch('/{workspace}/settings/avatar', 'SettingsController@saveAvatar');
 Route::get('/{workspace}/settings/system', 'SettingsController@viewSystemSettings');
 Route::patch('/{workspace}/settings/system', 'SettingsController@saveSystemSettings');

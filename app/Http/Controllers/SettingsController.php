@@ -106,10 +106,7 @@ class SettingsController extends Controller
             'lastname' => 'min:2',
             'email' => 'email',
             'password' => 'nullable',
-            'password_confirm' => 'nullable',
-            'mailonticketingroup' => 'nullable|numeric',
-            'hideclosedtickets' => 'nullable|numeric',
-            'signature' => 'nullable|max:4096'
+            'password_confirm' => 'nullable'
         ]);
 
         $user = User::get(auth()->id());
@@ -125,9 +122,6 @@ class SettingsController extends Controller
 
             $user->password = password_hash($attr['password'], PASSWORD_BCRYPT);
         }
-        if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
-        if (isset($attr['hideclosedtickets'])) $agent->hideclosedtickets = $attr['hideclosedtickets']; else $agent->hideclosedtickets = false;
-        if (isset($attr['signature'])) $agent->signature = $attr['signature']; else $agent->signature = '';
 
         $user->save();
         $agent->save();
@@ -215,6 +209,37 @@ class SettingsController extends Controller
         }
 
         return back()->with('error', __('app.settings_avatar_not_given'));
+    }
+
+    /**
+     * Save ticket settings
+     *
+     * @param string $workspace
+     * @return Illuminate\Http\RedirectResponse
+     */
+    public function saveTicketSettings($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $attr = request()->validate([
+            'mailonticketingroup' => 'nullable|numeric',
+            'hideclosedtickets' => 'nullable|numeric',
+            'signature' => 'nullable|max:4096'
+        ]);
+
+        $user = User::get(auth()->id());
+        $agent = User::getAgent(auth()->id());
+
+        if (isset($attr['mailonticketingroup'])) $agent->mailonticketingroup = $attr['mailonticketingroup']; else $agent->mailonticketingroup = false;
+        if (isset($attr['hideclosedtickets'])) $agent->hideclosedtickets = $attr['hideclosedtickets']; else $agent->hideclosedtickets = false;
+        if (isset($attr['signature'])) $agent->signature = $attr['signature']; else $agent->signature = '';
+
+        $user->save();
+        $agent->save();
+
+        return back()->with('success', __('app.settings_saved'));
     }
 
     /**
