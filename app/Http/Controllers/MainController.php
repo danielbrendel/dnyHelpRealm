@@ -140,12 +140,21 @@ class MainController extends Controller
             return redirect('/clep/index');
         }
 
+        $donationCode = null;
+
+        if (file_exists(public_path() . '/data/donation.txt')) {
+            $donationCode = Cache::remember('donation_code', 3600, function() {
+                return file_get_contents(public_path() . '/data/donation.txt');
+            });
+        }
+
         return view('home', [
             'captchadata' => $captchadata,
             'count_workspaces' => $count_workspaces,
             'count_tickets' => $count_tickets,
             'count_agents' => $count_agents,
-            'count_clients' => $count_clients
+            'count_clients' => $count_clients,
+            'donationCode' => $donationCode
         ]);
     }
 
@@ -159,38 +168,6 @@ class MainController extends Controller
         $captchadata = CaptchaModel::createSum(session()->getId());
 
         return view('news', ['captchadata' => $captchadata]);
-    }
-
-    /**
-     * View features page
-     *
-     * @return mixed
-     */
-    public function features()
-    {
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
-        return view('features', ['captchadata' => $captchadata]);
-    }
-
-    /**
-     * View about page
-     *
-     * @return mixed
-     */
-    public function about()
-    {
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
-        $donationCode = null;
-
-        if (file_exists(public_path() . '/data/donation.txt')) {
-            $donationCode = Cache::remember('donation_code', 3600, function() {
-                return file_get_contents(public_path() . '/data/donation.txt');
-            });
-        }
-
-        return view('about', ['captchadata' => $captchadata, 'donationCode' => $donationCode]);
     }
 
     /**

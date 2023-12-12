@@ -69,14 +69,6 @@
                         </a>
                     @endif
 
-                    <a class="navbar-item" href="{{ url('/features') }}">
-                        {{ __('app.home_features') }}
-                    </a>
-
-                    <a class="navbar-item" href="{{ url('/about') }}">
-                        {{ __('app.home_about') }}
-                    </a>
-
                     <a class="navbar-item" href="{{ url('/faq') }}">
                         {{ __('app.home_faq') }}
                     </a>

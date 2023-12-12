@@ -954,7 +954,49 @@ article.tile p:first-child {
 .home-screenshot {
     position: relative;
     margin-bottom: 15px;
-    bottom: 0;
+}
+.home-paragraph {
+    position: relative;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.home-paragraph h3 {
+    color: rgb(83, 87, 91);
+    margin-top: 70px;
+    margin-bottom: 20px;
+}
+.home-paragraph p {
+    margin-bottom: 30px;
+}
+.home-features {
+    position: relative;
+    width: 100%;
+}
+.home-features-block {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.home-features-block-fix {
+    margin-left: 45px;
+}
+.home-feature-item {
+    position: relative;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.5em;
+    @media screen and (max-width: 768px) {
+        font-size: 1.0em;
+    }
+    color: rgb(3, 59, 105);
+}
+.home-feature-item i {
+    color: rgb(250, 215, 63);
+}
+.home-margin-top-last {
+    margin-top: 65px
 }
 .home-copyright {
     width: 100%;
