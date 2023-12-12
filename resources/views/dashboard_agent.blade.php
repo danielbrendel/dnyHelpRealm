@@ -132,13 +132,23 @@
                     </div>
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <h3>{{ __('app.ticket_types') }}</h3><br>
+                            <h3>{{ __('app.ticket_types') }}</h3>
+
+                            <br>
 
                             <div id="chart-no-data">
                                 {{ __('app.no_data_available') }}
                             </div>
 
                             <canvas id="ticketChart"></canvas>
+
+                            <br/>
+
+                            <h3>{{ __('app.ticket_stats') }}</h3>
+
+                            <br>
+
+                            <canvas id="statsChart"></canvas>
                         </article>
                     </div>
                 </div>
@@ -149,9 +159,10 @@
 
 @section('javascript')
     @if (count($typeCounts) > 0)
-        var ctx = document.getElementById('ticketChart');
+        let ctx = document.getElementById('ticketChart');
+        let stx = document.getElementById('statsChart');
 
-        var pieChart = new Chart(ctx, {
+        let pieChart = new Chart(ctx, {
             type: 'pie',
             data: {
                     datasets: [{
@@ -169,6 +180,68 @@
                     @foreach ($typeCounts as $typeCount) {!! "'" . $typeCount['name'] . "'," !!} @endforeach
                 ]}
         });
+
+        let labels = [];
+        let data_total = [];
+        let remote_data = JSON.parse(`{!! json_encode($stats->toArray()) !!}`);
+
+        let day = 60 * 60 * 24 * 1000;
+        let dt = new Date(Date.parse('{{ $stats_start }}'));
+
+        for (let i = 0; i <= {{ $stats_diff }}; i++) {
+            let curDate = new Date(dt.getTime() + day * i);
+            let curDay = curDate.getDate();
+            let curMonth = curDate.getMonth() + 1;
+
+            if (curDay < 10) {
+                curDay = '0' + curDay;
+            }
+
+            if (curMonth < 10) {
+                curMonth = '0' + curMonth;
+            }
+
+            labels.push(curDate.getFullYear() + '-' + curMonth + '-' + curDay);
+            data_total.push(0);
+        }
+
+        remote_data.forEach(function(elem, index) {
+            labels.forEach(function(lblElem, lblIndex){
+                if (lblElem == elem.created_at) {
+                    data_total[lblIndex] = parseInt(elem.count);
+                }
+            });
+        });
+
+        const statscfg = {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '{{ __('app.tickets') }}',
+                        backgroundColor: 'rgb(52, 145, 220)',
+                        borderColor: 'rgb(52, 145, 220)',
+                        data: data_total,
+                    }
+                ]
+            },
+            options: {
+                scales: {
+                    y: {
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value) {if (value % 1 === 0) {return value;}}
+                        }
+                    }
+                }
+            }
+        };
+        
+        let statsChart = new Chart(
+            stx,
+            statscfg
+        );
     @else
         document.getElementById('chart-no-data').style.display = 'inline-block';
     @endif

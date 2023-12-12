@@ -431,5 +431,6 @@
         'widget_url' => 'Widget URL',
         'widget_token' => 'Widget Token',
         'system_widget_token_generate' => 'Generate',
-        'server_widget_hint' => 'Optional, if set then requests are only allowed from that host'
+        'server_widget_hint' => 'Optional, if set then requests are only allowed from that host',
+        'ticket_stats' => 'Ticket stats'
     ];

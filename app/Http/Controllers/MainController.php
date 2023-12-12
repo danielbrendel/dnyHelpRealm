@@ -89,6 +89,12 @@ class MainController extends Controller
                 $typeCounts[] = $item;
             }
 
+            $stats_start = date('Y-m-d', strtotime('-7 days'));
+            $stats_end = date('Y-m-d');
+            $stats_diff = (new \DateTime($stats_end))->diff((new \DateTime($stats_start)))->format('%a');
+            
+            $stats = \DB::table((new TicketModel)->getTable())->select(\DB::raw('DATE(created_at) AS created_at, COUNT(hash) AS count'))->whereRaw('DATE(created_at) > ?', [$stats_start])->whereRaw('DATE(created_at) <= ?', [$stats_end])->groupBy(\DB::raw('DATE(created_at)'))->orderBy('created_at', 'ASC')->get();
+            
             return view('dashboard_agent', [
                 'workspace' => $ws->name,
                 'location' => __('app.dashboard'),
@@ -101,7 +107,11 @@ class MainController extends Controller
                 'superadmin' => User::getAgent(auth()->id())->superadmin,
                 'agents' => AgentModel::where('workspace', '=', $ws->id)->count(),
                 'tickets' => $tickets,
-                'groupnames' => $groups
+                'groupnames' => $groups,
+                'stats' => $stats,
+                'stats_start' => $stats_start,
+                'stats_end' => $stats_end,
+                'stats_diff' => (int)$stats_diff
             ]);
         }
     }
