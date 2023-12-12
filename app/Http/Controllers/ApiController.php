@@ -607,8 +607,8 @@ class ApiController extends Controller
     {
         $invalidFields = array();
 
-        if (!isset($_POST['apitoken'])) {
-            $invalidFields[] = array('name' => 'apitoken', 'value' => null);
+        if (!isset($_POST['token'])) {
+            $invalidFields[] = array('name' => 'token', 'value' => null);
         }
 
         if ((!isset($_POST['subject'])) || (strlen($_POST['subject']) < 3)) {
@@ -654,8 +654,8 @@ class ApiController extends Controller
 
         $_ENV['TEMP_WORKSPACE'] = $ws->id;
 
-        if ($ws->apitoken !== $_POST['apitoken']) {
-            return response()->json(array('code' => 403, 'workspace' => $workspace, 'apitoken' => $_POST['apitoken']));
+        if ($ws->widgettoken !== $_POST['token']) {
+            return response()->json(array('code' => 403, 'workspace' => $workspace, 'token' => $_POST['token']));
         }
 
         if ($ws->widget_server !== request()->ip()) {

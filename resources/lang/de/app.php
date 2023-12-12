@@ -432,5 +432,7 @@
         'enable_widget' => 'Widget aktivieren',
         'server' => 'Server',
         'widget_settings_saved' => 'Einstellungen für Widget gespeichert',
-        'widget_url' => 'Widget URL'
+        'widget_url' => 'Widget URL',
+        'widget_token' => 'Widget Token',
+        'system_widget_token_generate' => 'Generieren'
     ];

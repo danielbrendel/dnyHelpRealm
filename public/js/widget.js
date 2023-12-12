@@ -204,7 +204,7 @@ class HelpRealmWidget {
         }, 1);
 
         var data = new FormData();
-        data.append('apitoken', this.config.apiKey);
+        data.append('token', this.config.apiKey);
         data.append('name', name.value);
         data.append('email', email.value);
         data.append('subject', subject.value);
@@ -238,6 +238,9 @@ class HelpRealmWidget {
                 } else if (json.code == 500) {
                     elResp.classList.add('helprealm-widget-form-response-error');
                     elResp.innerHTML = self.config.lang.error.replace('{elem}', json.invalid_fields[0].name);
+                } else if (json.code == 403) {
+                    elResp.classList.add('helprealm-widget-form-response-error');
+                    elResp.innerHTML = self.config.lang.access;
                 }
             }
         };

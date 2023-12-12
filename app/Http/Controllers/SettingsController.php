@@ -317,6 +317,7 @@ class SettingsController extends Controller
             'company' => $ws->company,
             'lang' => $ws->lang,
             'apitoken' => $ws->apitoken,
+            'widgettoken' => $ws->widgettoken,
             'usebgcolor' => $ws->usebgcolor,
             'bgcolorcode' => $ws->bgcolorcode,
             'langs' => $langs,
@@ -703,10 +704,38 @@ class SettingsController extends Controller
             return response()->json(array('code' => 500, 'message' => __('app.superadmin_permission_required')));
         }
 
-        $ws->apitoken = md5(random_bytes(55));
+        $ws->apitoken = md5(random_bytes(55) . date('Y-m-h H:i:s'));
         $ws->save();
 
         return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->apitoken));
+    }
+
+    /**
+     * Generate widget token
+     * 
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function generateWidgetToken($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return response()->json(array('code' => 500, 'message' => __('app.superadmin_permission_required')));
+        }
+
+        $ws->widgettoken = md5(random_bytes(55) . date('Y-m-h H:i:s'));
+        $ws->save();
+
+        return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->widgettoken));
     }
 
     /**

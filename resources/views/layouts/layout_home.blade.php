@@ -28,7 +28,7 @@
         <link rel="icon" type="image/png" href="{{ asset('gfx/logo.png') }}">
 
         <link rel="stylesheet" type="text/css" href="{{ asset('css/bulma.css') }}">
-        <link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}">
+        <!--link rel="stylesheet" type="text/css" href="{{ asset('css/metro-all.min.css') }}"-->
         <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 
         @if (env('APP_ENV') == 'local')
@@ -37,7 +37,7 @@
         <script src="{{ asset('js/vue.min.js') }}"></script>
         @endif
         <script src="{{ asset('js/fontawesome.js') }}"></script>
-        <script src="{{ asset('js/metro.min.js') }}"></script>
+        <!--script src="{{ asset('js/metro.min.js') }}"></script-->
         <script src="{{ asset('js/push.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
 
@@ -339,6 +339,8 @@
                 Copyright &copy; 2019 - {{ date('Y') }} by {{ env('APP_AUTHOR') }}
             </div>
         </nav>
+
+        <div id="test-widget"></div>
     </body>
 
     <script>
@@ -431,6 +433,30 @@
             }
 
             vue.handleCookieConsent();
+
+            let widget = new HelpRealmWidget({
+                elem: '#test-widget',
+                workspace: 'cd689adba2b38f22396a52f69d70d5ea',
+                apiKey: '2d30ad236d2f168b8ac258a42e9f54db',
+                header: '{{ asset('gfx/widget/header.jpg') }}',
+                logo: '{{ asset('gfx/widget/logo.png') }}',
+                button: '{{ asset('gfx/widget/button.png') }}',
+                lang: {
+                    title: 'Contact Us!',
+                    lblInputName: 'Enter your name',
+                    lblInputEmail: 'Enter your E-Mail',
+                    lblInputSubject: 'What is your topic?',
+                    lblInputMessage: 'What is on your mind?',
+                    lblInputFile: 'Attachment (optional)',
+                    btnSubmit: 'Submit',
+                    error: 'Elem {elem} is invalid or missing',
+                    access: 'Access denied!',
+                },
+                ticket: {
+                    type: 1,
+                    prio: 1
+                },
+            });
         });
     </script>
 </html>

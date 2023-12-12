@@ -43,6 +43,7 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->string('extfilter')->default('');
             $table->boolean('paidforapi')->default(false);
             $table->string('apitoken')->default('');
+            $table->string('widgettoken')->default('');
             $table->boolean('mailer_useown')->default(false);
             $table->string('mailer_host_smtp')->nullable()->default(null);
             $table->string('mailer_port_smtp')->nullable()->default('587');

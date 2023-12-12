@@ -303,26 +303,39 @@
                                         </div>
                                     </div>
 
-                                    <div class="field">
-                                        <label class="label">{{ __('app.server') }}</label>
-                                        <div class="control">
-                                            <input type="text" name="server" value="{{ $server }}"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="field">
-                                        <div class="control">
-                                            <input type="submit" value="{{ __('app.save') }}"/>
-                                        </div>
-                                    </div>
-
                                     @if ($enablewidget)
-                                    <div class="field">
-                                        <label class="label">{{ __('app.widget_url') }}</label>
-                                        <div class="control">
-                                            <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
+                                        <div class="field">
+                                            <label class="label">{{ __('app.server') }}</label>
+                                            <div class="control">
+                                                <input type="text" name="server" value="{{ $server }}"/>
+                                            </div>
                                         </div>
-                                    </div>
+
+                                        <div class="field">
+                                            <div class="control">
+                                                <input type="submit" value="{{ __('app.save') }}"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">{{ __('app.widget_url') }}</label>
+                                            <div class="control">
+                                                <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">{{ __('app.widget_token') }}</label>
+                                            <div class="control">
+                                                <input type="text" id="widgettoken" value="{{ $widgettoken }}" readonly/>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <div class="control">
+                                                <a class="button" href="javascript:void(0);" onclick="generateWidgetToken()">{{ __('app.system_widget_token_generate') }}</a>
+                                            </div>
+                                        </div>
                                     @endif
                                 </form>
                             @else
@@ -479,6 +492,16 @@
             ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/apitoken') }}', {},
                 function(data){
                     document.getElementById('apitoken').value = data.token;
+                },
+                function(){}
+            );
+        }
+
+        function generateWidgetToken()
+        {
+            ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/widget/token') }}', {},
+                function(data){
+                    document.getElementById('widgettoken').value = data.token;
                 },
                 function(){}
             );
