@@ -45,7 +45,7 @@ freelancers and small teams.
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
 + Responsive layout
 + SaaS solution
-+ API Endpoint
++ API (REST / Widget)
 + Endpoint for client apps
 + Stripe payment
 + Ajax requests
