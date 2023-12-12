@@ -9299,7 +9299,7 @@ textarea {
   width: 50%;
   z-index: 1;
   word-wrap: break-word;
-  background-color: rgb(128, 255, 128);
+  background-color: rgb(50, 200, 50);
   border: 1px solid #ccc;
   border-radius: 4px;
   display: none;
@@ -10444,4 +10444,17 @@ a.navbar-item:hover {
 }
 #view-status {
   margin-bottom: 33px;
+}
+
+.is-inline-block {
+  display: inline-block !important;
+}
+
+.has-button-right {
+  width: 91% !important;
+}
+
+.button-align-input {
+  position: relative;
+  top: -2px;
 }

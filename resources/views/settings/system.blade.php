@@ -312,12 +312,6 @@
                                         </div>
 
                                         <div class="field">
-                                            <div class="control">
-                                                <input type="submit" value="{{ __('app.save') }}"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="field">
                                             <label class="label">{{ __('app.widget_url') }}</label>
                                             <div class="control">
                                                 <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
@@ -327,16 +321,23 @@
                                         <div class="field">
                                             <label class="label">{{ __('app.widget_token') }}</label>
                                             <div class="control">
-                                                <input type="text" id="widgettoken" value="{{ $widgettoken }}" readonly/>
+                                                <input type="text" class="is-inline-block has-button-right" id="widgettoken" value="{{ $widgettoken }}" readonly/>
+                                                <a class="button is-inline-block button-align-input" href="javascript:void(0);" onclick="generateWidgetToken()">{{ __('app.system_widget_token_generate') }}</a>
                                             </div>
                                         </div>
 
                                         <div class="field">
                                             <div class="control">
-                                                <a class="button" href="javascript:void(0);" onclick="generateWidgetToken()">{{ __('app.system_widget_token_generate') }}</a>
+                                                
                                             </div>
                                         </div>
                                     @endif
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="submit" value="{{ __('app.save') }}"/>
+                                        </div>
+                                    </div>
                                 </form>
                             @else
                                 <strong>{{ __('app.system_api_token') }}</strong><br/>

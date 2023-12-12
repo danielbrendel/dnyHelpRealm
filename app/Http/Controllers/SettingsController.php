@@ -761,7 +761,7 @@ class SettingsController extends Controller
         }
 
         $attr = request()->validate([
-            'server' => 'required',
+            'server' => 'nullable',
             'enablewidget' => 'numeric|nullable'
         ]);
 
@@ -770,7 +770,11 @@ class SettingsController extends Controller
         }
 
         $ws->enable_widget = $attr['enablewidget'];
-        $ws->widget_server = gethostbyname($attr['server']);
+
+        if (isset($attr['server'])) {
+            $ws->widget_server = gethostbyname($attr['server']);
+        }
+        
         $ws->save();
 
         return back()->with('success', __('app.widget_settings_saved'));

@@ -540,7 +540,51 @@
                 <p>
                     In order to embed the widget, you need to activate the feature in your system settings. You also need to specify
                     your host where your website is running. You can enter an IP address or a hostname (which will be resolved to an
-                    IP address). This is required to verify that no one abuses your widget using your API key.
+                    IP address). This is required to verify that no one abuses your widget using your API key. There is also a separate
+                    key for the widget feature, because it is exposed to the public. The key for the general ticket API mentioned above
+                    should always remain private to you. Similar to the general ticket API key, you can also always generate a new widget
+                    API key whenever you want.
+                </p>
+
+                <p>
+                    The following code describes a basic widget initialization.
+                </p>
+
+                <p>
+                    <code>&lt;script src="{{ asset('js/widget.js') }}"&gt;&lt;/script&gt;</code><br/><br/>
+
+                    <code>&lt;div id="support-widget"&gt;&lt;/div&gt;</code><br/><br/>
+
+                    <code>let widget = new HelpRealmWidget({</code><br/>
+                        <code>&nbsp;&nbsp;elem: '#support-widget',</code><br/>
+                        <code>&nbsp;&nbsp;workspace: 'your-workspace-hash',</code><br/>
+                        <code>&nbsp;&nbsp;apiKey: 'your-widget-api-key',</code><br/>
+                        <code>&nbsp;&nbsp;header: 'url/to/your/header/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;logo: 'url/to/your/logo/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;button: 'url/to/your/button/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;lang: {</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;title: 'Contact Us!',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputName: 'Enter your name',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputEmail: 'Enter your E-Mail',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputSubject: 'What is your topic?',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputMessage: 'What is on your mind?',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputFile: 'Attachment (optional)',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;btnSubmit: 'Submit',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;error: 'Elem {elem} is invalid or missing',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;access: 'Access denied!',</code><br/>
+                        <code>},</code><br/>
+                        <code>&nbsp;&nbsp;ticket: {</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;type: 1,</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;prio: 1</code><br/>
+                        <code>&nbsp;&nbsp;},</code><br/>
+                    <code>});</code><br/>
+                </p>
+
+                <br/>
+
+                <p>
+                    This is essentially all you have to do. Just reference the widget.js, create a HTML element to be used to embed the widget in
+                    and then initialize the widget component.
                 </p>
 
                 <br/><br/><br/>
