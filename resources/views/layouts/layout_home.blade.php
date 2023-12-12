@@ -40,6 +40,8 @@
         <script src="{{ asset('js/metro.min.js') }}"></script>
         <script src="{{ asset('js/push.min.js') }}"></script>
         <script src="{{ asset('js/app.js') }}"></script>
+
+        <script src="{{ asset('js/widget.js') }}"></script>
     </head>
 
     <body style="background-image: url('{{ asset('/gfx/home_bg.jpg') }}'); overflow-y: auto;">
@@ -411,26 +413,24 @@
         @yield('javascript')
 
         document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
 
-        if ($navbarBurgers.length > 0) {
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
 
-        $navbarBurgers.forEach(el => {
-            el.addEventListener('click', () => {
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
 
-            const target = el.dataset.target;
-            const $target = document.getElementById(target);
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
 
-            el.classList.toggle('is-active');
-            $target.classList.toggle('is-active');
-
+                });
             });
-        });
-        }
+            }
 
-        vue.handleCookieConsent();
-
+            vue.handleCookieConsent();
         });
     </script>
 </html>

@@ -1,0 +1,139 @@
+/*
+    HelpRealm (dnyHelpRealm) developed by Daniel Brendel
+
+    (C) 2019 - 2023 by Daniel Brendel
+
+    Version: 1.0
+    Contact: dbrendel1988<at>gmail<dot>com
+    GitHub: https://github.com/danielbrendel/
+
+    Released under the MIT license
+*/
+
+.helprealm-widget {
+    position: absolute;
+    display: none;
+    bottom: 100px;
+    right: 25px;
+    width: 340px;
+    height: auto;
+    z-index: 100;
+    background-color: rgb(250, 250, 250);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.helprealm-widget:hover {
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+
+.helprealm-widget-header {
+    width: 100%;
+    height: 135px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.helprealm-widget-header-logo {
+    position: relative;
+    top: 102px;
+    width: 64px;
+    height: 64px;
+    margin-left: auto;
+    margin-right: auto;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    border-radius: 50%;
+}
+
+.helprealm-widget-title {
+    position: relative;
+    top: 35px;
+    padding: 20px;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.helprealm-widget-form {
+    padding: 20px;
+    margin-top: 15px;
+}
+
+.helprealm-widget-form-input {
+    margin-bottom: 15px;
+}
+
+.helprealm-widget-form-input label {
+    color: rgb(50, 50, 50);
+}
+
+.helprealm-widget-form-input input {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid rgb(150, 150, 150);
+    border-radius: 4px;
+}
+
+.helprealm-widget-form-input textarea {
+    width: 100%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border: 1px solid rgb(150, 150, 150);
+    border-radius: 4px;
+}
+
+.helprealm-widget-form-input a {
+    position: relative;
+    top: 8px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius: 25px;
+    color: rgb(255, 255, 255);
+    background-color: rgb(76, 183, 255);
+}
+
+.helprealm-widget-form-input a:hover {
+    background-color: rgb(12, 155, 255);
+    text-decoration: none;
+}
+
+#helprealm-widget-form-response {
+    position: relative;
+    top: 9px;
+    float: right;
+    font-size: 1.3em;
+}
+
+.helprealm-widget-form-response-error {
+    top: 10px !important;
+    color: rgb(250, 50, 0);
+    font-size: 0.8em !important;
+}
+
+.helprealm-widget-openaction {
+    position: absolute;
+    bottom: 22px;
+    right: 25px;
+    width: 64px;
+    height: 64px;
+    z-index: 100;
+    border-radius: 50%;
+}
+
+.helprealm-widget-openaction-button {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 50%;
+    cursor: pointer;
+}

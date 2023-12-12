@@ -30,7 +30,7 @@
                                 <li id="tabTickets"><a href="javascript:void(0);" onclick="window.showTabMenu('tabTickets');">{{ __('app.tickets') }}</a></li>
                                 <li id="tabMailservice"><a href="javascript:void(0);" onclick="window.showTabMenu('tabMailservice');">{{ __('app.mailer_service') }}</a></li>
                                 <li id="tabBackgrounds"><a href="javascript:void(0);" onclick="window.showTabMenu('tabBackgrounds');">{{ __('app.system_backgrounds') }}</a></li>
-                                <li id="tabApiAccess"><a href="javascript:void(0);" onclick="window.showTabMenu('tabApiAccess');">{{ __('app.system_api_token') }}</a></li>
+                                <li id="tabApiAccess"><a href="javascript:void(0);" onclick="window.showTabMenu('tabApiAccess');">{{ __('app.system_api_access') }}</a></li>
                                 <li id="tabMembership"><a href="javascript:void(0);" onclick="window.showTabMenu('tabMembership');">{{ __('app.membership') }}</a></li>
                             </ul>
                         </div>
@@ -291,6 +291,40 @@
                                 </div>
 
                                 <input type="button" class="button" onclick="generateApiToken()" value="{{ __('app.system_api_token_generate') }}">
+
+                                <br/><br/>
+
+                                <form method="POST" action="{{ url('/' . $workspace . '/settings/system/widget') }}">
+                                    @csrf 
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.enable_widget') }}" name="enablewidget" value="1" <?php if ((bool)$enablewidget === true) { echo 'checked'; } ?>/>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <label class="label">{{ __('app.server') }}</label>
+                                        <div class="control">
+                                            <input type="text" name="server" value="{{ $server }}"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="submit" value="{{ __('app.save') }}"/>
+                                        </div>
+                                    </div>
+
+                                    @if ($enablewidget)
+                                    <div class="field">
+                                        <label class="label">{{ __('app.widget_url') }}</label>
+                                        <div class="control">
+                                            <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
+                                        </div>
+                                    </div>
+                                    @endif
+                                </form>
                             @else
                                 <strong>{{ __('app.system_api_token') }}</strong><br/>
 

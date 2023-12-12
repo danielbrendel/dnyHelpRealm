@@ -307,7 +307,7 @@ class SettingsController extends Controller
 		} else {
 			$firstTicketCreatedAt = $firstTicketCreatedAt->created_at;
 		}
-
+        
         return view('settings.system', [
             'workspace' => $ws->name,
             'location' => __('app.system_settings'),
@@ -328,6 +328,8 @@ class SettingsController extends Controller
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'formactions' => $ws->formactions,
+            'enablewidget' => $ws->enable_widget,
+            'server' => $ws->widget_server,
             'ws' => $ws,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId()),
@@ -681,6 +683,7 @@ class SettingsController extends Controller
 
     /**
      * Generate API token
+     * 
      * @param $workspace
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -704,6 +707,44 @@ class SettingsController extends Controller
         $ws->save();
 
         return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->apitoken));
+    }
+
+    /**
+     * Save widget settings
+     * 
+     * @param $workspace
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function saveWidgetSettings($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+            'server' => 'required',
+            'enablewidget' => 'numeric|nullable'
+        ]);
+
+        if (!isset($attr['enablewidget'])) {
+            $attr['enablewidget'] = false;
+        }
+
+        $ws->enable_widget = $attr['enablewidget'];
+        $ws->widget_server = gethostbyname($attr['server']);
+        $ws->save();
+
+        return back()->with('success', __('app.widget_settings_saved'));
     }
 
     /**

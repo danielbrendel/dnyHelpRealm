@@ -18283,6 +18283,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/sass/widget.scss":
+/*!************************************!*\
+  !*** ./resources/sass/widget.scss ***!
+  \************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/moment/locale/af.js":
 /*!******************************************!*\
   !*** ./node_modules/moment/locale/af.js ***!
@@ -40239,6 +40252,7 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","E:\\\\Projects\\\\dnyHel
 /******/ 		var installedChunks = {
 /******/ 			"/js/app": 0,
 /******/ 			"css/app": 0,
+/******/ 			"css/widget": 0,
 /******/ 			"css/stripe": 0
 /******/ 		};
 /******/ 		
@@ -40289,9 +40303,10 @@ module.exports = JSON.parse('{"_args":[["axios@0.21.4","E:\\\\Projects\\\\dnyHel
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/stripe"], () => (__webpack_require__("./resources/js/app.js")))
-/******/ 	__webpack_require__.O(undefined, ["css/app","css/stripe"], () => (__webpack_require__("./resources/sass/app.scss")))
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/stripe"], () => (__webpack_require__("./resources/sass/stripe.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/widget","css/stripe"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/widget","css/stripe"], () => (__webpack_require__("./resources/sass/app.scss")))
+/******/ 	__webpack_require__.O(undefined, ["css/app","css/widget","css/stripe"], () => (__webpack_require__("./resources/sass/stripe.scss")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app","css/widget","css/stripe"], () => (__webpack_require__("./resources/sass/widget.scss")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()
