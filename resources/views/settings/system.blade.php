@@ -305,7 +305,7 @@
 
                                     @if ($enablewidget)
                                         <div class="field">
-                                            <label class="label">{{ __('app.server') }}</label>
+                                            <label class="label">{{ __('app.server') }} - {{ __('app.server_widget_hint') }}</label>
                                             <div class="control">
                                                 <input type="text" name="server" value="{{ $server }}"/>
                                             </div>

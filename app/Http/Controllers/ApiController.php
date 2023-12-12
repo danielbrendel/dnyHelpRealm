@@ -658,8 +658,16 @@ class ApiController extends Controller
             return response()->json(array('code' => 403, 'workspace' => $workspace, 'token' => $_POST['token']));
         }
 
-        if ($ws->widget_server !== request()->ip()) {
-            return response()->json(array('code' => 403, 'workspace' => $workspace, 'widget_server' => 'invalid'));
+        if ((is_string($ws->widget_server)) && (strlen($ws->widget_server) > 0)) {
+            if (ip2long($ws->widget_server) !== false) {
+                if ($ws->widget_server !== request()->ip()) {
+                    return response()->json(array('code' => 403, 'workspace' => $workspace, 'widget_server' => 'invalid'));
+                }
+            } else {
+                if (gethostbyname($ws->widget_server) !== request()->ip()) {
+                    return response()->json(array('code' => 403, 'workspace' => $workspace, 'widget_server' => 'invalid'));
+                }
+            }
         }
 
         $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $_POST['type'])->first();

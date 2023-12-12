@@ -770,11 +770,8 @@ class SettingsController extends Controller
         }
 
         $ws->enable_widget = $attr['enablewidget'];
+        $ws->widget_server = $attr['server'];
 
-        if (isset($attr['server'])) {
-            $ws->widget_server = gethostbyname($attr['server']);
-        }
-        
         $ws->save();
 
         return back()->with('success', __('app.widget_settings_saved'));

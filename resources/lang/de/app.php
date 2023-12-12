@@ -434,5 +434,6 @@
         'widget_settings_saved' => 'Einstellungen für Widget gespeichert',
         'widget_url' => 'Widget URL',
         'widget_token' => 'Widget Token',
-        'system_widget_token_generate' => 'Generieren'
+        'system_widget_token_generate' => 'Generieren',
+        'server_widget_hint' => 'Optional, falls gesetzt, dann sind Anfragen nur von diesem Host erlaubt'
     ];
