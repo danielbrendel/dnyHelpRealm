@@ -17,7 +17,7 @@
         <div class="column is-full">
             <section class="info-tiles">
                 <div class="tile is-ancestor has-text-centered ">
-                    <div class="tile is-parent">
+                    <div class="tile is-parent tile-margin-bottom">
                         <article class="tile is-child box has-background-lightdark-blue">
                             <p class="title">{{ __('app.welcome') }}</p>
                             <p class="subtitle">{{ __('app.welcome_message', ['name' => $agent->surname . ' ' . $agent->lastname]) }}</p>
@@ -45,7 +45,7 @@
                             <p class="subtitle">{{ __('app.total_groups') }}</p>
                         </article>
                     </div>
-                    <div class="tile is-parent">
+                    <div class="tile is-parent tile-margin-bottom">
                         <article class="tile is-child box">
                             <p class="title" id="stats-agents">{{ $agents }}</p>
                             <p class="subtitle">{{ __('app.total_agents') }}</p>

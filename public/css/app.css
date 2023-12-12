@@ -9594,6 +9594,12 @@ textarea {
   margin-left: 10px;
 }
 
+@media screen and (max-width: 768px) {
+  .tile-margin-bottom {
+    margin-bottom: 12px;
+  }
+}
+
 .left {
   position: relative;
   width: 40%;

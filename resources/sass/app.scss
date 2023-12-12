@@ -319,6 +319,11 @@ textarea {
     width: 100%;
     margin-left: 10px;
 }
+.tile-margin-bottom {
+    @media screen and (max-width: 768px) {
+        margin-bottom: 12px;
+    }
+}
 .left {
     position: relative;
     width: 40%;
