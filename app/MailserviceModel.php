@@ -301,9 +301,9 @@ class MailserviceModel extends Model
                                         $message->delete();
 
                                         if ($ws->emailconfirm) {
-                                            $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
+                                            $htmlCode = view('mail.ticket_create_confirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'hash' => $data->hash, 'subject' => $data->subject, 'text' => $data->text, 'confirmation' => $attr['confirmation']])->render();
                                         } else {
-                                            $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
+                                            $htmlCode = view('mail.ticket_create_notconfirm', ['workspace' => $ws->name, 'name' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text, 'hash' => $data->hash])->render();
                                         }
 
                                         MailerModel::sendMail($attr['email'], '[' . $ws->company . '] ' . __('app.mail_ticket_creation') . ' [ID:' . $data->hash .  ']', $htmlCode);
@@ -326,7 +326,7 @@ class MailserviceModel extends Model
                                             $admins = AgentModel::where('workspace', '=', $ws->id)->where('superadmin', '=', true)->get();
                                             foreach ($admins as $adminUser) {
                                                 if (!in_array($adminUser->id, $agentInGroupIds)) {
-                                                    $htmlCode = view('mail.new_ticket_admin', ['workspace' => $ws->name, 'name' => $adminUser->surname . ' ' . $adminUser->lastname, 'ticketid' => $data->id, 'subject' => $data->subject, 'text' => $data->text])->render();
+                                                    $htmlCode = view('mail.new_ticket_admin', ['workspace' => $ws->name, 'name' => $adminUser->surname . ' ' . $adminUser->lastname, 'ticketid' => $data->id, 'custname' => $attr['name'], 'email' => $attr['email'], 'subject' => $data->subject, 'text' => $data->text])->render();
                                                     MailerModel::sendMail($adminUser->email, '[' . $ws->company . '] ' . __('app.mail_ticket_in_group'), $htmlCode);
                                                 }
                                             }
