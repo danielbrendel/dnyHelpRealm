@@ -9600,6 +9600,10 @@ textarea {
   }
 }
 
+article.tile p:first-child {
+  padding-top: 15px !important;
+}
+
 .left {
   position: relative;
   width: 40%;
