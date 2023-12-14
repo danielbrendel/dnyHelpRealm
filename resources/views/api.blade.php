@@ -23,7 +23,7 @@
                 <p>
                     If you don't want to use our predefined support contact form, you can also
                     make your own frontend interface to your customers. You can then communicate with
-                    our backend to create a ticket to your workspace.
+                    our backend to create a ticket to your workspace using our REST API.
                 </p>
 
                 <p>
@@ -531,19 +531,16 @@
                 <h3>Widget</h3>
 
                 <p>
-                    You can also use the embeddable widget in order to let users create support requests directly from your website.
+                    You can also use the embeddable widget in order to let users create support requests comfortably from your website.
                     When enabled and activated then a support icon will be shown in the bottom right corner of your page which users
                     can use to open a form to enter their support request data. After successfully submitting the form, a new ticket
                     will be created for the requesting user.
                 </p>
 
                 <p>
-                    In order to embed the widget, you need to activate the feature in your system settings. You also need to specify
-                    your host where your website is running. You can enter an IP address or a hostname (which will be resolved to an
-                    IP address). This is required to verify that no one abuses your widget using your API key. There is also a separate
-                    key for the widget feature, because it is exposed to the public. The key for the general ticket API mentioned above
-                    should always remain private to you. Similar to the general ticket API key, you can also always generate a new widget
-                    API key whenever you want.
+                    In order to embed the widget, you need to activate the feature in your system settings. There is a separate key for the 
+                    widget feature in order to keep things distinguishable. Similar to the REST API key, you can also always generate a new 
+                    widget API key whenever you want.
                 </p>
 
                 <p>
@@ -583,8 +580,8 @@
                 <br/>
 
                 <p>
-                    This is essentially all you have to do. Just reference the widget.js, create a HTML element to be used to embed the widget in
-                    and then initialize the widget component.
+                    This is essentially all you have to do. Just reference the widget.js, create a HTML container element to be used to 
+                    embed the widget in and then initialize the widget component.
                 </p>
 
                 <br/><br/><br/>
