@@ -427,6 +427,7 @@ class MainController extends Controller
         }
 
         $workspace->slug = \Str::slug($attr['company'] . '-' . strval($workspace->id) . strval(rand(10, 100)));
+        $workspace->paidforapi = !env('APP_PAYFORAPI');
         $workspace->save();
 
         $user = new \App\User;

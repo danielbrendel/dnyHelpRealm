@@ -26,6 +26,7 @@
                     our backend to create a ticket to your workspace using our REST API.
                 </p>
 
+                @if (env('APP_PAYFORAPI'))
                 <p>
                     <strong>
                         Note: API access is granted by paying a small fee. This fee is only paid once and
@@ -33,6 +34,7 @@
                         You can buy access via the system settings panel.
                     </strong>
                 </p>
+                @endif
 
                 <p>
                     In order to create a ticket call the following API route as POST request:
