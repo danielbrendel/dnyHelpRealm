@@ -214,7 +214,7 @@
         });
 
         const statscfg = {
-            type: 'line',
+            type: 'bar',
             data: {
                 labels: labels,
                 datasets: [
@@ -223,6 +223,7 @@
                         backgroundColor: 'rgb(52, 145, 220)',
                         borderColor: 'rgb(52, 145, 220)',
                         data: data_total,
+                        barThickness: 15,
                     }
                 ]
             },

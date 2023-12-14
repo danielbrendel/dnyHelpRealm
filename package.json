@@ -27,7 +27,7 @@
     "dependencies": {
         "@babel/preset-env": "^7.23.6",
         "babel": "^6.23.0",
-        "chart.js": "^2.9.4",
+        "chart.js": "^3.9.1",
         "push.js": "^1.0.12"
     }
 }
