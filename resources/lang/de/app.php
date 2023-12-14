@@ -436,5 +436,6 @@
         'widget_token' => 'Widget Token',
         'system_widget_token_generate' => 'Generieren',
         'server_widget_hint' => 'Optional, falls gesetzt, dann sind Anfragen nur von diesem Host erlaubt',
-        'ticket_stats' => 'Ticket Statistiken'
+        'ticket_stats' => 'Ticket Statistiken',
+        'confirm_del_ticket_type' => 'Soll dieser Ticket-Typ wirklich entfernt werden?'
     ];

@@ -417,7 +417,7 @@ class SettingsController extends Controller
 
         $ws->save();
 
-        return back()->with('success', __('app.settings_saved'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabGeneral')->with('success', __('app.settings_saved'));
     }
 
     /**
@@ -459,7 +459,7 @@ class SettingsController extends Controller
             $dbentry->save();
         }
 
-        return back()->with('success', __('app.file_uploaded'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabBackgrounds')->with('success', __('app.file_uploaded'));
     }
 
     /**
@@ -505,7 +505,7 @@ class SettingsController extends Controller
 
         $item->delete();
 
-        return back()->with('success', __('app.file_deleted'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabBackgrounds')->with('success', __('app.file_deleted'));
     }
 
     /**
@@ -540,7 +540,7 @@ class SettingsController extends Controller
             return back()->with('error', __('app.ticket_type_add_failed'));
         }
 
-        return back()->with('success', __('app.ticket_type_added'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_added'));
     }
 
     /**
@@ -577,7 +577,7 @@ class SettingsController extends Controller
         $ticketType->name = $attr['name'];
         $ticketType->save();
 
-        return back()->with('success', __('app.ticket_type_edited'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_edited'));
     }
 
     /**
@@ -614,7 +614,7 @@ class SettingsController extends Controller
 
         $ticketType->delete();
 
-        return back()->with('success', __('app.ticket_type_deleted'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_deleted'));
     }
 
     /**
@@ -774,7 +774,7 @@ class SettingsController extends Controller
 
         $ws->save();
 
-        return back()->with('success', __('app.widget_settings_saved'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabApiAccess')->with('success', __('app.widget_settings_saved'));
     }
 
     /**
@@ -862,7 +862,7 @@ class SettingsController extends Controller
         $ws->mailer_fromname = $attr['mailer_fromname'];
         $ws->save();
 
-        return back()->with('success', __('app.settings_saved'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabMailservice')->with('success', __('app.settings_saved'));
     }
 
     /**

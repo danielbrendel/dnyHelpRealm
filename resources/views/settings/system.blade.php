@@ -175,7 +175,7 @@
                                             </td>
 
                                             <td class="right">
-                                                <a href="{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}">{{ __('app.ticket_type_remove') }}</a>
+                                                <a href="javascript:void(0);" onclick="if (confirm('{{ __('app.confirm_del_ticket_type') }}')) { location.href = '{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}'; }">{{ __('app.ticket_type_remove') }}</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -524,6 +524,10 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        @if (isset($_GET['tab']))
+            window.showTabMenu('{{ $_GET['tab'] }}');
+        @endif
+
         var stripe = Stripe('{{ env('STRIPE_TOKEN_PUBLIC') }}');
         var elements = stripe.elements();
 
