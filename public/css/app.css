@@ -10431,6 +10431,16 @@ article.tile p:first-child {
   top: 25px;
 }
 
+.imprint-additional-content {
+  position: relative;
+  margin-top: 50px;
+}
+@media screen and (min-width: 1089px) {
+  .imprint-additional-content {
+    margin-top: 25px;
+  }
+}
+
 a.navbar-item:hover {
   text-decoration: none !important;
 }

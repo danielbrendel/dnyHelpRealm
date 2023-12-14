@@ -27,13 +27,14 @@
                         {{ __('app.contact') }}: <a href="mailto:{{ env('APP_CONTACT') }}">{{ env('APP_CONTACT') }}</a><br/>
 
                         @if (env('APP_SHOWDEVINFO'))
-                            {{ __('app.development') }}: <a href="https://github.com/danielbrendel/" target="_blank">GitHub</a>
+                            GitHub: <a href="https://github.com/danielbrendel/" target="_blank">https://github.com/danielbrendel/</a>
                         @endif
                     </div>
                 </div>
                 
-                <br/>
-                <p>{{ env('APP_IMPRINT_INFO') }}</p>
+                <div class="imprint-additional-content">
+                    <?php echo file_get_contents(public_path() . '/data/imprint.html'); ?>
+                </div>
             </div>
         </div>
     </div>

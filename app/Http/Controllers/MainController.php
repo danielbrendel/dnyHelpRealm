@@ -93,7 +93,7 @@ class MainController extends Controller
             $stats_end = date('Y-m-d');
             $stats_diff = (new \DateTime($stats_end))->diff((new \DateTime($stats_start)))->format('%a');
             
-            $stats = \DB::table((new TicketModel)->getTable())->select(\DB::raw('DATE(created_at) AS created_at, COUNT(hash) AS count'))->whereRaw('DATE(created_at) > ?', [$stats_start])->whereRaw('DATE(created_at) <= ?', [$stats_end])->groupBy(\DB::raw('DATE(created_at)'))->orderBy('created_at', 'ASC')->get();
+            $stats = \DB::table((new TicketModel)->getTable())->select(\DB::raw('DATE(created_at) AS created_at, COUNT(hash) AS count'))->where('workspace', '=', $workspace)->whereRaw('DATE(created_at) > ?', [$stats_start])->whereRaw('DATE(created_at) <= ?', [$stats_end])->groupBy(\DB::raw('DATE(created_at)'))->orderBy('created_at', 'ASC')->get();
             
             return view('dashboard_agent', [
                 'workspace' => $ws->name,
