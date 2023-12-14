@@ -337,7 +337,7 @@ class TicketController extends Controller
         $attr['group'] = GroupsModel::getPrimaryGroup($ws->id)->id;
 
         $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(55));
-        $attr['address'] = $_SERVER['REMOTE_ADDR'];
+        $attr['address'] = md5($_SERVER['REMOTE_ADDR']);
 
         if ($ws->emailconfirm) {
             $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));
@@ -433,7 +433,7 @@ class TicketController extends Controller
         $attr['workspace'] = $ws->id;
         $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(10));
         $attr['status'] = 0;
-        $attr['address'] = $_SERVER['REMOTE_ADDR'];
+        $attr['address'] = md5($_SERVER['REMOTE_ADDR']);
 
         if ($ws->emailconfirm) {
             $attr['confirmation'] = md5($attr['hash'] . random_bytes(55));

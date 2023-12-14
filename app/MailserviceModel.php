@@ -217,7 +217,7 @@ class MailserviceModel extends Model
                                 $attr['assignee'] = 0;
                                 $attr['group'] = GroupsModel::getPrimaryGroup($ws->id)->id;
                                 $attr['hash'] = md5($attr['name'] . $attr['email'] . date('Y-m-d h:i:s') . random_bytes(55));
-                                $attr['address'] = $_SERVER['REMOTE_ADDR'];
+                                $attr['address'] = md5($_SERVER['REMOTE_ADDR']);
                                 $attr['type'] = TicketsHaveTypes::where('workspace', '=', $ws->id)->first()->id;
                                 $attr['prio'] = 1;
                                 $attr['status'] = 1;
