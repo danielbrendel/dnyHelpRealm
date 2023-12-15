@@ -1133,15 +1133,18 @@ a.navbar-item:hover {
     margin-bottom: 33px;
 }
 
+//Miscellaneous
 .is-inline-block {
     display: inline-block !important;
 }
-
 .has-button-right {
     width: 91% !important;
 }
-
 .button-align-input {
     position: relative;
     top: -2px;
+}
+.has-tables td {
+    padding-top: 10px;
+    padding-bottom: 10px;
 }

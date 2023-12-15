@@ -10531,3 +10531,8 @@ a.navbar-item:hover {
   position: relative;
   top: -2px;
 }
+
+.has-tables td {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}

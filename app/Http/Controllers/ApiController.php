@@ -766,7 +766,7 @@ class ApiController extends Controller
                 }
             }
 
-            return response()->json(array('code' => 201, 'workspace' => $workspace, 'data' => $attr));
+            return response()->json(array('code' => 201, 'workspace' => $workspace, 'data' => $attr))->header('Access-Control-Allow-Origin', '*')->header('Access-Control-Allow-Headers', 'X-Requested-With');
         } else {
             return response()->json(array('code' => 500, 'workspace' => $workspace, 'data' => $attr));
         }

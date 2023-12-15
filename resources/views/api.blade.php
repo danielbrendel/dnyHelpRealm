@@ -17,7 +17,7 @@
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
-            <div class="home-padding">
+            <div class="home-padding has-tables">
                 <div class="home-headline">
                     <center><h1>{{ __('app.home_api') }}</h1></center>
                 </div>
@@ -584,8 +584,33 @@
                 <br/>
 
                 <p>
-                    This is essentially all you have to do. Just reference the widget.js, create a HTML container element to be used to 
-                    embed the widget in and then initialize the widget component.
+                    The following methods are also available:<br/>
+
+                    <table>
+                        <thead>
+                            <th>Method</th>
+                            <th>Description</th>
+                        </thead>
+
+                        <body>
+                            <tr>
+                                <td><code>showWidget(flag)</code>&nbsp;&nbsp;</td>
+                                <td>Show or hide widget depending on the boolean flag value</td>
+                            </tr>
+                            <tr>
+                                <td><code>toggleWidget()</code></td>
+                                <td>Toggle the widget depending on the current visibility state</td>
+                            </tr>
+                            <tr>
+                                <td><code>isOpened()</code></td>
+                                <td>Returns true or false depending on whether the widget support form is currently openend</td>
+                            </tr>
+                            <tr>
+                                <td><code>release()</code></td>
+                                <td>Should be called whenever your widget instance shall be released</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </p>
 
                 <br/><br/><br/>

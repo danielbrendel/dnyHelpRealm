@@ -119,25 +119,6 @@ class HelpRealmWidget {
         window.__helprealm_widget = this;
     }
 
-    setApiKey(key)
-    {
-        this.apiKey = key;
-    }
-
-    showWidget(flag)
-    {
-        this.showWidget = flag;
-
-        this.widgetVisibilityAction();
-    }
-
-    toggleWidget()
-    {
-        this.showWidget = !this.showWidget;
-
-        this.widgetVisibilityAction();
-    }
-
     widgetVisibilityAction()
     {
         let action = document.querySelector('.helprealm-widget-openaction');
@@ -171,11 +152,6 @@ class HelpRealmWidget {
         } else {
             form.style.display = 'none';
         }
-    }
-
-    isOpened()
-    {
-        return this.openForm;
     }
 
     submitForm()
@@ -254,6 +230,25 @@ class HelpRealmWidget {
 
         req.open('POST', HELPREALM_ENDPOINT + '/api/' + this.config.workspace + '/widget/ticket/create', true);
         req.send(data);
+    }
+
+    showWidget(flag)
+    {
+        this.showWidget = flag;
+
+        this.widgetVisibilityAction();
+    }
+
+    toggleWidget()
+    {
+        this.showWidget = !this.showWidget;
+
+        this.widgetVisibilityAction();
+    }
+
+    isOpened()
+    {
+        return this.openForm;
     }
 
     release()
