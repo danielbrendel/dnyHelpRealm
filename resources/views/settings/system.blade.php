@@ -39,8 +39,10 @@
                             <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $ws->slug . '?v=c') }}" class="is-wordbreak" target="_blank">{{ url('/' . $ws->slug) }}</a>
                             <br/><br/>
 
-                            <span><i class="far fa-file-pdf"></i> <a href="{{ url('/data/documentation.pdf') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>
+                            @if (env('APP_DOCUMENTATION_LINK'))
+                            <span><i class="fas fa-file-alt"></i> <a href="{{ env('APP_DOCUMENTATION_LINK') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>
                             <br/><br/>
+                            @endif
 
                             <form method="POST" action="{{ url('/' . $workspace . '/settings/system') }}">
                                 @csrf

@@ -12,6 +12,8 @@
 
 @extends('layouts.layout_home')
 
+@section('title', __('app.home_tac'))
+
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">

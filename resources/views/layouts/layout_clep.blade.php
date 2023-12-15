@@ -23,7 +23,7 @@
 
         <meta name="author" content="{{ env('APP_AUTHOR') }}">
         <meta name="description" content="{{ env('APP_METADESC') }}">
-        <meta name="tags" content="{{ env('APP_METATAGS') }}">
+        <meta name="keywords" content="{{ env('APP_METATAGS') }}">
 
         <link rel="icon" type="image/png" href="{{ asset('gfx/logo.png') }}">
 
