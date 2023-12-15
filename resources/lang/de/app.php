@@ -384,6 +384,7 @@
         'documentation_view' => 'Dokumentation',
         'system_extfilter' => 'Folgende Dateierweiterungen vom Datei-Upload ausschließen',
         'ticket_disallowed_file_extension' => 'Dateien mit der Erweiterung :ext sind nicht erlaubt',
+        'system_api_access' => 'API Zugriff',
         'system_api_token' => 'API Token',
         'system_api_token_generate' => 'Generieren',
         'api_token_generated' => 'API Token erstellt',
@@ -427,5 +428,14 @@
         'membership' => 'Mitgliedschaft',
         'tickets' => 'Tickets',
         'embed_attachment' => 'Einfügen',
-        'settings_hideclosedtickets' => 'Geschlossene Tickets in Listen verbergen'
+        'settings_hideclosedtickets' => 'Geschlossene Tickets in Listen verbergen',
+        'enable_widget' => 'Widget aktivieren',
+        'server' => 'Server',
+        'widget_settings_saved' => 'Einstellungen für Widget gespeichert',
+        'widget_url' => 'Widget URL',
+        'widget_token' => 'Widget Token',
+        'system_widget_token_generate' => 'Generieren',
+        'server_widget_hint' => 'Optional, falls gesetzt, dann sind Anfragen nur von diesem Host erlaubt',
+        'ticket_stats' => 'Ticket Statistiken',
+        'confirm_del_ticket_type' => 'Soll dieser Ticket-Typ wirklich entfernt werden?'
     ];

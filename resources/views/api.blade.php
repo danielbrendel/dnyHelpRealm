@@ -12,6 +12,8 @@
 
 @extends('layouts.layout_home')
 
+@section('title', __('app.home_api'))
+
 @section('content')
     <div class="columns is-centered is-vcentered">
         <div class="column is-three-fifths">
@@ -23,9 +25,10 @@
                 <p>
                     If you don't want to use our predefined support contact form, you can also
                     make your own frontend interface to your customers. You can then communicate with
-                    our backend to create a ticket to your workspace.
+                    our backend to create a ticket to your workspace using our REST API.
                 </p>
 
+                @if (env('APP_PAYFORAPI'))
                 <p>
                     <strong>
                         Note: API access is granted by paying a small fee. This fee is only paid once and
@@ -33,6 +36,7 @@
                         You can buy access via the system settings panel.
                     </strong>
                 </p>
+                @endif
 
                 <p>
                     In order to create a ticket call the following API route as POST request:
@@ -527,6 +531,62 @@
                 </p>
 
                 <hr/>
+
+                <h3>Widget</h3>
+
+                <p>
+                    You can also use the embeddable widget in order to let users create support requests comfortably from your website.
+                    When enabled and activated then a support icon will be shown in the bottom right corner of your page which users
+                    can use to open a form to enter their support request data. After successfully submitting the form, a new ticket
+                    will be created for the requesting user.
+                </p>
+
+                <p>
+                    In order to embed the widget, you need to activate the feature in your system settings. There is a separate key for the 
+                    widget feature in order to keep things distinguishable. Similar to the REST API key, you can also always generate a new 
+                    widget API key whenever you want.
+                </p>
+
+                <p>
+                    The following code describes a basic widget initialization.
+                </p>
+
+                <p>
+                    <code>&lt;script src="{{ asset('js/widget.js') }}"&gt;&lt;/script&gt;</code><br/><br/>
+
+                    <code>&lt;div id="support-widget"&gt;&lt;/div&gt;</code><br/><br/>
+
+                    <code>let widget = new HelpRealmWidget({</code><br/>
+                        <code>&nbsp;&nbsp;elem: '#support-widget',</code><br/>
+                        <code>&nbsp;&nbsp;workspace: 'your-workspace-hash',</code><br/>
+                        <code>&nbsp;&nbsp;apiKey: 'your-widget-api-key',</code><br/>
+                        <code>&nbsp;&nbsp;header: 'url/to/your/header/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;logo: 'url/to/your/logo/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;button: 'url/to/your/button/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;lang: {</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;title: 'Contact Us!',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputName: 'Enter your name',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputEmail: 'Enter your E-Mail',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputSubject: 'What is your topic?',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputMessage: 'What is on your mind?',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputFile: 'Attachment (optional)',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;btnSubmit: 'Submit',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;error: 'Elem {elem} is invalid or missing',</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;access: 'Access denied!',</code><br/>
+                        <code>},</code><br/>
+                        <code>&nbsp;&nbsp;ticket: {</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;type: 1,</code><br/>
+                            <code>&nbsp;&nbsp;&nbsp;&nbsp;prio: 1</code><br/>
+                        <code>&nbsp;&nbsp;},</code><br/>
+                    <code>});</code><br/>
+                </p>
+
+                <br/>
+
+                <p>
+                    This is essentially all you have to do. Just reference the widget.js, create a HTML container element to be used to 
+                    embed the widget in and then initialize the widget component.
+                </p>
 
                 <br/><br/><br/>
             </div>

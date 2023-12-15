@@ -14,8 +14,6 @@
 
 Route::get('/', 'MainController@index');
 Route::get('/home', 'MainController@index');
-Route::get('/features', 'MainController@features');
-Route::get('/about', 'MainController@about');
 Route::get('/faq', 'MainController@faq');
 Route::get('/api', 'MainController@api');
 Route::get('/imprint', 'MainController@imprint');
@@ -96,6 +94,8 @@ Route::get('/{workspace}/settings/system', 'SettingsController@viewSystemSetting
 Route::patch('/{workspace}/settings/system', 'SettingsController@saveSystemSettings');
 Route::post('/{workspace}/settings/system/mailer', 'SettingsController@mailer');
 Route::patch('/{workspace}/settings/system/apitoken', 'SettingsController@generateApiToken');
+Route::patch('/{workspace}/settings/system/widget/token', 'SettingsController@generateWidgetToken');
+Route::post('/{workspace}/settings/system/widget', 'SettingsController@saveWidgetSettings');
 Route::post('/{workspace}/settings/system/backgrounds/add', 'SettingsController@addBackgroundImage');
 Route::any('/{workspace}/settings/system/backgrounds/delete/{name}', 'SettingsController@deleteBackgroundImage');
 Route::post('/{workspace}/system/tickets/export', 'SettingsController@exportTickets');
@@ -115,6 +115,7 @@ Route::post('/api/{workspace}/ticket/comment/add/customer', 'ApiController@addCu
 Route::post('/api/{workspace}/ticket/comment/edit/customer', 'ApiController@editCommentCustomer');
 Route::post('/api/{workspace}/ticket/attachment/add', 'ApiController@addFile');
 Route::post('/api/{workspace}/ticket/attachment/delete', 'ApiController@deleteFile');
+Route::post('/api/{workspace}/widget/ticket/create', 'ApiController@widgetCreateTicket');
 
 Route::any('/{workspace}/payment/charge', 'PaymentController@charge');
 

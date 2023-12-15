@@ -30,7 +30,7 @@
                                 <li id="tabTickets"><a href="javascript:void(0);" onclick="window.showTabMenu('tabTickets');">{{ __('app.tickets') }}</a></li>
                                 <li id="tabMailservice"><a href="javascript:void(0);" onclick="window.showTabMenu('tabMailservice');">{{ __('app.mailer_service') }}</a></li>
                                 <li id="tabBackgrounds"><a href="javascript:void(0);" onclick="window.showTabMenu('tabBackgrounds');">{{ __('app.system_backgrounds') }}</a></li>
-                                <li id="tabApiAccess"><a href="javascript:void(0);" onclick="window.showTabMenu('tabApiAccess');">{{ __('app.system_api_token') }}</a></li>
+                                <li id="tabApiAccess"><a href="javascript:void(0);" onclick="window.showTabMenu('tabApiAccess');">{{ __('app.system_api_access') }}</a></li>
                                 <li id="tabMembership"><a href="javascript:void(0);" onclick="window.showTabMenu('tabMembership');">{{ __('app.membership') }}</a></li>
                             </ul>
                         </div>
@@ -39,8 +39,10 @@
                             <strong>{{ __('app.workspace_link') }}</strong><a href="{{ url('/' . $ws->slug . '?v=c') }}" class="is-wordbreak" target="_blank">{{ url('/' . $ws->slug) }}</a>
                             <br/><br/>
 
-                            <span><i class="far fa-file-pdf"></i> <a href="{{ url('/data/documentation.pdf') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>
+                            @if (env('APP_DOCUMENTATION_LINK'))
+                            <span><i class="fas fa-file-alt"></i> <a href="{{ env('APP_DOCUMENTATION_LINK') }}" target="_blank"><strong>{{ __('app.documentation_view') }}</strong></a></span>
                             <br/><br/>
+                            @endif
 
                             <form method="POST" action="{{ url('/' . $workspace . '/settings/system') }}">
                                 @csrf
@@ -175,7 +177,7 @@
                                             </td>
 
                                             <td class="right">
-                                                <a href="{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}">{{ __('app.ticket_type_remove') }}</a>
+                                                <a href="javascript:void(0);" onclick="if (confirm('{{ __('app.confirm_del_ticket_type') }}')) { location.href = '{{ url('/' . $workspace . '/tickettype/' . $ticketType->id . '/delete') }}'; }">{{ __('app.ticket_type_remove') }}</a>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -291,6 +293,54 @@
                                 </div>
 
                                 <input type="button" class="button" onclick="generateApiToken()" value="{{ __('app.system_api_token_generate') }}">
+
+                                <br/><br/>
+
+                                <form method="POST" action="{{ url('/' . $workspace . '/settings/system/widget') }}">
+                                    @csrf 
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="checkbox" data-role="checkbox" data-style="2" data-caption="{{ __('app.enable_widget') }}" name="enablewidget" value="1" <?php if ((bool)$enablewidget === true) { echo 'checked'; } ?>/>
+                                        </div>
+                                    </div>
+
+                                    @if ($enablewidget)
+                                        <div class="field">
+                                            <label class="label">{{ __('app.server') }} - {{ __('app.server_widget_hint') }}</label>
+                                            <div class="control">
+                                                <input type="text" name="server" value="{{ $server }}"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">{{ __('app.widget_url') }}</label>
+                                            <div class="control">
+                                                <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">{{ __('app.widget_token') }}</label>
+                                            <div class="control">
+                                                <input type="text" class="is-inline-block has-button-right" id="widgettoken" value="{{ $widgettoken }}" readonly/>
+                                                <a class="button is-inline-block button-align-input" href="javascript:void(0);" onclick="generateWidgetToken()">{{ __('app.system_widget_token_generate') }}</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <div class="control">
+                                                
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="field">
+                                        <div class="control">
+                                            <input type="submit" value="{{ __('app.save') }}"/>
+                                        </div>
+                                    </div>
+                                </form>
                             @else
                                 <strong>{{ __('app.system_api_token') }}</strong><br/>
 
@@ -449,6 +499,16 @@
                 function(){}
             );
         }
+
+        function generateWidgetToken()
+        {
+            ajaxRequest('patch', '{{ url('/' . $workspace . '/settings/system/widget/token') }}', {},
+                function(data){
+                    document.getElementById('widgettoken').value = data.token;
+                },
+                function(){}
+            );
+        }
     @endif
 
     window.showTabMenu = function(target) {
@@ -466,6 +526,10 @@
     };
 
     document.addEventListener('DOMContentLoaded', function() {
+        @if (isset($_GET['tab']))
+            window.showTabMenu('{{ $_GET['tab'] }}');
+        @endif
+
         var stripe = Stripe('{{ env('STRIPE_TOKEN_PUBLIC') }}');
         var elements = stripe.elements();
 

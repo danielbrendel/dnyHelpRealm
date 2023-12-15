@@ -103,30 +103,6 @@ class MainControllerTest extends TestCase
     }
 
     /**
-     * Test for features
-     *
-     * @return void
-     */
-    public function testFeatures()
-    {
-        $response = $this->get('/features');
-        $response->assertStatus(200);
-        $response->assertViewIs('features');
-    }
-
-    /**
-     * Test for about
-     *
-     * @return void
-     */
-    public function testAbout()
-    {
-        $response = $this->get('/about');
-        $response->assertStatus(200);
-        $response->assertViewIs('about');
-    }
-
-    /**
      * Test for faq
      *
      * @return void

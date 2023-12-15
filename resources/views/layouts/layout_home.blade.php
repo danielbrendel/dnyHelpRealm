@@ -19,11 +19,15 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ env('APP_NAME') }} - {{ env('APP_DESCRIPTION') }}</title>
+        @hasSection('title')
+            <title>{{ env('APP_NAME') }} - @yield('title') - {{ env('APP_DESCRIPTION') }}</title>
+        @else
+            <title>{{ env('APP_NAME') }} - {{ env('APP_DESCRIPTION') }}</title>
+        @endif
 
         <meta name="author" content="{{ env('APP_AUTHOR') }}">
         <meta name="description" content="{{ env('APP_METADESC') }}">
-        <meta name="tags" content="{{ env('APP_METATAGS') }}">
+        <meta name="keywords" content="{{ env('APP_METATAGS') }}">
 
         <link rel="icon" type="image/png" href="{{ asset('gfx/logo.png') }}">
 
@@ -69,21 +73,15 @@
                         </a>
                     @endif
 
-                    <a class="navbar-item" href="{{ url('/features') }}">
-                        {{ __('app.home_features') }}
-                    </a>
-
-                    <a class="navbar-item" href="{{ url('/about') }}">
-                        {{ __('app.home_about') }}
-                    </a>
-
                     <a class="navbar-item" href="{{ url('/faq') }}">
                         {{ __('app.home_faq') }}
                     </a>
 
-                    <a class="navbar-item" href="{{ asset('/data/documentation.pdf') }}">
+                    @if (env('APP_DOCUMENTATION_LINK'))
+                    <a class="navbar-item" href="{{ env('APP_DOCUMENTATION_LINK') }}" target="_blank">
                         {{ __('app.home_doc') }}
                     </a>
+                    @endif
 
                     <a class="navbar-item" href="{{ url('/api') }}">
                         {{ __('app.home_api') }}
@@ -411,26 +409,24 @@
         @yield('javascript')
 
         document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
 
-        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            if ($navbarBurgers.length > 0) {
 
-        if ($navbarBurgers.length > 0) {
+            $navbarBurgers.forEach(el => {
+                el.addEventListener('click', () => {
 
-        $navbarBurgers.forEach(el => {
-            el.addEventListener('click', () => {
+                const target = el.dataset.target;
+                const $target = document.getElementById(target);
 
-            const target = el.dataset.target;
-            const $target = document.getElementById(target);
+                el.classList.toggle('is-active');
+                $target.classList.toggle('is-active');
 
-            el.classList.toggle('is-active');
-            $target.classList.toggle('is-active');
-
+                });
             });
-        });
-        }
+            }
 
-        vue.handleCookieConsent();
-
+            vue.handleCookieConsent();
         });
     </script>
 </html>

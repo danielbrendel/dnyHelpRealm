@@ -69,7 +69,7 @@ textarea {
     width: 50%;
     z-index: 1;
     word-wrap: break-word;
-    background-color: rgb(128, 255, 128);
+    background-color: rgb(50, 200, 50);
     border: 1px solid #ccc;
     border-radius: 4px;
     display: none;
@@ -318,6 +318,14 @@ textarea {
     display: inline-block;
     width: 100%;
     margin-left: 10px;
+}
+.tile-margin-bottom {
+    @media screen and (max-width: 768px) {
+        margin-bottom: 12px;
+    }
+}
+article.tile p:first-child {
+    padding-top: 15px !important;
 }
 .left {
     position: relative;
@@ -946,7 +954,49 @@ textarea {
 .home-screenshot {
     position: relative;
     margin-bottom: 15px;
-    bottom: 0;
+}
+.home-paragraph {
+    position: relative;
+    margin-bottom: 15px;
+    text-align: center;
+}
+.home-paragraph h3 {
+    color: rgb(83, 87, 91);
+    margin-top: 70px;
+    margin-bottom: 20px;
+}
+.home-paragraph p {
+    margin-bottom: 30px;
+}
+.home-features {
+    position: relative;
+    width: 100%;
+}
+.home-features-block {
+    position: relative;
+    display: inline-block;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+.home-features-block-fix {
+    margin-left: 45px;
+}
+.home-feature-item {
+    position: relative;
+    text-align: left;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.5em;
+    @media screen and (max-width: 768px) {
+        font-size: 1.0em;
+    }
+    color: rgb(3, 59, 105);
+}
+.home-feature-item i {
+    color: rgb(250, 215, 63);
+}
+.home-margin-top-last {
+    margin-top: 65px
 }
 .home-copyright {
     width: 100%;
@@ -989,6 +1039,13 @@ textarea {
     position: relative;
     display: inline-block;
     top: 25px;
+}
+.imprint-additional-content {
+    position: relative;
+    margin-top: 50px;
+    @media screen and (min-width: 1089px) {
+        margin-top: 25px;
+    }
 }
 
 //Navbar
@@ -1074,4 +1131,17 @@ a.navbar-item:hover {
 //Status badge area
 #view-status {
     margin-bottom: 33px;
+}
+
+.is-inline-block {
+    display: inline-block !important;
+}
+
+.has-button-right {
+    width: 91% !important;
+}
+
+.button-align-input {
+    position: relative;
+    top: -2px;
 }

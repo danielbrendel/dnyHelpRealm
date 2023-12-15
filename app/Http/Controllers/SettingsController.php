@@ -307,7 +307,7 @@ class SettingsController extends Controller
 		} else {
 			$firstTicketCreatedAt = $firstTicketCreatedAt->created_at;
 		}
-
+        
         return view('settings.system', [
             'workspace' => $ws->name,
             'location' => __('app.system_settings'),
@@ -317,6 +317,7 @@ class SettingsController extends Controller
             'company' => $ws->company,
             'lang' => $ws->lang,
             'apitoken' => $ws->apitoken,
+            'widgettoken' => $ws->widgettoken,
             'usebgcolor' => $ws->usebgcolor,
             'bgcolorcode' => $ws->bgcolorcode,
             'langs' => $langs,
@@ -328,6 +329,8 @@ class SettingsController extends Controller
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'formactions' => $ws->formactions,
+            'enablewidget' => $ws->enable_widget,
+            'server' => $ws->widget_server,
             'ws' => $ws,
             'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(),
             'captchadata' => CaptchaModel::createSum(session()->getId()),
@@ -414,7 +417,7 @@ class SettingsController extends Controller
 
         $ws->save();
 
-        return back()->with('success', __('app.settings_saved'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabGeneral')->with('success', __('app.settings_saved'));
     }
 
     /**
@@ -456,7 +459,7 @@ class SettingsController extends Controller
             $dbentry->save();
         }
 
-        return back()->with('success', __('app.file_uploaded'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabBackgrounds')->with('success', __('app.file_uploaded'));
     }
 
     /**
@@ -502,7 +505,7 @@ class SettingsController extends Controller
 
         $item->delete();
 
-        return back()->with('success', __('app.file_deleted'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabBackgrounds')->with('success', __('app.file_deleted'));
     }
 
     /**
@@ -537,7 +540,7 @@ class SettingsController extends Controller
             return back()->with('error', __('app.ticket_type_add_failed'));
         }
 
-        return back()->with('success', __('app.ticket_type_added'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_added'));
     }
 
     /**
@@ -574,7 +577,7 @@ class SettingsController extends Controller
         $ticketType->name = $attr['name'];
         $ticketType->save();
 
-        return back()->with('success', __('app.ticket_type_edited'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_edited'));
     }
 
     /**
@@ -611,7 +614,7 @@ class SettingsController extends Controller
 
         $ticketType->delete();
 
-        return back()->with('success', __('app.ticket_type_deleted'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabTickets')->with('success', __('app.ticket_type_deleted'));
     }
 
     /**
@@ -681,6 +684,7 @@ class SettingsController extends Controller
 
     /**
      * Generate API token
+     * 
      * @param $workspace
      * @return \Illuminate\Http\JsonResponse
      * @throws \Exception
@@ -700,10 +704,77 @@ class SettingsController extends Controller
             return response()->json(array('code' => 500, 'message' => __('app.superadmin_permission_required')));
         }
 
-        $ws->apitoken = md5(random_bytes(55));
+        $ws->apitoken = md5(random_bytes(55) . date('Y-m-h H:i:s'));
         $ws->save();
 
         return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->apitoken));
+    }
+
+    /**
+     * Generate widget token
+     * 
+     * @param $workspace
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function generateWidgetToken($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return response()->json(array('code' => 500, 'message' => __('app.login_required')));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return response()->json(array('code' => 500, 'message' => __('app.workspace_not_found_or_deactivated')));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return response()->json(array('code' => 500, 'message' => __('app.superadmin_permission_required')));
+        }
+
+        $ws->widgettoken = md5(random_bytes(55) . date('Y-m-h H:i:s'));
+        $ws->save();
+
+        return response()->json(array('code' => 200, 'message' => __('app.api_token_generated'), 'token' => $ws->widgettoken));
+    }
+
+    /**
+     * Save widget settings
+     * 
+     * @param $workspace
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
+     */
+    public function saveWidgetSettings($workspace)
+    {
+        if (!WorkSpaceModel::isLoggedIn($workspace)) {
+            return back()->with('error', __('app.login_required'));
+        }
+
+        $ws = WorkSpaceModel::where('name', '=', $workspace)->where('deactivated', '=', false)->first();
+        if ($ws === null) {
+            return back()->with('error', __('app.workspace_not_found_or_deactivated'));
+        }
+
+        if (!AgentModel::isSuperAdmin(User::getAgent(auth()->id())->id)) {
+            return back()->with('error', __('app.superadmin_permission_required'));
+        }
+
+        $attr = request()->validate([
+            'server' => 'nullable',
+            'enablewidget' => 'numeric|nullable'
+        ]);
+
+        if (!isset($attr['enablewidget'])) {
+            $attr['enablewidget'] = false;
+        }
+
+        $ws->enable_widget = $attr['enablewidget'];
+        $ws->widget_server = $attr['server'];
+
+        $ws->save();
+
+        return redirect('/' . $workspace . '/settings/system?tab=tabApiAccess')->with('success', __('app.widget_settings_saved'));
     }
 
     /**
@@ -791,7 +862,7 @@ class SettingsController extends Controller
         $ws->mailer_fromname = $attr['mailer_fromname'];
         $ws->save();
 
-        return back()->with('success', __('app.settings_saved'));
+        return redirect('/' . $workspace . '/settings/system?tab=tabMailservice')->with('success', __('app.settings_saved'));
     }
 
     /**

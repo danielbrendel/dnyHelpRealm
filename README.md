@@ -45,19 +45,18 @@ freelancers and small teams.
 + Security (Protection against XSS, SQL Injection, CSRF, Spam)
 + Responsive layout
 + SaaS solution
-+ API Endpoint
++ API (REST / Widget)
 + Endpoint for client apps
 + Stripe payment
 + Ajax requests
-+ Documentation
 
 ## Documentation
-The documentation is located in the /doc directory. A generated PDF needs to be put to /public/data/documentation.pdf
+A documentation resource can be linked to by setting the APP_DOCUMENTATION_LINK environment variable.
 
 ## System requirements
 The product is being developed with the following engine versions:
-+ PHP ^7.4|^8.0 
-+ MySQL 10.4.11-MariaDB
++ PHP ^8.1
++ MySQL 10.4.27-MariaDB
 + Default PHP extensions
 
 ## Testing
@@ -84,12 +83,19 @@ to the project root and run PHPUnit. The following variables must be adjusted:
 + DATA_TICKETTYPENONEXISTING: ID of a non-existing ticket type
 
 ## Mailservice
-Agents and customers can post to a ticket thread by replying to the notification emails.
-In order for this to work the environment variables MAILSERV_* must be set. Also a cronjob
-must be activated on the server system which calls /mailservice/{what}/{password} (any request type).
-'what' refers to either 'self' (to handle the mailbox associated with the host support) or 
-'custom' (to handle all custom mailboxes of workspaces that use a custom mailbox). The password 
-must match the one specified in the MAILSERV_CRONPW variable.
+Agents and customers can post to a ticket thread by replying to the notification emails. For this to work the
+mailservice must be configured.
+Using a mailservice can either happen by using the systems own mailservice or the users custom mailservice. 
+Therefore the related mailservice settings must be configurated in the .env file. SMTP is for sending e-mails and IMAP
+for retrieving e-mails from an inbox. When users choose their own mailservice then the mailservice will try to connect
+to their SMTP and IMAP hosts to send and process e-mails. There are two cronjobs available for dealing with
+mail inboxes:
+1. /mailservice/self/{password}
+	This one is used to process the mail inbox of the system
+2. /mailservice/custom/{password}
+	This one is used to process the mail inboxes of workspaces that use a custom mailservice
+
+To protect the cronjob routes from public access, the environment variable MAILSERV_CRONPW must be set to a secure token.
 
 ## Twitter news
 By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 
