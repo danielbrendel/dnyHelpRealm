@@ -21,6 +21,9 @@
     background-color: rgb(250, 250, 250);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 10px;
+    @media screen and (max-width: 453px) {
+        bottom: 2px;
+    }
 }
 
 .helprealm-widget:hover {
@@ -127,6 +130,10 @@
     height: 64px;
     z-index: 100;
     border-radius: 50%;
+    @media screen and (max-width: 453px) {
+        bottom: 4px;
+        z-index: 101;
+    }
 }
 
 .helprealm-widget-openaction-button {
