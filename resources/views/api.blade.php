@@ -563,6 +563,7 @@
                         <code>&nbsp;&nbsp;header: 'url/to/your/header/image.png',</code><br/>
                         <code>&nbsp;&nbsp;logo: 'url/to/your/logo/image.png',</code><br/>
                         <code>&nbsp;&nbsp;button: 'url/to/your/button/image.png',</code><br/>
+                        <code>&nbsp;&nbsp;fileUpload: true,</code><br/>
                         <code>&nbsp;&nbsp;lang: {</code><br/>
                             <code>&nbsp;&nbsp;&nbsp;&nbsp;title: 'Contact Us!',</code><br/>
                             <code>&nbsp;&nbsp;&nbsp;&nbsp;lblInputName: 'Enter your name',</code><br/>
