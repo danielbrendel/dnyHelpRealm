@@ -10,7 +10,7 @@
     Released under the MIT license
 */
 .helprealm-widget {
-  position: absolute;
+  position: fixed;
   display: none;
   bottom: 100px;
   right: 25px;
@@ -119,7 +119,7 @@
 }
 
 .helprealm-widget-openaction {
-  position: absolute;
+  position: fixed;
   bottom: 22px;
   right: 25px;
   width: 64px;
