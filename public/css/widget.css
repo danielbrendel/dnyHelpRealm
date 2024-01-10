@@ -24,6 +24,7 @@
 @media screen and (max-width: 453px) {
   .helprealm-widget {
     bottom: 2px;
+    right: 10px;
   }
 }
 

@@ -30,6 +30,7 @@ class HelpRealmWidget {
         this.config.header = (typeof cfg.header !== 'undefined') ? cfg.header : null;
         this.config.logo = (typeof cfg.logo !== 'undefined') ? cfg.logo : null;
         this.config.button = (typeof cfg.button !== 'undefined') ? cfg.button : null;
+        this.config.fileUpload = (typeof cfg.fileUpload !== 'undefined') ? cfg.fileUpload : false;
         this.config.lang = (typeof cfg.lang !== 'undefined') ? cfg.lang : null;
         this.config.ticket = (typeof cfg.ticket !== 'undefined') ? cfg.ticket : null;
 
@@ -92,10 +93,12 @@ class HelpRealmWidget {
                         <textarea id="helprealm-widget-input-message"></textarea>
                     </div>
 
+                    ` + ((this.config.fileUpload) ? `
                     <div class="helprealm-widget-form-input">
                         <label>` + this.config.lang.lblInputFile + `</label>
                         <input type="file" id="helprealm-widget-input-file"/>
-                    </div>
+                    </div>` : ``) +
+                    `
 
                     <div class="helprealm-widget-form-input">
                         <span>
@@ -186,7 +189,7 @@ class HelpRealmWidget {
         data.append('subject', subject.value);
         data.append('text', message.value);
 
-        if (attachment.files.length > 0) {
+        if ((attachment) && (attachment.files.length > 0)) {
             data.append('attachment', attachment.files[0]);
         }
         
