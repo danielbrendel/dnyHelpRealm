@@ -57,12 +57,12 @@ class MailerModel extends Model
             //Server settings
             $mail->SMTPDebug = SMTP::DEBUG_OFF;                      // Disable debug message output
             $mail->isSMTP();                                            // Send using SMTP
-            $mail->Host       = env('SMTP_HOST');                    // Set the SMTP server to send through
+            $mail->Host       = $_ENV['SMTP_HOST'] ?? env('SMTP_HOST');                    // Set the SMTP server to send through
             $mail->SMTPAuth   = true;                                   // Enable SMTP authentication
-            $mail->Username   = env('SMTP_USERNAME');                     // SMTP username
-            $mail->Password   = env('SMTP_PASSWORD');                               // SMTP password
+            $mail->Username   = $_ENV['SMTP_USERNAME'] ?? env('SMTP_USERNAME');                     // SMTP username
+            $mail->Password   = $_ENV['SMTP_PASSWORD'] ?? env('SMTP_PASSWORD');                               // SMTP password
             $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;         // Enable TLS encryption; `PHPMailer::ENCRYPTION_SMTPS` encouraged
-            $mail->Port       = env('SMTP_PORT', 587);                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
+            $mail->Port       = $_ENV['SMTP_PORT'] ?? env('SMTP_PORT', 587);                                    // TCP port to connect to, use 465 for `PHPMailer::ENCRYPTION_SMTPS` above
 
             //Recipients
             $mail->setFrom($this->fromAddress, $this->fromName);
@@ -115,7 +115,7 @@ class MailerModel extends Model
                 $_ENV['APP_NAME'] = $ws->company;
             }
 
-            $mailer = new self(env('SMTP_FROMADDRESS'), env('SMTP_FROMNAME'));
+            $mailer = new self(($_ENV['SMTP_FROMADDRESS'] ?? env('SMTP_FROMADDRESS')), ($_ENV['SMTP_FROMNAME'] ?? env('SMTP_FROMNAME')));
             return $mailer->send($to, $subject, $message);
         } catch (\Exception $e) {
             return false;

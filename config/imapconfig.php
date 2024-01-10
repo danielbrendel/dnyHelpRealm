@@ -46,7 +46,7 @@ return [
     */
     'accounts' => [
 
-        'default' => [// account identifier
+        /*'default' => [// account identifier
             'host'  => env('MAILSERV_HOST'),
             'port'  => env('MAILSERV_PORT'),
             'protocol'  => env('MAILSERV_PROTOCOL'), //might also use imap, [pop3 or nntp (untested)]
@@ -54,6 +54,16 @@ return [
             'validate_cert' => env('MAILSERV_VALIDATECERT'),
             'username' => env('MAILSERV_USERNAME'),
             'password' => env('MAILSERV_PASSWORD'),
+        ],*/
+
+        'default' => [// account identifier
+            'host'  => $_ENV['MAILSERV_HOST'] ?? env('MAILSERV_HOST'),
+            'port'  => $_ENV['MAILSERV_PORT'] ?? env('MAILSERV_PORT'),
+            'protocol'  => $_ENV['MAILSERV_PROTOCOL'] ?? env('MAILSERV_PROTOCOL'), //might also use imap, [pop3 or nntp (untested)]
+            'encryption'    => $_ENV['MAILSERV_ENCRYPTION'] ?? env('MAILSERV_ENCRYPTION'), // Supported: false, 'ssl', 'tls'
+            'validate_cert' => $_ENV['MAILSERV_VALIDATECERT'] ?? env('MAILSERV_VALIDATECERT'),
+            'username' => $_ENV['MAILSERV_USERNAME'] ?? env('MAILSERV_USERNAME'),
+            'password' => $_ENV['MAILSERV_PASSWORD'] ?? env('MAILSERV_PASSWORD'),
         ],
 
         /*
