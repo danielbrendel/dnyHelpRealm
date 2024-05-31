@@ -113,7 +113,6 @@ class InstallerController extends Controller
 		$envcontent .= 'STRIPE_COSTS_VALUE=1000' . PHP_EOL;
 		$envcontent .= 'STRIPE_COSTS_LABEL="10.00$"' . PHP_EOL;
 		$envcontent .= 'STRIPE_CURRENCY="usd"' . PHP_EOL;
-		$envcontent .= 'GA_TOKEN=null' . PHP_EOL;
         $envcontent .= 'BROADCAST_DRIVER=log' . PHP_EOL;
         $envcontent .= 'CACHE_DRIVER=file' . PHP_EOL;
         $envcontent .= 'QUEUE_CONNECTION=sync' . PHP_EOL;
