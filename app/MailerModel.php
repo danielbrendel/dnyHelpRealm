@@ -36,8 +36,6 @@ class MailerModel extends Model
      */
     public function __construct($fromAddress, $fromName)
     {
-        parent::__construct(array());
-
         $this->fromAddress = $fromAddress;
         $this->fromName = $fromName;
     }

@@ -31,7 +31,7 @@ class CreateTicketModelsTable extends Migration
             $table->string('hash');
             $table->string('address');
             $table->string('subject');
-            $table->string('text', 4096);
+            $table->text('text');
             $table->string('name');
             $table->string('email');
             $table->string('confirmation');
@@ -40,7 +40,7 @@ class CreateTicketModelsTable extends Migration
             $table->integer('prio')->unsigned(); //1 = low, 2 = medium, 3 = high
             $table->integer('group')->unsigned();
             $table->integer('assignee')->unsigned();
-            $table->string('notes', 4096)->default('');
+            $table->text('notes')->default('');
             $table->timestamps();
         });
     }

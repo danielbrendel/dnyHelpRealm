@@ -211,8 +211,8 @@ class MailserviceModel extends Model
                                 $attr['subject'] = $message->getSubject();
                                 $attr['text'] = $message->getTextBody();
                                 $sender = $message->getSender();
-                                $attr['email'] = $sender[0]->mail;
-                                $attr['name'] = $sender[0]->personal;
+                                $attr['email'] = $message->getAttributes()['from'][0]->mail;
+                                $attr['name'] = $message->getAttributes()['from'][0]->personal;
                                 $attr['workspace'] = $ws->id;
                                 $attr['assignee'] = 0;
                                 $attr['group'] = GroupsModel::getPrimaryGroup($ws->id)->id;
