@@ -18,7 +18,6 @@ Route::get('/faq', 'MainController@faq');
 Route::get('/api', 'MainController@api');
 Route::get('/imprint', 'MainController@imprint');
 Route::get('/tac', 'MainController@tac');
-Route::get('/news', 'MainController@news');
 Route::post('/login', 'MainController@login');
 Route::any('/logout', 'MainController@logout');
 Route::post('/recover', 'MainController@recover');

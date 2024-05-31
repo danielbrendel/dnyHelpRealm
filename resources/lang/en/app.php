@@ -25,7 +25,6 @@
         'home_privacy' => 'Privacy',
         'home_tac' => 'Terms and Conditions',
         'home_support' => 'Support',
-        'home_news' => 'News',
         'home_welcomemsg' => 'Sign up and start supporting your customers',
         'imprint_headline' => 'This service is brought to you by:',
         'workspace' => 'Workspace',

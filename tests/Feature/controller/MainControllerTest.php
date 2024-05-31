@@ -91,18 +91,6 @@ class MainControllerTest extends TestCase
     }
 
     /**
-     * Test for news
-     *
-     * @return void
-     */
-    public function testNews()
-    {
-        $response = $this->get('/news');
-        $response->assertStatus(200);
-        $response->assertViewIs('news');
-    }
-
-    /**
      * Test for faq
      *
      * @return void

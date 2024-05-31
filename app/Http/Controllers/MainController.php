@@ -169,18 +169,6 @@ class MainController extends Controller
     }
 
     /**
-     * View news page
-     *
-     * @return mixed
-     */
-    public function news()
-    {
-        $captchadata = CaptchaModel::createSum(session()->getId());
-
-        return view('news', ['captchadata' => $captchadata]);
-    }
-
-    /**
      * View API page
      *
      * @return mixed

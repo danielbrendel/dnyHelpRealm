@@ -97,6 +97,3 @@ mail inboxes:
 
 To protect the cronjob routes from public access, the environment variable MAILSERV_CRONPW must be set to a secure token.
 
-## Twitter news
-By setting the TWITTER_* environment variables to the news account it will fetch tweets from the 
-Twitter timeline.

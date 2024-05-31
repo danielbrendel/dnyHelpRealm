@@ -67,12 +67,6 @@
 
                 <div id="navMainMenu" class="navbar-menu">
                 <div class="navbar-start">
-                    @if ((env('TWITTER_LINK', null) !== null) && (env('TWITTER_IDENT', null) != null))
-                        <a class="navbar-item" href="{{ url('/news') }}">
-                            {{ __('app.home_news') }}
-                        </a>
-                    @endif
-
                     <a class="navbar-item" href="{{ url('/faq') }}">
                         {{ __('app.home_faq') }}
                     </a>
