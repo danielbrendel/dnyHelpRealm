@@ -13,6 +13,7 @@
         "axios": "^1.6.5",
         "bootstrap": "^4.6.2",
         "cross-env": "^7.0.3",
+        "glob-parent": "^6.0.1",
         "jquery": "^3.7.1",
         "laravel-mix": "^6.0.49",
         "lodash": "^4.17.21",
@@ -28,6 +29,10 @@
         "@babel/preset-env": "^7.23.8",
         "babel": "^6.23.0",
         "chart.js": "^2.9.4",
-        "push.js": "^1.0.12"
+        "push.js": "^1.0.12",
+        "webpack": "^5.76.0"
+    },
+    "overrides": {
+        "glob-parent": "$glob-parent"
     }
 }
