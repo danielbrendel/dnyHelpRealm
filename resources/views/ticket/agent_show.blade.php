@@ -45,7 +45,7 @@
                                 <a href="javascript:void(0)" onclick="vue.bShowChangeType = true;"><i class="fas fa-i-cursor" title="{{ __('app.ticket_change_type') }}"></i></a>
                             </div>
 
-                            <div class="ticket-agent-menu-item @if ($ticket->status !== 3) is-hidden @endif" id="delete-ticket-link">
+                            <div class="ticket-agent-menu-item @if ($ticket->status != 3) is-hidden @endif" id="delete-ticket-link">
                                 <a href="javascript:void(0);" onclick="if (confirm('{{ __('app.delete_confirm') }}')) location.href = '{{ url('/' . $workspace . '/ticket/' . $ticket->id . '/delete') }}';"><i class="fas fa-trash-alt" title="{{ __('app.delete') }}"></i></a>
                             </div>
 

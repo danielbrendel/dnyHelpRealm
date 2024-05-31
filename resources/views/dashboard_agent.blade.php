@@ -29,7 +29,7 @@
                 <div class="tile is-ancestor has-text-centered">
                     <div class="tile is-parent">
                         <article class="tile is-child box">
-                            <p class="title" id="stats-yours">{{ $yours }}/{{ $serving }}</p>
+                            <p class="title" id="stats-yours">{{ $yours }}</p>
                             <p class="subtitle">{{ __('app.your_tickets') }}</p>
                         </article>
                     </div>
@@ -252,7 +252,7 @@
         ajaxRequest('get', '{{ url('/clep/statistics') }}', {},
             function(data){
                 if (data.code === 200) {
-                    document.getElementById('stats-yours').innerHTML = data.data.yours + ' / ' + data.data.serving;
+                    document.getElementById('stats-yours').innerHTML = data.data.yours;
                     document.getElementById('stats-serving').innerHTML = data.data.serving;
                     document.getElementById('stats-agents').innerHTML = data.data.agents;
                     document.getElementById('stats-groups').innerHTML = data.data.groups;

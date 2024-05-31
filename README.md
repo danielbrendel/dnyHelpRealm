@@ -1,12 +1,20 @@
-# HelpRealm (dnyHelpRealm) developed by Daniel Brendel
+<h1 align="center">
+    <img src="public/gfx/logo.png" width="100"/><br/>
+    HelpRealm
+</h1>
 
-(C) 2019 - 2024 by Daniel Brendel
+<p align="center">
+    The free SaaS support ticket system<br/>
+    (C) 2019 - 2024 by Daniel Brendel<br/>
+    Released under the MIT license
+</p>
+
+## Information
 
 **Version**: 1.0\
+**Codename**: dnyHelpRealm\
 **Contact**: dbrendel1988(at)gmail(dot)com\
 **GitHub**: https://github.com/danielbrendel
-
-Released under the MIT license
 
 ## Description:
 HelpRealm is a lightweight SaaS service support system for customers of entities. Customers can create support requests 
