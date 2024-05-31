@@ -59,4 +59,29 @@ class WorkSpaceModel extends Model
 
         return true;
     }
+
+    /**
+     * Check if the given sender is blacklisted
+     * 
+     * @param int $workspace
+     * @param string $sender
+     * @return bool
+     */
+    public static function isBlacklisted($workspace, $sender)
+    {
+        try {
+            $mail_blacklist = static::where('id', '=', $workspace)->first()->mail_blacklist;
+            
+            $blacklist = explode("\r\n", $mail_blacklist);
+            foreach ($blacklist as $list_item) {
+                if (((strlen($list_item) > 0) && strpos($sender, $list_item) !== false)) {
+                    return true;
+                }
+            }
+
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }

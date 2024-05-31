@@ -87,6 +87,12 @@ class MailserviceModel extends Model
                     $mailmessages = $folder->messages()->all()->get();
 
                     foreach($mailmessages as $message){
+                        if (WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $message->getFrom()[0]->mail)) {
+                            $message->delete();
+
+                            continue;
+                        }
+
                         $subject = $message->getSubject();
                         $idPos = strpos($subject, '[ID:');
                         if ($idPos !== false) {

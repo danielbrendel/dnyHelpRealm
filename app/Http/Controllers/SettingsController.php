@@ -326,6 +326,7 @@ class SettingsController extends Controller
             'formtitle' => $ws->formtitle,
             'ticketcreatedmsg' => $ws->ticketcreatedmsg,
             'allowattachments' => $ws->allowattachments,
+            'mail_blacklist' => $ws->mail_blacklist,
             'extfilter' => $ws->extfilter,
             'emailconfirm' => $ws->emailconfirm,
             'formactions' => $ws->formactions,
@@ -371,6 +372,7 @@ class SettingsController extends Controller
             'inform_admin_new_ticket' => 'numeric|nullable',
             'formactions' => 'numeric|nullable',
             'allowattachments' => 'numeric|nullable',
+            'mail_blacklist' => 'nullable',
             'extfilter' => 'nullable'
         ]);
 
@@ -384,6 +386,10 @@ class SettingsController extends Controller
 
         if (!isset($attr['allowattachments'])) {
             $attr['allowattachments'] = false;
+        }
+
+        if (!isset($attr['mail_blacklist'])) {
+            $attr['mail_blacklist'] = '';
         }
 
         if (!isset($attr['formactions'])) {
@@ -412,6 +418,7 @@ class SettingsController extends Controller
         if (isset($attr['formtitle'])) $ws->formtitle = $attr['formtitle'];
         if (isset($attr['ticketcreatedmsg'])) $ws->ticketcreatedmsg = $attr['ticketcreatedmsg'];
         if (isset($attr['allowattachments'])) $ws->allowattachments = (bool)$attr['allowattachments'];
+        if (isset($attr['mail_blacklist'])) $ws->mail_blacklist = $attr['mail_blacklist'];
         if (isset($attr['inform_admin_new_ticket'])) $ws->inform_admin_new_ticket = (bool)$attr['inform_admin_new_ticket'];
         if (isset($attr['extfilter'])) $ws->extfilter = $attr['extfilter'];
 

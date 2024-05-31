@@ -420,5 +420,6 @@
         'membership' => 'Membership',
         'tickets' => 'Tickets',
         'embed_attachment' => 'Embed',
-        'settings_hideclosedtickets' => 'Hide closed tickets in lists'
+        'settings_hideclosedtickets' => 'Hide closed tickets in lists',
+        'system_mail_blacklist' => 'E-Mail blacklist'
     ];
