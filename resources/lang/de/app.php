@@ -438,5 +438,6 @@
         'ticket_stats' => 'Ticket Statistiken',
         'confirm_del_ticket_type' => 'Soll dieser Ticket-Typ wirklich entfernt werden?',
         'system_mail_blacklist' => 'E-Mail Blacklist',
-        'system_mail_tokenfilter' => 'E-Mail token filter'
+        'system_mail_tokenfilter' => 'E-Mail token filter',
+        'ticket_suspected_spam' => 'Die Anfrage wurde aufgrund von Verdacht auf Spam abgelehnt'
     ];

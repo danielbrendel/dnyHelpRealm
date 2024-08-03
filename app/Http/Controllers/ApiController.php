@@ -97,6 +97,12 @@ class ApiController extends Controller
             return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket_type' => $_POST['type']));
         }
 
+        if ((WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $_POST['email'])) 
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $_POST['subject']))
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $_POST['text']))) {
+                return response()->json(array('code' => 403, 'workspace' => $workspace, 'spam' => true));
+        }
+
         $attr = [
             'subject' => $_POST['subject'],
             'text' => $_POST['text'],
@@ -673,6 +679,12 @@ class ApiController extends Controller
         $hasType = TicketsHaveTypes::where('workspace', '=', $ws->id)->where('id', '=', $_POST['type'])->first();
         if ($hasType === null) {
             return response()->json(array('code' => 404, 'workspace' => $workspace, 'ticket_type' => $_POST['type']));
+        }
+
+        if ((WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $_POST['email'])) 
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $_POST['subject']))
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $_POST['text']))) {
+                return response()->json(array('code' => 403, 'workspace' => $workspace, 'spam' => true));
         }
 
         $attr = [

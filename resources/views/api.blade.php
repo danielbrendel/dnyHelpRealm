@@ -141,12 +141,14 @@
                                 <ul>
                                     <li>The API access has not yet been purchased</li>
                                     <li>The request API token is invalid</li>
+                                    <li>The request was suspected to be spam</li>
                                 </ul>
                             </td>
                             <td>
                                 <ul>
                                     <li>A field 'paidforapi' with value <i>false</i></li>
                                     <li>A field 'apitoken' with the invalid token</li>
+                                    <li>A field 'spam' that is set to <i>true</i></li>
                                 </ul>
                             </td>
                         </tr>

@@ -331,6 +331,12 @@ class TicketController extends Controller
             return back()->with('error', __('app.ticket_type_not_found'));
         }
 
+        if ((WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $attr['email'])) 
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $attr['subject']))
+            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $attr['text']))) {
+                return back()->with('error', __('app.ticket_suspected_spam'));
+        }
+
         $attr['workspace'] = $ws->id;
 
         $attr['assignee'] = 0;
