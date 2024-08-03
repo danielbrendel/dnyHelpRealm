@@ -149,7 +149,7 @@
                                     <div class="control">
                                         <select name="lang">
                                             @foreach ($langs as $lng)
-                                                <option value="{{ $lng }}" <?php if ($lng === $lang) echo 'selected'; ?>>{{ $lng }}</option>
+                                                <option value="{{ $lng }}" <?php if ($lng === $lang) echo 'selected'; ?>>{{ locale_get_display_language($lng, $lang) }}</option>
                                             @endforeach
                                         </select>
                                     </div>

@@ -74,7 +74,32 @@ class WorkSpaceModel extends Model
             
             $blacklist = explode("\r\n", $mail_blacklist);
             foreach ($blacklist as $list_item) {
-                if (((strlen($list_item) > 0) && strpos($sender, $list_item) !== false)) {
+                if ((strlen($list_item) > 0) && (preg_match($list_item, $sender))) {
+                    return true;
+                }
+            }
+            
+            return false;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
+     * Check if the given content contains blacklisted tokens
+     * 
+     * @param int $workspace
+     * @param string $content
+     * @return bool
+     */
+    public static function hasBlacklistedTokens($workspace, $content)
+    {
+        try {
+            $mail_filtertokens = static::where('id', '=', $workspace)->first()->mail_filtertokens;
+            
+            $filtertokens = explode("\r\n", $mail_filtertokens);
+            foreach ($filtertokens as $token_item) {
+                if ((strlen($token_item) > 0) && (preg_match($token_item, $content))) {
                     return true;
                 }
             }

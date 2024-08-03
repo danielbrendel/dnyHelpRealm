@@ -55,6 +55,7 @@ class CreateWorkSpaceModelsTable extends Migration
             $table->string('mailer_address')->nullable()->default(null);
             $table->string('mailer_fromname')->nullable()->default(null);
             $table->text('mail_blacklist')->nullable()->default(null);
+            $table->text('mail_filtertokens')->nullable()->default(null);
             $table->boolean('enable_widget')->default(false);
             $table->string('widget_server')->nullable();
             $table->boolean('deactivated')->default(false);

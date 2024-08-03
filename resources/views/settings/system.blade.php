@@ -60,7 +60,7 @@
                                     <div class="control">
                                         <select name="lang">
                                             @foreach ($langs as $lng)
-                                                <option value="{{ $lng }}" <?php if ($lng === $lang) echo 'selected'; ?>>{{ $lng }}</option>
+                                                <option value="{{ $lng }}" <?php if ($lng === $lang) echo 'selected'; ?>>{{ locale_get_display_language($lng, $lang) }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -99,6 +99,13 @@
                                     <label class="label">{{ __('app.system_mail_blacklist') }}</label>
                                     <div class="control">
                                         <textarea class="textarea" name="mail_blacklist">{{ $mail_blacklist }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="field">
+                                    <label class="label">{{ __('app.system_mail_tokenfilter') }}</label>
+                                    <div class="control">
+                                        <textarea class="textarea" name="mail_filtertokens">{{ $mail_filtertokens }}</textarea>
                                     </div>
                                 </div>
 

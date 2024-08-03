@@ -87,7 +87,9 @@ class MailserviceModel extends Model
                     $mailmessages = $folder->messages()->all()->get();
 
                     foreach($mailmessages as $message){
-                        if (WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $message->getFrom()[0]->mail)) {
+                        if ((WorkSpaceModel::isBlacklisted($_ENV['TEMP_WORKSPACE'], $message->getAttributes()['from'][0]->mail)) 
+                            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $message->getSubject()))
+                            || (WorkSpaceModel::hasBlacklistedTokens($_ENV['TEMP_WORKSPACE'], $message->getTextBody()))) {
                             $message->delete();
 
                             continue;

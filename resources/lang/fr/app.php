@@ -420,5 +420,6 @@
         'tickets' => 'Tickets',
         'embed_attachment' => 'Embed',
         'settings_hideclosedtickets' => 'Hide closed tickets in lists',
-        'system_mail_blacklist' => 'E-Mail blacklist'
+        'system_mail_blacklist' => 'E-Mail blacklist',
+        'system_mail_tokenfilter' => 'E-Mail token filter'
     ];

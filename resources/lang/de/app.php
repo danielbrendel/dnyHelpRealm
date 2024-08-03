@@ -437,5 +437,6 @@
         'server_widget_hint' => 'Optional, falls gesetzt, dann sind Anfragen nur von diesem Host erlaubt',
         'ticket_stats' => 'Ticket Statistiken',
         'confirm_del_ticket_type' => 'Soll dieser Ticket-Typ wirklich entfernt werden?',
-        'system_mail_blacklist' => 'E-Mail Blacklist'
+        'system_mail_blacklist' => 'E-Mail Blacklist',
+        'system_mail_tokenfilter' => 'E-Mail token filter'
     ];
