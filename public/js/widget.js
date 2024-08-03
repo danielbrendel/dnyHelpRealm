@@ -30,6 +30,7 @@ class HelpRealmWidget {
         this.config.header = (typeof cfg.header !== 'undefined') ? cfg.header : null;
         this.config.logo = (typeof cfg.logo !== 'undefined') ? cfg.logo : null;
         this.config.button = (typeof cfg.button !== 'undefined') ? cfg.button : null;
+        this.config.btnborder = (typeof cfg.btnborder !== 'undefined') ? cfg.btnborder : null;
         this.config.fileUpload = (typeof cfg.fileUpload !== 'undefined') ? cfg.fileUpload : false;
         this.config.lang = (typeof cfg.lang !== 'undefined') ? cfg.lang : null;
         this.config.ticket = (typeof cfg.ticket !== 'undefined') ? cfg.ticket : null;
@@ -46,6 +47,10 @@ class HelpRealmWidget {
             this.config.button = HELPREALM_ENDPOINT + '/gfx/widget/button.png';
         }
 
+        if (this.config.btnborder === null) {
+            this.config.btnborder = '2px solid rgb(35, 200, 52)';
+        }
+
         this.element = document.querySelector(this.config.elem);
         if (!this.element) {
             throw new Error('Element ' + elem + ' does not exist');
@@ -58,6 +63,11 @@ class HelpRealmWidget {
             link.type = 'text/css';
             link.href = HELPREALM_ENDPOINT + '/css/widget.css';
             document.getElementsByTagName('head')[0].appendChild(link);
+
+            let btnBorderStyle = document.createElement('style');
+            btnBorderStyle.type = 'text/css';
+            btnBorderStyle.innerHTML = '.helprealm-widget-openaction-button-active { border: ' + this.config.btnborder + ';}';
+            document.getElementsByTagName('head')[0].appendChild(btnBorderStyle);
         }
 
         if (!document.getElementById('helprealm-widget')) {
@@ -150,10 +160,14 @@ class HelpRealmWidget {
             throw new Error('Widget seems not to be placed yet.');
         }
 
+        let button = document.querySelector('.helprealm-widget-openaction-button');
+
         if (this.openForm) {
             form.style.display = 'block';
+            button.classList.add('helprealm-widget-openaction-button-active');
         } else {
             form.style.display = 'none';
+            button.classList.remove('helprealm-widget-openaction-button-active');
         }
     }
 

@@ -10383,6 +10383,12 @@ article.tile p:first-child {
   margin-top: 65px;
 }
 
+@media screen and (max-width: 512px) {
+  .home-margin-bottom-last {
+    margin-bottom: 150px;
+  }
+}
+
 .home-copyright {
   width: 100%;
   color: rgb(127, 138, 157);

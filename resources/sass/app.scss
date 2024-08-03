@@ -998,6 +998,11 @@ article.tile p:first-child {
 .home-margin-top-last {
     margin-top: 65px
 }
+.home-margin-bottom-last {
+    @media screen and (max-width: 512px) {
+        margin-bottom: 150px;
+    }
+}
 .home-copyright {
     width: 100%;
     color: rgb(127, 138, 157);

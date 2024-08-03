@@ -124,7 +124,7 @@
                     {!! $donationCode !!}
                 @endif
 
-                <div class="home-signup home-margin-top-last">
+                <div class="home-signup home-margin-top-last home-margin-bottom-last">
                     <center><button type="button" class="button-signup" onclick="vue.bShowRegister = true;">{{ __('app.register') }}</button></center>
                 </div>
             </div>

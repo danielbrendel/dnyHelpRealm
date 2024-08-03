@@ -289,7 +289,7 @@
                         <div class="control">
                             <select name="agent" id="selAgent">
                                 @foreach ($agents as $agent)
-                                    <option value="{{ $agent->id }}" <?php if ($agent->user_id == $user->id) echo 'selected'; ?>>{{ $agent->surname . ' ' . $agent->lastname }}</option>
+                                    <option value="{{ $agent->id }}" {{ (($ticket->assignee == $agent->id) ? 'selected' : '') }}>{{ $agent->surname . ' ' . $agent->lastname }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -319,7 +319,7 @@
                         <div class="control">
                             <select name="agent" id="selGroup">
                                 @foreach ($groups as $grp)
-                                    <option value="{{ $grp->id }}">{{ $grp->name }}</option>
+                                    <option value="{{ $grp->id }}" {{ (($ticket->group == $grp->id) ? 'selected' : '') }}>{{ $grp->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -348,9 +348,9 @@
                     <div class="field">
                         <div class="control">
                             <select name="status" id="selStatus" onchange="if (this.value === '3') { document.getElementById('fieldClosingNotification').classList.remove('is-hidden'); } else { document.getElementById('fieldClosingNotification').classList.add('is-hidden'); }">
-                                <option value="1">{{ __('app.ticket_status_open') }}</option>
-                                <option value="2">{{ __('app.ticket_status_waiting') }}</option>
-                                <option value="3">{{ __('app.ticket_status_closed') }}</option>
+                                <option value="1" {{ (($ticket->status == 1) ? 'selected' : '') }}>{{ __('app.ticket_status_open') }}</option>
+                                <option value="2" {{ (($ticket->status == 2) ? 'selected' : '') }}>{{ __('app.ticket_status_waiting') }}</option>
+                                <option value="3" {{ (($ticket->status == 3) ? 'selected' : '') }}>{{ __('app.ticket_status_closed') }}</option>
                             </select>
                         </div>
                     </div>
@@ -384,9 +384,9 @@
                     <div class="field">
                         <div class="control">
                             <select name="agent" id="selPrio">
-                                <option value="1">{{ __('app.prio_low') }}</option>
-                                <option value="2">{{ __('app.prio_med') }}</option>
-                                <option value="3">{{ __('app.prio_high') }}</option>
+                                <option value="1" {{ (($ticket->prio == 1) ? 'selected' : '') }}>{{ __('app.prio_low') }}</option>
+                                <option value="2" {{ (($ticket->prio == 2) ? 'selected' : '') }}>{{ __('app.prio_med') }}</option>
+                                <option value="3" {{ (($ticket->prio == 3) ? 'selected' : '') }}>{{ __('app.prio_high') }}</option>
                             </select>
                         </div>
                     </div>
@@ -415,7 +415,7 @@
                         <div class="control">
                             <select name="agent" id="selType">
                                 @foreach ($ticketTypes as $ticketType)
-                                    <option value="{{ $ticketType->id }}">{{ $ticketType->name }}</option>
+                                    <option value="{{ $ticketType->id }}" {{ (($ticket->type == $ticketType->id) ? 'selected' : '') }}>{{ $ticketType->name }}</option>
                                 @endforeach
                             </select>
                         </div>

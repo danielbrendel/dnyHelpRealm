@@ -63,9 +63,10 @@ A documentation resource can be linked to by setting the APP_DOCUMENTATION_LINK 
 
 ## System requirements
 The product is being developed with the following engine versions:
-+ PHP ^8.1
++ PHP ^8.2
 + MySQL 10.4.27-MariaDB
 + Default PHP extensions
++ E-Mail Server
 
 ## Testing
 Before running tests the .env.testing must be adjusted to match the test data of the database.

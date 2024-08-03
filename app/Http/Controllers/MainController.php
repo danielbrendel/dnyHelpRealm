@@ -71,15 +71,21 @@ class MainController extends Controller
             return view('dashboard_customer', ['workspace' => $ws->name, 'wsobject' => $ws, 'bgimage' => $img, 'captchadata' => $captchadata, 'ticketTypes' => TicketsHaveTypes::where('workspace', '=', $ws->id)->get(), 'faqs' => FaqModel::where('workspace', '=', $ws->id)->get(), 'infomessage' => $infomessage, 'allowattachments' => $ws->allowattachments]);
         } else {
             $tickets = TicketModel::queryAgentTickets(User::getAgent(auth()->id())->id);
+            $agentUser = User::getAgent(auth()->id());
             $groups = array();
-            foreach ($tickets as $ticket)
+            foreach ($tickets as $ticketkey => &$ticket)
             {
+                if (($agentUser->hideclosedtickets) && ($ticket->status == 3)) {
+                    unset($tickets[$ticketkey]);
+                    continue;
+                }
+
                 $item = array();
                 $item['ticket_id'] = $ticket->id;
                 $item['group_name'] = GroupsModel::get($ticket->group)->name;
                 array_push($groups, $item);
             }
-
+            
             $typeCounts = array();
             $ticketTypes = TicketsHaveTypes::where('workspace', '=', $ws->id)->get();
             foreach ($ticketTypes as $ticketType) {

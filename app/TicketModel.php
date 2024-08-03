@@ -40,7 +40,7 @@ class TicketModel extends Model
             $tickets->where('status', '<>', 3);
         }
 
-        return $tickets->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+        return $tickets->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->get();
     }
 
     /**

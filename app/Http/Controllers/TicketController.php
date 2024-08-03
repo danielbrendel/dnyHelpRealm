@@ -76,9 +76,9 @@ class TicketController extends Controller
             $gtcur = array();
             $gtcur['group'] = GroupsModel::where('id', '=', $grp->group_id)->first();
             if (!$agentUser->hideclosedtickets) {
-                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->get();
             } else {
-                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->where('status', '<>', 3)->orderBy('updated_at', 'desc')->orderBy('status', 'asc')->get();
+                $gtcur['tickets'] = TicketModel::where('group', '=', $grp->group_id)->where('status', '<>', 3)->orderBy('status', 'asc')->orderBy('updated_at', 'desc')->get();
             }
             
             array_push($grouptickets, $gtcur);
