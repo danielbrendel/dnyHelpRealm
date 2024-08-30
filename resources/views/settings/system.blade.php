@@ -103,7 +103,7 @@
                                 </div>
 
                                 <div class="field">
-                                    <label class="label">{{ __('app.system_mail_tokenfilter') }}</label>
+                                    <label class="label">{{ __('app.system_tokenfilter') }}</label>
                                     <div class="control">
                                         <textarea class="textarea" name="mail_filtertokens">{{ $mail_filtertokens }}</textarea>
                                     </div>
@@ -321,13 +321,6 @@
 
                                     @if ($enablewidget)
                                         <div class="field">
-                                            <label class="label">{{ __('app.server') }} - {{ __('app.server_widget_hint') }}</label>
-                                            <div class="control">
-                                                <input type="text" name="server" value="{{ $server }}"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="field">
                                             <label class="label">{{ __('app.widget_url') }}</label>
                                             <div class="control">
                                                 <input type="text" value="{{ asset('js/widget.js') }}" readonly/>
@@ -339,6 +332,13 @@
                                             <div class="control">
                                                 <input type="text" class="is-inline-block has-button-right" id="widgettoken" value="{{ $widgettoken }}" readonly/>
                                                 <a class="button is-inline-block button-align-input" href="javascript:void(0);" onclick="generateWidgetToken()">{{ __('app.system_widget_token_generate') }}</a>
+                                            </div>
+                                        </div>
+
+                                        <div class="field">
+                                            <label class="label">{{ __('app.server') }} - {{ __('app.server_widget_hint') }}</label>
+                                            <div class="control">
+                                                <input type="text" name="server" value="{{ $server }}"/>
                                             </div>
                                         </div>
 

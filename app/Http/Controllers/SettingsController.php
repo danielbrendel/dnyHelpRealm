@@ -787,6 +787,8 @@ class SettingsController extends Controller
 
         if (isset($attr['server'])) {
             $ws->widget_server = $attr['server'];
+        } else {
+            $ws->widget_server = null;
         }
 
         $ws->save();

@@ -434,6 +434,6 @@
         'ticket_stats' => 'Ticket stats',
         'confirm_del_ticket_type' => 'Do you really want to remove this ticket type?',
         'system_mail_blacklist' => 'E-Mail blacklist',
-        'system_mail_tokenfilter' => 'E-Mail token filter',
+        'system_tokenfilter' => 'Token filter',
         'ticket_suspected_spam' => 'The request was denied due to suspected spam'
     ];
